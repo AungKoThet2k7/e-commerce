@@ -13,4 +13,6 @@ Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', fn() => view('dashboard'))->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::resource('users', \App\Http\Controllers\UserController::class);
 });
