@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\user;
 use App\Http\Requests\StoreuserRequest;
 use App\Http\Requests\UpdateuserRequest;
+use App\Models\User as ModelsUser;
 
 class UserController extends Controller
 {
@@ -13,7 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        $users = User::when(request("search"), function ($q) {
+            $q->where("name", "like", "%" . request("search") . "%");
+            $q->orWhere("email", "like", "%" . request("search") . "%");
+        })->paginate(5)->withQueryString();
+        return view('user.index', compact(["users"]));
     }
 
     /**
@@ -21,7 +26,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create');
     }
 
     /**
@@ -61,6 +66,7 @@ class UserController extends Controller
      */
     public function destroy(user $user)
     {
-        //
+        $user->delete();
+        return redirect()->route("user.index")->with("success", "User deleted successfully");
     }
 }

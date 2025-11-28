@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('users.index') }}">
+                    <a class="menu-link" href="{{ route('user.index') }}">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/communication/com013.svg-->
                             <span class="svg-icon svg-icon-2">
@@ -92,7 +92,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">User</span>
+                        <span class="menu-title">Users</span>
                     </a>
                 </div>
                 <!--end::User Management-->
