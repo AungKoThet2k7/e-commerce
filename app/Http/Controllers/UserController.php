@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\user;
 use App\Http\Requests\StoreuserRequest;
 use App\Http\Requests\UpdateuserRequest;
-use App\Models\User as ModelsUser;
 
 class UserController extends Controller
 {
@@ -34,7 +33,12 @@ class UserController extends Controller
      */
     public function store(StoreuserRequest $request)
     {
-        //
+        User::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => $request->password,
+        ]);
+        return redirect()->route("user.index")->with("success", "New User Added successfully");
     }
 
     /**
@@ -42,7 +46,7 @@ class UserController extends Controller
      */
     public function show(user $user)
     {
-        //
+        return $user;
     }
 
     /**
@@ -50,7 +54,7 @@ class UserController extends Controller
      */
     public function edit(user $user)
     {
-        //
+        return view('user.edit', compact(["user"]));
     }
 
     /**
@@ -58,7 +62,14 @@ class UserController extends Controller
      */
     public function update(UpdateuserRequest $request, user $user)
     {
-        //
+        // return $user;
+        $user->update([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => $request->password,
+        ]);
+        
+        return redirect()->route("user.index")->with("success", "User info updated successfully");
     }
 
     /**

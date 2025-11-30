@@ -10,9 +10,10 @@ Route::get('/', function () {
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('dashboard', fn() => view('dashboard'))->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::resource('user', \App\Http\Controllers\UserController::class);
+    Route::resource('category', \App\Http\Controllers\CategoryController::class);
 });
