@@ -23,7 +23,11 @@
                 <!--end::Breadcrumb-->
             </div>
             <!--end::Page title-->
-            
+            <!--begin::Page Success Message-->
+            @session('success')
+                <h1 class=" text-green-500 font-sm">{{ session('success') }}</h1>
+            @endsession
+            <!--end::Page Success Message-->
         </div>
         <!--end::Container-->
     </div>
@@ -71,11 +75,24 @@
                             <!--end::Svg Icon-->
                             <form id="searchForm" action="{{ route('category.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
-                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14"
+                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-200px ps-14"
                                     placeholder="Search Category">
                             </form>
                         </div>
                         <!--end::Search-->
+                        <!--start::Status-->
+                        <div class="ms-3">
+                            <select class=" w-150px form-select form-select-solid" data-kt-select2="true"
+                                data-placeholder="Status" data-allow-clear="true" data-select2-id="select2-data-7-l7k0"
+                                tabindex="-1" aria-hidden="true">
+                                <option data-select2-id="select2-data-9-3eq9"></option>
+                                <option value="1">Approved</option>
+                                <option value="2">Pending</option>
+                                <option value="2">In Process</option>
+                                <option value="2">Rejected</option>
+                            </select>
+                        </div>
+                        <!--end::Status-->
                     </div>
                     <!--end::Card title-->
                     <!--begin::Card toolbar-->
@@ -99,14 +116,24 @@
                                 <thead>
                                     <!--begin::Table row-->
                                     <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                                        <th class="min-w-250px sorting" tabindex="0"
+                                        <th>#</th>
+                                        <th class=" text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
-                                            aria-label="Category: activate to sort column ascending"
-                                            style="width: 569.938px;">Category</th>
-                                        <th class="min-w-70px sorting_disabled" rowspan="1" colspan="1">Created At
+                                            aria-label="Category: activate to sort column ascending">Category</th>
+                                        <th class="text-nowarp text-center  sorting" tabindex="0"
+                                            aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
+                                            aria-label="Status: activate to sort column ascending">
+                                            Status</th>
+                                        <th class="text-nowarp  sorting" tabindex="0"
+                                            aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
+                                            aria-label="Status: activate to sort column ascending">
+                                            Sorting</th>
+                                        <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1"
+                                            colspan="1">
+                                            Last Updated
                                         </th>
-                                        <th class="text-center min-w-70px sorting_disabled" rowspan="1" colspan="1"
-                                            aria-label="Actions" style="width: 96.2292px;">Actions</th>
+                                        <th class="text-nowarp text-center min-w-70px sorting_disabled" rowspan="1"
+                                            colspan="1" aria-label="Actions" style="width: 96.2292px;">Actions</th>
                                     </tr>
                                     <!--end::Table row-->
                                 </thead>
@@ -116,11 +143,12 @@
                                     @forelse ($categories as $category)
                                         <!--begin::Table row-->
                                         <tr>
+                                            <td>{{ $category->id }}</td>
                                             <!--begin::Category=-->
                                             <td>
                                                 <div class="d-flex">
                                                     <!--begin::Thumbnail-->
-                                                    <a href="{{route('category.show', $category->id)}}"
+                                                    <a href="{{ route('category.show', $category->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
                                                             style="background-image:url({{ asset('template/media//stock/ecommerce/71.gif') }});"></span>
@@ -128,18 +156,51 @@
                                                     <!--end::Thumbnail-->
                                                     <div class=" flex items-center ms-5">
                                                         <!--begin::Title-->
-                                                        <a href="{{route('category.show', $category->id)}}"
-                                                            class="text-gray-800 text-hover-primary fs-5 fw-bolder"
+                                                        <a href="{{ route('category.show', $category->id) }}"
+                                                            class="text-gray-700 text-hover-primary fs-5 fw-bolder"
                                                             data-kt-ecommerce-category-filter="category_name">{{ $category->name }}</a>
                                                         <!--end::Title-->
                                                     </div>
                                                 </div>
                                             </td>
                                             <!--end::Category=-->
+                                            <!--Begin::Status=-->
+                                            <td>
+                                                <div
+                                                    class="flex justify-center form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        name="notifications" checked="checked">
+                                                </div>
+                                            </td>
+                                            <!--Begin::Status=-->
+                                            <!--Begin::Sorting=-->
+                                            <td class="text-start">
+                                                <div class="flex gap-1">
+                                                    <form id="sortForm" action="{{ route('category.index') }}"
+                                                        method="GET">
+                                                        <input type="text" name="sort"
+                                                            class=" w-100px px-3 py-2 rounded-md border border-gray-900 focus:outline-none">
+                                                    </form>
+                                                    <button type="submit" form="sortForm"
+                                                        class="px-3.5 py-2 rounded-md bg-purple-700 text-white">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                            height="12" fill="currentColor" viewBox="0 0 16 16">
+                                                            <path d="M12 2h-2v3h2z" />
+                                                            <path
+                                                                d="M1.5 0A1.5 1.5 0 0 0 0 1.5v13A1.5 1.5 0 0 0 1.5 16h13a1.5 1.5 0 0 0 1.5-1.5V2.914a1.5 1.5 0 0 0-.44-1.06L14.147.439A1.5 1.5 0 0 0 13.086 0zM4 6a1 1 0 0 1-1-1V1h10v4a1 1 0 0 1-1 1zM3 9h10a1 1 0 0 1 1 1v5H2v-5a1 1 0 0 1 1-1" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
                                             <!--begin::Created at=-->
                                             <td class="">
-                                                {{ $category->created_at->format('d M Y') }}
-                                                <p>{{ $category->created_at->format('g : m A') }}</p>
+                                                <div>
+                                                    <h1 class="text-gray-700 fs-5 fw-bolder">{{ $category->updatedBy->name }}</h1>
+                                                    <p>{{ $category->created_at->format('j M Y') }}
+                                                        <span>{{ $category->created_at->format('g : m A') }}</span></p>
+                                                    <p></p>
+                                                </div>
+
                                             </td>
                                             <!--end::Created at=-->
                                             <!--begin::Action=-->
@@ -147,7 +208,7 @@
                                                 <!--begin::Edit-->
                                                 <div class="flex gap-1 px-3">
                                                     <a href="{{ route('category.edit', $category->id) }}"
-                                                        class="px-3 bg-sky-400 p-2 rounded-md">
+                                                        class="px-3 bg-sky-500 p-2 rounded-md">
                                                         <i class="bi bi-pencil-square text-white"></i>
                                                     </a>
 
@@ -157,7 +218,7 @@
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button class="px-3 bg-red-400 p-2 rounded-md">
+                                                        <button class="px-3 bg-red-500 p-2 rounded-md">
                                                             <i class="bi bi-trash text-white"></i>
                                                         </button>
                                                     </form>

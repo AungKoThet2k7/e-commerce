@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+// use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -15,7 +17,9 @@ class CategoryController extends Controller
     {
         $categories = Category::when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
-        })->paginate(2)->withQueryString();
+        })->with(['createdBy', 'updatedBy'])
+            ->paginate(2)
+            ->withQueryString();
         return view('category.index', compact(["categories"]));
     }
 
@@ -32,7 +36,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        return $request;
+        Category::create([
+            "name" => $request->name,
+            "created_by" => Auth::id(),
+            "updated_by" => Auth::id(),
+        ]);
+        return redirect()->route("category.index")->with("success", "New Category Added successfully");
     }
 
     /**
@@ -56,7 +65,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        return $request;
+        $category->update([
+            "name" => $request->name,
+            "updated_by" => Auth::id(),
+        ]);
+        return redirect()->route("category.index")->with("success", "Category updated successfully");
     }
 
     /**

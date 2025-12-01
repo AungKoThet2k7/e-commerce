@@ -21,11 +21,11 @@
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
-            <!--begin::Page title-->
+            <!--begin::Page Success Message-->
             @session('success')
                 <h1 class=" text-green-500 font-sm">{{ session('success') }}</h1>
             @endsession
-            <!--end::Page title-->
+            <!--end::Page Success Message-->
         </div>
         <!--end::Container-->
     </div>

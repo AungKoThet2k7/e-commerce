@@ -235,12 +235,15 @@
                                 <label class="required form-label">Category Name</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="text" name="name" class="form-control w-6/12 mb-2"
-                                    placeholder="category name" value="">
+                                <input value="{{old('name')}}" type="text" name="name" class="form-control w-6/12 mb-2"
+                                    placeholder="category name">
                                 <!--end::Input-->
                                 <!--begin::Description-->
                                 <div class="text-muted fs-7">A category name is required and recommended to be unique.
                                 </div>
+                                @error('name')
+                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
                                 <!--end::Description-->
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
@@ -679,8 +682,6 @@
                         <!--begin::Button-->
                         <button type="submit" class="btn btn-primary">
                             <span class="indicator-label">Add New Category</span>
-                            <span class="indicator-progress">Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                         <!--end::Button-->
                     </div>
