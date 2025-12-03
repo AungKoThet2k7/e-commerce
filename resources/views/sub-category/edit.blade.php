@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Edit Sub Category')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">

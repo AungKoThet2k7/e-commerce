@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Add Category')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -27,7 +28,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Add New Category</li>
+                    <li class="breadcrumb-item text-muted">Add Category</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->

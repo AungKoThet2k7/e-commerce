@@ -10,7 +10,7 @@
             <img alt="Logo" src="{{ asset('template/media/logos/logo-2.svg') }}" class="h-25px logo" />
         </a>
         <!--end::Logo-->
-        <span class="d-flex text-sky-950 fw-bolder fs-3 align-items-center my-1">My Shop</span>
+        {{-- <span class="d-flex text-sky-950 fw-bolder fs-3 align-items-center my-1">My Shop</span> --}}
         <!--begin::Aside toggler-->
         <div id="kt_aside_toggle" class="btn btn-icon w-auto px-0 btn-active-color-primary aside-toggle"
             data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"

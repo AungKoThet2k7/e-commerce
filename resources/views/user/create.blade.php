@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Add User')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -26,7 +27,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Add New User</li>
+                    <li class="breadcrumb-item text-muted">Add User</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->

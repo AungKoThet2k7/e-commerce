@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Category')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -76,7 +77,7 @@
                             <form id="searchForm" action="{{ route('category.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-200px ps-5"
-                                    placeholder="Search Category">
+                                    placeholder="Search Categories">
                             </form>
                         </div>
                         <!--end::Search-->

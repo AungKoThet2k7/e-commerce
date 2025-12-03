@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Users')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -74,7 +75,7 @@
                             <form id="searchForm" action="{{ route('user.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-200px ps-5"
-                                    placeholder="Search User">
+                                    placeholder="Search Users">
                             </form>
                         </div>
                         <!--end::Search-->
@@ -116,7 +117,6 @@
                                 <thead>
                                     <!--begin::Table row-->
                                     <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                             rowspan="1" colspan="1"
                                             aria-label="User: activate to sort column ascending"
