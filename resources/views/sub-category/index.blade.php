@@ -161,7 +161,9 @@
                                                             class="text-gray-700 text-hover-primary fs-5 fw-bolder"
                                                             data-kt-ecommerce-category-filter="category_name">{{ $subCategory->name }}</a>
                                                         <!--end::Title-->
-                                                        <p class="text-sky-400 bg-sky-100 px-2 rounded-full inline fs-7 fw-bolder">{{$subCategory->category->name}}</p>
+                                                        <!--begin::badge-->
+                                                        <div class="badge badge-light-primary">{{ $subCategory->category->name }}</div>
+                                                        <!--end::badge-->
                                                     </div>
                                                 </div>
                                             </td>
@@ -243,9 +245,8 @@
                         </div>
                         <!--begin::Pagination-->
                         <div class="">
-                            {{ $subCategories->onEachSide(1)->links() }}
+                            {{ $subCategories->onEachSide(2)->links() }}
                         </div>
-
                         <!--end::Pagination-->
                     </div>
                     <!--end::Table-->

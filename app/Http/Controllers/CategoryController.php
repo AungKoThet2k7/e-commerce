@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $categories = Category::when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
         })->with(['createdBy', 'updatedBy'])
-            ->paginate(2)
+            ->paginate(3)
             ->withQueryString();
         return view('category.index', compact(["categories"]));
     }
