@@ -16,4 +16,5 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::resource('user', \App\Http\Controllers\UserController::class);
     Route::resource('category', \App\Http\Controllers\CategoryController::class);
+    Route::resource('sub-category', \App\Http\Controllers\SubCategoryController::class);
 });

@@ -5,7 +5,7 @@
 
 <head>
     <base href="../">
-    <title>My Shop | Dashboard</title>
+    <title>My Shop | @yield('title')</title>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="{{asset('template/media/logos/favicon.ico')}}" />
     <!--begin::Fonts-->

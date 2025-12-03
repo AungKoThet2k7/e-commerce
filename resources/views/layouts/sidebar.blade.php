@@ -146,6 +146,14 @@
                                 <span class="menu-title">Categories</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('sub-category.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Sub Categories</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!--end::Product-->

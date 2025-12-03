@@ -43,7 +43,7 @@
                         <!--begin::Search-->
                         <div class="d-flex align-items-center position-relative my-1">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                            <span class="svg-icon svg-icon-1 position-absolute ms-52 mt-1">
                                 @if (request('search'))
                                     <a href="{{ route('user.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -73,7 +73,7 @@
                             <!--end::Svg Icon-->
                             <form id="searchForm" action="{{ route('user.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
-                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14"
+                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-200px ps-5"
                                     placeholder="Search User">
                             </form>
                         </div>

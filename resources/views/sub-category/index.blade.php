@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', "Sub Categories")
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -9,7 +10,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Categories</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Sub Categories</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -17,7 +18,7 @@
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Categories</li>
+                    <li class="breadcrumb-item text-muted">Sub Categories</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -47,7 +48,7 @@
                             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                             <span class="svg-icon svg-icon-1 position-absolute ms-52 mt-1">
                                 @if (request('search'))
-                                    <a href="{{ route('category.index') }}">
+                                    <a href="{{ route('sub-category.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
@@ -73,10 +74,10 @@
                             </span>
 
                             <!--end::Svg Icon-->
-                            <form id="searchForm" action="{{ route('category.index') }}" method="GET">
+                            <form id="searchForm" action="{{ route('sub-category.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-200px ps-5"
-                                    placeholder="Search Category">
+                                    placeholder="Search">
                             </form>
                         </div>
                         <!--end::Search-->
@@ -98,8 +99,8 @@
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar">
                         <!--begin::Add category-->
-                        <a href="{{ route('category.create') }}" class="btn btn-primary">Add
-                            Category</a>
+                        <a href="{{ route('sub-category.create') }}" class="btn btn-primary">Add
+                            Sub Category</a>
                         <!--end::Add category-->
                     </div>
                     <!--end::Card toolbar-->
@@ -119,7 +120,7 @@
                                         <th>#</th>
                                         <th class=" text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
-                                            aria-label="Category: activate to sort column ascending">Category</th>
+                                            aria-label="Category: activate to sort column ascending">Sub Category</th>
                                         <th class="text-nowarp text-center  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Status: activate to sort column ascending">
@@ -140,26 +141,27 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody class="fw-bold text-gray-600">
-                                    @forelse ($categories as $category)
+                                    @forelse ($subCategories as $subCategory)
                                         <!--begin::Table row-->
                                         <tr>
-                                            <td>{{ $category->id }}</td>
+                                            <td>{{ $subCategory->id }}</td>
                                             <!--begin::Category=-->
                                             <td>
                                                 <div class="d-flex">
                                                     <!--begin::Thumbnail-->
-                                                    <a href="{{ route('category.show', $category->id) }}"
+                                                    <a href="{{ route('sub-category.show', $subCategory->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
                                                             style="background-image:url({{ asset('template/media//stock/ecommerce/71.gif') }});"></span>
                                                     </a>
                                                     <!--end::Thumbnail-->
-                                                    <div class=" flex items-center ms-5">
+                                                    <div class=" flex flex-col gap-1 items-start justify-center ms-5">
                                                         <!--begin::Title-->
-                                                        <a href="{{ route('category.show', $category->id) }}"
+                                                        <a href="{{ route('sub-category.show', $subCategory->id) }}"
                                                             class="text-gray-700 text-hover-primary fs-5 fw-bolder"
-                                                            data-kt-ecommerce-category-filter="category_name">{{ $category->name }}</a>
+                                                            data-kt-ecommerce-category-filter="category_name">{{ $subCategory->name }}</a>
                                                         <!--end::Title-->
+                                                        <p class="text-sky-400 bg-sky-100 px-2 rounded-full inline fs-7 fw-bolder">{{$subCategory->category->name}}</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -176,7 +178,7 @@
                                             <!--Begin::Sorting=-->
                                             <td class="text-start">
                                                 <div class="flex gap-1">
-                                                    <form id="sortForm" action="{{ route('category.index') }}"
+                                                    <form id="sortForm" action="{{ route('sub-category.index') }}"
                                                         method="GET">
                                                         <input type="text" name="sort"
                                                             class=" w-100px px-3 py-2 rounded-md border border-gray-900 focus:outline-none">
@@ -195,9 +197,9 @@
                                             <!--begin::Created at=-->
                                             <td class="">
                                                 <div>
-                                                    <h1 class="text-gray-700 fs-5 fw-bolder">{{ $category->updatedBy->name }}</h1>
-                                                    <p>{{ $category->created_at->format('j M Y') }}
-                                                        <span>{{ $category->created_at->format('g : m A') }}</span></p>
+                                                    <h1 class="text-gray-700 fs-5 fw-bolder">{{ $subCategory->updatedBy->name }}</h1>
+                                                    <p>{{ $subCategory->created_at->format('j M Y') }}
+                                                        <span>{{ $subCategory->created_at->format('g : m A') }}</span></p>
                                                     <p></p>
                                                 </div>
 
@@ -207,14 +209,14 @@
                                             <td class="text-end">
                                                 <!--begin::Edit-->
                                                 <div class="flex gap-1 px-3">
-                                                    <a href="{{ route('category.edit', $category->id) }}"
+                                                    <a href="{{ route('sub-category.edit', $subCategory->id) }}"
                                                         class="px-3 bg-sky-500 p-2 rounded-md">
                                                         <i class="bi bi-pencil-square text-white"></i>
                                                     </a>
 
                                                     <!--end::Edit-->
                                                     <!--begin::Delete-->
-                                                    <form action="{{ route('category.destroy', $category->id) }}"
+                                                    <form action="{{ route('sub-category.destroy', $subCategory->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -241,7 +243,7 @@
                         </div>
                         <!--begin::Pagination-->
                         <div class="">
-                            {{ $categories->onEachSide(1)->links() }}
+                            {{ $subCategories->onEachSide(1)->links() }}
                         </div>
 
                         <!--end::Pagination-->
