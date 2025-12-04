@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SubCategory;
 use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SubCategoryController extends Controller
@@ -12,11 +13,15 @@ class SubCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $subCategories = SubCategory::when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
-        })->with(['category', 'createdBy', 'updatedBy'])->paginate(3)->withQueryString();
+        })
+            ->when(request('trashed'), fn($q) => $q->onlyTrashed())
+            ->with(['category', 'createdBy', 'updatedBy'])
+            ->paginate(3)
+            ->withQueryString();
         return view('sub-category.index', compact(["subCategories"]));
     }
 
@@ -63,7 +68,7 @@ class SubCategoryController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
-    {   
+    {
         $subCategory->update([
             "name" => $request->name,
             "category_id" => $request->category_id,
@@ -77,9 +82,19 @@ class SubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SubCategory $subCategory)
+    public function destroy($id)
     {
-        $subCategory->delete();
-        return redirect()->route("sub-category.index")->with("success", "Sub Category delete successfully");
+        $subCategory = SubCategory::withTrashed()->findOrFail($id);
+
+        if (request("delete") === "restore") {
+            $subCategory->restore();
+            return redirect()->route("sub-category.index")->with("success", "Sub Category Recycle successfully");
+        } elseif (request("delete") === "force") {
+            $subCategory->forceDelete();
+            return redirect()->route("sub-category.index")->with("success", "Sub Category delete successfully");
+        } else {
+            $subCategory->delete();
+            return redirect()->route("sub-category.index")->with("success", "Sub Category trash successfully");
+        }
     }
 }

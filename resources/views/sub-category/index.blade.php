@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', "Sub Categories")
+@section('title', 'Sub Categories')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -17,9 +17,25 @@
                 <!--end::Separator-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                    <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Sub Categories</li>
-                    <!--end::Item-->
+                    @trashed
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ route('sub-category.index') }}" class="text-muted text-hover-primary">Sub Categories</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Trashed Sub Categories</li>
+                        <!--end::Item-->
+                    @else
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Sub Categories</li>
+                        <!--end::Item-->
+                    @endtrashed
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
@@ -96,14 +112,29 @@
                         <!--end::Status-->
                     </div>
                     <!--end::Card title-->
-                    <!--begin::Card toolbar-->
-                    <div class="card-toolbar">
-                        <!--begin::Add category-->
-                        <a href="{{ route('sub-category.create') }}" class="btn btn-primary">Add
-                            Sub Category</a>
-                        <!--end::Add category-->
+                    <div class="flex gap-1">
+                        @trashed
+                        @else
+                            <!--begin::Card toolbar-->
+                            <div class="card-toolbar">
+                                <!--begin::trash-->
+                                <a href="{{ route('sub-category.index', ['trashed' => true]) }}"
+                                    class="px-3 bg-red-500 p-2 rounded-md">
+                                    <i class="bi bi-trash text-white">Trash</i>
+                                </a>
+                                <!--end::trash-->
+                            </div>
+                            <!--end::Card toolbar-->
+                        @endtrashed
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar">
+                            <!--begin::Add category-->
+                            <a href="{{ route('sub-category.create') }}" class="btn btn-primary">Add
+                                Sub Category</a>
+                            <!--end::Add category-->
+                        </div>
+                        <!--end::Card toolbar-->
                     </div>
-                    <!--end::Card toolbar-->
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->
@@ -162,7 +193,8 @@
                                                             data-kt-ecommerce-category-filter="category_name">{{ $subCategory->name }}</a>
                                                         <!--end::Title-->
                                                         <!--begin::badge-->
-                                                        <div class="badge badge-light-primary">{{ $subCategory->category->name }}</div>
+                                                        <div class="badge badge-light-primary">
+                                                            {{ $subCategory->category->name }}</div>
                                                         <!--end::badge-->
                                                     </div>
                                                 </div>
@@ -199,9 +231,11 @@
                                             <!--begin::Created at=-->
                                             <td class="">
                                                 <div>
-                                                    <h1 class="text-gray-700 fs-5 fw-bolder">{{ $subCategory->updatedBy->name }}</h1>
+                                                    <h1 class="text-gray-700 fs-5 fw-bolder">
+                                                        {{ $subCategory->updatedBy->name }}</h1>
                                                     <p>{{ $subCategory->created_at->format('j M Y') }}
-                                                        <span>{{ $subCategory->created_at->format('g : m A') }}</span></p>
+                                                        <span>{{ $subCategory->created_at->format('g : m A') }}</span>
+                                                    </p>
                                                     <p></p>
                                                 </div>
 
@@ -209,32 +243,60 @@
                                             <!--end::Created at=-->
                                             <!--begin::Action=-->
                                             <td class="text-end">
-                                                <!--begin::Edit-->
                                                 <div class="flex gap-1 px-3">
-                                                    <a href="{{ route('sub-category.edit', $subCategory->id) }}"
-                                                        class="px-3 bg-sky-500 p-2 rounded-md">
-                                                        <i class="bi bi-pencil-square text-white"></i>
-                                                    </a>
-
-                                                    <!--end::Edit-->
-                                                    <!--begin::Delete-->
-                                                    <form action="{{ route('sub-category.destroy', $subCategory->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                            <i class="bi bi-trash text-white"></i>
-                                                        </button>
-                                                    </form>
+                                                    @trashed
+                                                        <!--begin:: Recycle-->
+                                                        <form
+                                                            action="{{ route('sub-category.destroy', [$subCategory->id, 'delete' => 'restore']) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
+                                                                <i class="bi bi-recycle text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--begin:: Recycle-->
+                                                        <!--begin:: Force Delete-->
+                                                        <form
+                                                            action="{{ route('sub-category.destroy', [$subCategory->id, 'delete' => 'force']) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--begin:: Force Delete-->
+                                                    @else
+                                                        <!--begin::Edit-->
+                                                        <a href="{{ route('sub-category.edit', $subCategory->id) }}"
+                                                            class="px-3 bg-sky-500 p-2 rounded-md">
+                                                            <i class="bi bi-pencil-square text-white"></i>
+                                                        </a>
+                                                        <!--end::Edit-->
+                                                        <!--begin::Delete-->
+                                                        <form action="{{ route('sub-category.destroy', $subCategory->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--end::Delete-->
+                                                    @endtrashed
                                                 </div>
-                                                <!--end::Delete-->
                                             </td>
                                             <!--end::Action=-->
                                         </tr>
                                         <!--end::Table row-->
                                     @empty
                                         <tr>
-                                            <td colspan="3" class="text-center">No Category Found</td>
+                                            @trashed
+                                                <td colspan="6" class="text-center">No Trashed Sub Category Found</td>
+                                                @else
+                                                <td colspan="6" class="text-center">No Sub Category Found</td>
+                                              @endtrashed  
                                         </tr>
                                     @endforelse
 
