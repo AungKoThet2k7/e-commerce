@@ -58,7 +58,7 @@
                         @method('PUT')
                         <div class="mb-5">
                             <label for="name" class="form-label">Name</label>
-                            <input value="{{ $user->name }}" name="name" type="text"
+                            <input value="{{ old('name', $user->name) }}" name="name" type="text"
                                 class="form-control form-control-solid ps-6" placeholder="Name">
                             @error('name')
                                 <p class="text-red-600 text-sm mt-2">{{ $message }}</p>

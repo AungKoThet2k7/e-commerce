@@ -112,7 +112,7 @@
                         <!--end::Status-->
                     </div>
                     <!--end::Card title-->
-                    <div class="flex gap-1">
+                    <div class="flex gap-3">
                         @trashed
                         @else
                             <!--begin::Card toolbar-->
@@ -294,9 +294,9 @@
                                         <tr>
                                             @trashed
                                                 <td colspan="6" class="text-center">No Trashed Sub Category Found</td>
-                                                @else
+                                            @else
                                                 <td colspan="6" class="text-center">No Sub Category Found</td>
-                                              @endtrashed  
+                                            @endtrashed
                                         </tr>
                                     @endforelse
 

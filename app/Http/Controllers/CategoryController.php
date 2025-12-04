@@ -17,7 +17,8 @@ class CategoryController extends Controller
     {
         $categories = Category::when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
-        })->with(['createdBy', 'updatedBy'])
+        })->when(request('trashed'), fn($q) => $q->onlyTrashed())
+            ->with(['createdBy', 'updatedBy'])
             ->paginate(3)
             ->withQueryString();
         return view('category.index', compact(["categories"]));
@@ -75,9 +76,19 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        $category->delete();
-        return redirect()->route("category.index")->with("success", "Category deleted successfully");
+        $category = Category::withTrashed()->findOrFail($id);
+
+        if (request("delete") === "restore") {
+            $category->restore();
+            return redirect()->route("category.index")->with("success", "Category Recycle successfully");
+        } elseif (request("delete") === "force") {
+            $category->forceDelete();
+            return redirect()->route("category.index")->with("success", "Category delete successfully");
+        } else {
+            $category->delete();
+            return redirect()->route("category.index")->with("success", "Category trash successfully");
+        }
     }
 }

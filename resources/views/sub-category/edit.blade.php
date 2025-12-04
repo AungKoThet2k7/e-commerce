@@ -239,7 +239,7 @@
                                 <div class="flex gap-10">
                                     <div class="">
                                         <!--begin::Input-->
-                                        <input value="{{ $subCategory->name }}" type="text" name="name"
+                                        <input value="{{ old('name', $subCategory->name) }}" type="text" name="name"
                                             class="form-control w-350px mb-2" placeholder="Sub Category Name">
                                         <!--end::Input-->
                                         <!--begin::Error Message-->

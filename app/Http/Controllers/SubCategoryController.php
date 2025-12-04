@@ -17,8 +17,7 @@ class SubCategoryController extends Controller
     {
         $subCategories = SubCategory::when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
-        })
-            ->when(request('trashed'), fn($q) => $q->onlyTrashed())
+        })->when(request('trashed'), fn($q) => $q->onlyTrashed())
             ->with(['category', 'createdBy', 'updatedBy'])
             ->paginate(3)
             ->withQueryString();

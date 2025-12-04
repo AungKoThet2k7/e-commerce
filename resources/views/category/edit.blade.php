@@ -237,7 +237,7 @@
                                 <label class="required form-label">Category Name</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input value="{{ $category->name }}" type="text" name="name"
+                                <input value="{{ old('name', $category->name) }}" type="text" name="name"
                                     class="form-control w-6/12 mb-2" placeholder="category name">
                                 @error('name')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>

@@ -56,8 +56,11 @@
 								<label class="form-label fs-6 fw-bolder text-dark">Email</label>
 								<!--end::Label-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg form-control-solid" type="text" name="email" autocomplete="on" />
+								<input value="{{ old('email') }}" class="form-control form-control-lg form-control-solid" type="text" name="email" autocomplete="on" />
 								<!--end::Input-->
+								@error('email')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
 							</div>
 							<!--end::Input group-->
 							<!--begin::Input group-->
@@ -72,6 +75,9 @@
 								<!--begin::Input-->
 								<input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" />
 								<!--end::Input-->
+								@error('password')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
 							</div>
 							<!--end::Input group-->
 							<!--begin::Actions-->
