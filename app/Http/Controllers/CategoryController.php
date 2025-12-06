@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 // use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -37,11 +38,24 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        Category::create([
-            "name" => $request->name,
-            "created_by" => Auth::id(),
-            "updated_by" => Auth::id(),
-        ]);
+        $category = new Category();
+        $category->name = $request->name;
+        $category->created_by = Auth::id();
+        $category->updated_by = Auth::id();
+
+        if ($request->file('image')) {
+            //new image name
+            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+
+            //store image to storage
+            $request->image->storeAs('category', $newImageName, 'public');
+
+            //store image to database
+            $category->image = $newImageName;
+        }
+
+        $category->save();
+
         return redirect()->route("category.index")->with("success", "New Category Added successfully");
     }
 
@@ -66,10 +80,26 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $category->update([
-            "name" => $request->name,
-            "updated_by" => Auth::id(),
-        ]);
+        // return $request;
+        $category->name = $request->name;
+        $category->updated_by = Auth::id();
+
+        if ($request->file('image')) {
+            //delete old image
+            Storage::disk('public')->delete('category/' . $category->image);
+
+            //new image name
+            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+
+            //store image to storage
+            $request->image->storeAs('category', $newImageName, 'public');
+
+            //store image to database
+            $category->image = $newImageName;
+        }
+
+        $category->update();
+
         return redirect()->route("category.index")->with("success", "Category updated successfully");
     }
 
@@ -81,13 +111,27 @@ class CategoryController extends Controller
         $category = Category::withTrashed()->findOrFail($id);
 
         if (request("delete") === "restore") {
+
+            //restore category
             $category->restore();
-            return redirect()->route("category.index")->with("success", "Category Recycle successfully");
+
+            return redirect()->route("category.index")->with("success", "Category Restore successfully");
         } elseif (request("delete") === "force") {
+
+            //delete image from storage
+            if (isset($category->image)) {
+                Storage::disk('public')->delete('category/' . $category->image);
+            }
+
+            //force delete from database
             $category->forceDelete();
+
             return redirect()->route("category.index")->with("success", "Category delete successfully");
         } else {
+
+            //Move category to trash
             $category->delete();
+
             return redirect()->route("category.index")->with("success", "Category trash successfully");
         }
     }

@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,9 +23,12 @@ class DatabaseSeeder extends Seeder
 
         User::factory(10)->create();
 
-       $this->call([
-        CategorySeeder::class,
-        SubCategorySeeder::class,
-       ]);
+        $this->call([
+            CategorySeeder::class,
+            SubCategorySeeder::class,
+        ]);
+
+        Storage::disk('public')->deleteDirectory('category');
+        // echo "\e[92mStorage Cleaned\n";
     }
 }

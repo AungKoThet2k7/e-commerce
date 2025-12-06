@@ -184,7 +184,11 @@
                                                     <a href="{{ route('category.show', $category->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
-                                                            style="background-image:url({{ asset('template/media//stock/ecommerce/71.gif') }});"></span>
+                                                            style="background-image:url({{ $category->image ? asset('storage/category/' . $category->image) : asset('template/media//stock/ecommerce/71.gif') }});">
+                                                        </span>
+                                                        <!--Image with img tag-->
+                                                        {{-- <img class="fs-8" src="{{ asset('storage/category/' . $category->image) }}"
+                                                                alt="category image"> --}}
                                                     </a>
                                                     <!--end::Thumbnail-->
                                                     <div class=" flex items-center ms-5">

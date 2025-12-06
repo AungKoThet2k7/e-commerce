@@ -42,11 +42,11 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <form action="{{ route('category.store') }}" method="POST" id="kt_ecommerce_add_category_form"
+            <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data" id="kt_ecommerce_add_category_form"
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
                 {{-- <!--begin::Aside column-->data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/categories.html" --}}
-                {{-- <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+                <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                     <!--begin::Thumbnail settings-->
                     <div class="card card-flush py-4">
                         <!--begin::Card header-->
@@ -62,7 +62,7 @@
                         <div class="card-body text-center pt-0">
                             <!--begin::Image input-->
                             <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
-                                style="background-image: url(assets/media/svg/files/blank-image.svg)">
+                                style="background-image: url({{asset('template/media/svg/files/blank-image.svg')}})">
                                 <!--begin::Preview existing avatar-->
                                 <div class="image-input-wrapper w-150px h-150px"></div>
                                 <!--end::Preview existing avatar-->
@@ -70,27 +70,27 @@
                                 <label
                                     class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Change avatar">
+                                    data-bs-original-title="Change image">
                                     <!--begin::Icon-->
                                     <i class="bi bi-pencil-fill fs-7"></i>
                                     <!--end::Icon-->
                                     <!--begin::Inputs-->
-                                    <input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-                                    <input type="hidden" name="avatar_remove">
+                                    <input type="file" name="image" accept=".png, .jpg, .jpeg">
+                                    {{-- <input type="hidden" name="image_remove"> --}}
                                     <!--end::Inputs-->
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Cancel-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Cancel avatar">
+                                    data-bs-original-title="Cancel image">
                                     <i class="bi bi-x fs-2"></i>
                                 </span>
                                 <!--end::Cancel-->
                                 <!--begin::Remove-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="remove" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Remove avatar">
+                                    data-bs-original-title="Remove image">
                                     <i class="bi bi-x fs-2"></i>
                                 </span>
                                 <!--end::Remove-->
@@ -105,7 +105,7 @@
                     </div>
                     <!--end::Thumbnail settings-->
                     <!--begin::Status-->
-                    <div class="card card-flush py-4">
+                    {{-- <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
@@ -162,10 +162,10 @@
                             <!--end::Datepicker-->
                         </div>
                         <!--end::Card body-->
-                    </div>
+                    </div> --}}
                     <!--end::Status-->
                     <!--begin::Template settings-->
-                    <div class="card card-flush py-4">
+                    {{-- <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
@@ -213,9 +213,9 @@
                             <!--end::Description-->
                         </div>
                         <!--end::Card body-->
-                    </div>
+                    </div> --}}
                     <!--end::Template settings-->
-                </div> --}}
+                </div>
                 <!--end::Aside column-->
                 <!--begin::Main column-->
                 <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">

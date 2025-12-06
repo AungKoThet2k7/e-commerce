@@ -13,6 +13,8 @@ class SubCategory extends Model
 
     protected $fillable = [
         "name",
+        'image',
+        'image_alt',
         "category_id",
         "created_by",
         "updated_by",

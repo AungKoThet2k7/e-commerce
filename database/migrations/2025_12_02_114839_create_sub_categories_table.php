@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string('image')->nullable();
+            $table->string('image_alt')->nullable();
             $table->foreignId("category_id")->constrained()->cascadeOnDelete();
             $table->foreignId("created_by")->constrained("users")->cascadeOnDelete();
             $table->foreignId("updated_by")->constrained("users")->cascadeOnDelete();

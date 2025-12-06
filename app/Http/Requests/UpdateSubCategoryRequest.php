@@ -25,11 +25,11 @@ class UpdateSubCategoryRequest extends FormRequest
         return [
             "name" => [
                 'required',
-                'unique:sub_categories,name',
                 'min:3',
                 'max:20',
-                Rule::unique('sub_categories', 'name')->ignore($this->route("sub-category")),
-            ]
+                Rule::unique('sub_categories', 'name')->ignore($this->route('sub_category')),
+            ],
+            "category_id" => 'required|exists:categories,id',
         ];
     }
 }
