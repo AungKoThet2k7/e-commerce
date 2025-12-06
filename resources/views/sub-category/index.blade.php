@@ -183,7 +183,11 @@
                                                     <a href="{{ route('sub-category.show', $subCategory->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
-                                                            style="background-image:url({{ asset('template/media//stock/ecommerce/71.gif') }});"></span>
+                                                            style="background-image:url({{ $subCategory->image ? asset('storage/sub-category/' . $subCategory->image) : asset('template/media/svg/files/blank-image.svg') }});">
+                                                        </span>
+                                                        <!--Image with img tag-->
+                                                        {{-- <img class="fs-8" src="{{ asset('storage/sub-category/' . $subCategory->image) }}"
+                                                                alt="sub category image"> --}}
                                                     </a>
                                                     <!--end::Thumbnail-->
                                                     <div class=" flex flex-col gap-1 items-start justify-center ms-5">

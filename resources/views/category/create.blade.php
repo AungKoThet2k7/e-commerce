@@ -53,7 +53,7 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Thumbnail</h2>
+                                <h2>Category Image</h2>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -224,7 +224,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Add New Category</h2>
+                                <h2>Add Category</h2>
                             </div>
                         </div>
                         <!--end::Card header-->

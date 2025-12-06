@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SubCategoryController extends Controller
 {
@@ -37,13 +38,25 @@ class SubCategoryController extends Controller
      */
     public function store(StoreSubCategoryRequest $request)
     {
-        // return $request;
-        SubCategory::create([
-            "name" => $request->name,
-            "category_id" => $request->category_id,
-            "created_by" => Auth::id(),
-            "updated_by" => Auth::id(),
-        ]);
+        $subCategory = new SubCategory();
+        $subCategory->name = $request->name;
+        $subCategory->category_id = $request->category_id;
+        $subCategory->created_by = Auth::id();
+        $subCategory->updated_by = Auth::id();
+
+        if ($request->file('image')) {
+            //new image name
+            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+
+            //store image to storage
+            $request->image->storeAs('sub-category', $newImageName, 'public');
+
+            //store image to database
+            $subCategory->image = $newImageName;
+        }
+
+        $subCategory->save();
+
         return redirect()->route("sub-category.index")->with("success", "New Sub Category Added successfully");
     }
 
@@ -68,14 +81,27 @@ class SubCategoryController extends Controller
      */
     public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
     {
-        $subCategory->update([
-            "name" => $request->name,
-            "category_id" => $request->category_id,
-            "updated_by" => Auth::id(),
-        ]);
+        $subCategory->name = $request->name;
+        $subCategory->category_id = $request->category_id;
+        $subCategory->updated_by = Auth::id();
+
+        if ($request->file('image')) {
+            //delete old image
+            Storage::disk('public')->delete('sub-category/' . $subCategory->image);
+
+            //new image name
+            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+
+            //store image to storage
+            $request->image->storeAs('sub-category', $newImageName, 'public');
+
+            //store image to database
+            $subCategory->image = $newImageName;
+        }
+
+        $subCategory->update();
 
         return redirect()->route("sub-category.index")->with("success", "Sub Category updated successfully");
-        //
     }
 
     /**
@@ -86,13 +112,25 @@ class SubCategoryController extends Controller
         $subCategory = SubCategory::withTrashed()->findOrFail($id);
 
         if (request("delete") === "restore") {
+
+            //Restore sub category
             $subCategory->restore();
+
             return redirect()->route("sub-category.index")->with("success", "Sub Category Recycle successfully");
         } elseif (request("delete") === "force") {
+
+            //Delete image from storage
+            Storage::disk('public')->delete('sub-category/' . $subCategory->image);
+
+            //Force delete from database
             $subCategory->forceDelete();
+
             return redirect()->route("sub-category.index")->with("success", "Sub Category delete successfully");
         } else {
+
+            //Move sub category to trash
             $subCategory->delete();
+
             return redirect()->route("sub-category.index")->with("success", "Sub Category trash successfully");
         }
     }

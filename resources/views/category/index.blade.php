@@ -184,7 +184,7 @@
                                                     <a href="{{ route('category.show', $category->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
-                                                            style="background-image:url({{ $category->image ? asset('storage/category/' . $category->image) : asset('template/media//stock/ecommerce/71.gif') }});">
+                                                            style="background-image:url({{ $category->image ? asset('storage/category/' . $category->image) : asset('template/media/svg/files/blank-image.svg') }});">
                                                         </span>
                                                         <!--Image with img tag-->
                                                         {{-- <img class="fs-8" src="{{ asset('storage/category/' . $category->image) }}"

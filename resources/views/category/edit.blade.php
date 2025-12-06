@@ -55,12 +55,9 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Thumbnail</h2>
+                                <h2>Category Image</h2>
                             </div>
                             <!--end::Card title-->
-                            @error('image')
-                                <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
-                            @enderror
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->

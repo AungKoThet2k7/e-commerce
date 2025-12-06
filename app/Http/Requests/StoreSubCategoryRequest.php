@@ -27,7 +27,9 @@ class StoreSubCategoryRequest extends FormRequest
                 'unique:sub_categories,name',
                 'min:3',
                 'max:20',
-            ]
+            ],
+            "image" => "nullable|image|mimes:jpeg,png,jpg|max:5012",
+            "category_id" => 'required|exists:categories,id',
         ];
     }
 }
