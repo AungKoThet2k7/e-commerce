@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::when(request("search"), function ($q) {
+        $categories = Category::latest("id")->when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
         })->when(request('trashed'), fn($q) => $q->onlyTrashed())
             ->with(['createdBy', 'updatedBy'])

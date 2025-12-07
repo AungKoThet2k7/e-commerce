@@ -17,7 +17,7 @@
                 <!--end::Separator-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                   <!--begin::Item-->
+                    <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('category.index') }}" class="text-muted text-hover-primary">Categories</a>
                     </li>
@@ -42,7 +42,8 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data" id="kt_ecommerce_add_category_form"
+            <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data"
+                id="kt_ecommerce_add_category_form"
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
                 {{-- <!--begin::Aside column-->data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/categories.html" --}}
@@ -56,19 +57,19 @@
                                 <h2>Category Image</h2>
                             </div>
                             <!--end::Card title-->
+
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
                         <div class="card-body text-center pt-0">
                             <!--begin::Image input-->
                             <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
-                                style="background-image: url({{asset('template/media/svg/files/blank-image.svg')}})">
+                                style="background-image: url({{ asset('template/media/svg/files/blank-image.svg') }})">
                                 <!--begin::Preview existing avatar-->
                                 <div class="image-input-wrapper w-150px h-150px"></div>
                                 <!--end::Preview existing avatar-->
                                 <!--begin::Label-->
-                                <label
-                                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
                                     data-bs-original-title="Change image">
                                     <!--begin::Icon-->
@@ -78,6 +79,7 @@
                                     <input type="file" name="image" accept=".png, .jpg, .jpeg">
                                     {{-- <input type="hidden" name="image_remove"> --}}
                                     <!--end::Inputs-->
+
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Cancel-->
@@ -100,6 +102,9 @@
                             <div class="text-muted fs-7">Set the category thumbnail image. Only *.png, *.jpg and *.jpeg
                                 image files are accepted</div>
                             <!--end::Description-->
+                            @error('image')
+                                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                            @enderror
                         </div>
                         <!--end::Card body-->
                     </div>
@@ -236,8 +241,8 @@
                                 <label class="required form-label">Category Name</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input value="{{old('name')}}" type="text" name="name" class="form-control w-6/12 mb-2"
-                                    placeholder="category name">
+                                <input value="{{ old('name') }}" type="text" name="name"
+                                    class="form-control w-6/12 mb-2" placeholder="category name">
                                 <!--end::Input-->
                                 <!--begin::Description-->
                                 <div class="text-muted fs-7">A category name is required and recommended to be unique.

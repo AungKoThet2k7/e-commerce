@@ -16,7 +16,7 @@ class SubCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $subCategories = SubCategory::when(request("search"), function ($q) {
+        $subCategories = SubCategory::latest("id")->when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
         })->when(request('trashed'), fn($q) => $q->onlyTrashed())
             ->with(['category', 'createdBy', 'updatedBy'])

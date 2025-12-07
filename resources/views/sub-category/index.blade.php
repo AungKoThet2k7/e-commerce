@@ -172,10 +172,10 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody class="fw-bold text-gray-600">
-                                    @forelse ($subCategories as $subCategory)
+                                    @forelse ($subCategories as $key => $subCategory)
                                         <!--begin::Table row-->
                                         <tr>
-                                            <td>{{ $subCategory->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <!--begin::Category=-->
                                             <td>
                                                 <div class="d-flex">
@@ -198,7 +198,7 @@
                                                         <!--end::Title-->
                                                         <!--begin::badge-->
                                                         <div class="badge badge-light-primary">
-                                                            {{ $subCategory->category->name }}</div>
+                                                            {{ $subCategory->category?->name ?? "---" }}</div>
                                                         <!--end::badge-->
                                                     </div>
                                                 </div>

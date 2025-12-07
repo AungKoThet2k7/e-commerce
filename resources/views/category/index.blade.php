@@ -173,10 +173,10 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody class="fw-bold text-gray-600">
-                                    @forelse ($categories as $category)
+                                    @forelse ($categories as $key => $category)
                                         <!--begin::Table row-->
                                         <tr>
-                                            <td>{{ $category->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <!--begin::Category=-->
                                             <td>
                                                 <div class="d-flex">
