@@ -101,6 +101,9 @@
                             <div class="text-muted fs-7">Set the category thumbnail image. Only *.png, *.jpg and *.jpeg
                                 image files are accepted</div>
                             <!--end::Description-->
+                            @error('image')
+                                <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                            @enderror
                         </div>
                         <!--end::Card body-->
                     </div>

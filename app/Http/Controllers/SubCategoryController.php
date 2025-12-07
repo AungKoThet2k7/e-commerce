@@ -44,7 +44,7 @@ class SubCategoryController extends Controller
         $subCategory->created_by = Auth::id();
         $subCategory->updated_by = Auth::id();
 
-        if ($request->file('image')) {
+        if ($request->hasFile('image')) {
             //new image name
             $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
 

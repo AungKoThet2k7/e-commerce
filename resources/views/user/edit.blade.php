@@ -9,7 +9,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users List</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -40,49 +40,168 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <!--begin::Card-->
-            <div class="card">
-                <!--begin::Card header-->
-                <div class="card-header border-0 pt-6">
-                    <!--begin::Card title-->
-                    <div class="card-title">
-                        Edit User Info
+            <form action="{{ route('user.update', $user->id) }}" enctype="multipart/form-data" method="POST"
+                id="kt_ecommerce_add_category_form"
+                class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
+                @csrf
+                @method('PUT')
+                {{-- <!--begin::Aside column-->data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/categories.html" --}}
+                <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+                    <!--begin::Thumbnail settings-->
+                    <div class="card card-flush py-4">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <h2>Profile Image</h2>
+                            </div>
+                            <!--end::Card title-->
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body text-center pt-0">
+                            <!--begin::Image input-->
+                            <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
+                                style="background-image: url({{ $user->image ? asset('storage/user/' . $user->image) : asset('template/media/avatars/300-1.jpg') }})">
+                                <!--begin::Preview existing avatar-->
+                                <div class="image-input-wrapper w-150px h-150px"></div>
+                                <!--end::Preview existing avatar-->
+                                <!--begin::Label-->
+                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
+                                    data-bs-original-title="Change image">
+                                    <!--begin::Icon-->
+                                    <i class="bi bi-pencil-fill fs-7"></i>
+                                    <!--end::Icon-->
+                                    <!--begin::Inputs-->
+                                    <input type="file" name="image" accept=".png, .jpg, .jpeg">
+                                    {{-- <input type="hidden" name="image_remove"> --}}
+                                    <!--end::Inputs-->
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Cancel-->
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title=""
+                                    data-bs-original-title="Cancel image">
+                                    <i class="bi bi-x fs-2"></i>
+                                </span>
+                                <!--end::Cancel-->
+                                <!--begin::Remove-->
+                                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="remove" data-bs-toggle="tooltip" title=""
+                                    data-bs-original-title="Remove image">
+                                    <i class="bi bi-x fs-2"></i>
+                                </span>
+                                <!--end::Remove-->
+                            </div>
+                            <!--end::Image input-->
+                            <!--begin::Description-->
+                            @error('image')
+                                <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                            @enderror
+                            <div class="flex flex-col items-start mt-5">
+                                <!--begin::Label-->
+                                <label class="required form-label">Image Alt</label>
+                                <!--end::Label-->
+                                <input value="{{ old('image_alt', $user->image_alt) }}" type="text" name="image_alt"
+                                    class="form-control w-full mb-2" placeholder="image alt">
+                                @error('image_alt')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                                <!--begin::Description-->
+                                <!--end::Description-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                            <!--end::Description-->
+                        </div>
+                        <!--end::Card body-->
                     </div>
-                    <!--end::Card title-->
-                    <!--begin::Card body-->
+                    <!--end::Thumbnail settings-->
+                </div>
+                <!--end::Aside column-->
+                <!--begin::Main column-->
+                <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                    <!--begin::General options-->
+                    <div class="card card-flush py-4">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h2>Edit User</h2>
+                            </div>
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
 
+                                <!--begin::Input-->
+                                <div class="flex flex-col justify-center gap-10">
+                                    <div class="">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">User Name</label>
+                                        <!--end::Label-->
+                                        <input value="{{ old('name', $user->name) }}" type="text" name="name"
+                                            class="form-control w-6/12 mb-2" placeholder="user name">
+                                        @error('name')
+                                            <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                        @enderror
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <!--end::Description-->
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div>
+                                    <div class="">
+                                        <!--begin::Label-->
+                                        <label class="form-label">Email</label>
+                                        <!--end::Label-->
+                                        <input value="{{ old('email', $user->email) }}" type="email" readonly
+                                            name="email" class="form-control w-6/12 mb-2" placeholder="email">
+                                        @error('email')
+                                            <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                        @enderror
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <!--end::Description-->
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div>
+                                    <div class="">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Password</label>
+                                        <!--end::Label-->
+                                        <input value="{{ old('password') }}" type="password" name="password"
+                                            class="form-control w-6/12 mb-2" placeholder="password">
+                                        @error('password')
+                                            <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                        @enderror
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <!--end::Description-->
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Input group-->
+                        </div>
+                        <!--end::Card header-->
+                    </div>
+                    <!--end::General options-->
+                    <div class="d-flex justify-content-end">
+                        <!--begin::Button-->
+                        <a href="{{ route('user.index') }}" id="kt_ecommerce_add_product_cancel"
+                            class="btn btn-light me-5">Cancel</a>
+                        <!--end::Button-->
+                        <!--begin::Button-->
+                        <button type="submit" class="btn btn-primary">
+                            <span class="indicator-label">Update User</span>
+                        </button>
+                        <!--end::Button-->
+                    </div>
                 </div>
-                <div class="card-body  w-6/12">
-                    <form action="{{ route('user.update', $user->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-5">
-                            <label for="name" class="form-label">Name</label>
-                            <input value="{{ old('name', $user->name) }}" name="name" type="text"
-                                class="form-control form-control-solid ps-6" placeholder="Name">
-                            @error('name')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="mb-5">
-                            <label for="email" class="form-label">Email</label>
-                            <input readonly value="{{ $user->email }}" name="email" type="email"
-                                class="form-control form-control-solid ps-6" placeholder="email">
-                        </div>
-                        <div class="mb-5">
-                            <label for="password" class="form-label">Password</label>
-                            <input name="password" type="password" class="form-control form-control-solid ps-6"
-                                placeholder="password">
-                            @error('password')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="flex justify-end items-center">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                <!--end::Main column-->
+                <div></div>
+            </form>
         </div>
         <!--end::Container-->
     </div>

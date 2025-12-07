@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\user;
 use App\Http\Requests\StoreuserRequest;
 use App\Http\Requests\UpdateuserRequest;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -13,10 +14,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::when(request("search"), function ($q) {
+        $users = User::latest("id")->when(request("search"), function ($q) {
             $q->where("name", "like", "%" . request("search") . "%");
             $q->orWhere("email", "like", "%" . request("search") . "%");
-        })->paginate(5)->withQueryString();
+        })->when(request('trashed'), fn($q) => $q->onlyTrashed())
+            ->paginate(5)
+            ->withQueryString();
         return view('user.index', compact(["users"]));
     }
 
@@ -33,11 +36,28 @@ class UserController extends Controller
      */
     public function store(StoreuserRequest $request)
     {
-        User::create([
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => $request->password,
-        ]);
+        // return $request;
+        $user = new user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+
+        if ($request->hasFile('image')) {
+            //new image name
+            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+
+            //store image to storage
+            $request->image->storeAs('user', $newImageName, 'public');
+
+            //store image to database
+            $user->image = $newImageName;
+
+            //store image alt to database
+            $user->image_alt = $request->image_alt;
+        }
+
+        $user->save();
+
         return redirect()->route("user.index")->with("success", "New User Added successfully");
     }
 
@@ -62,22 +82,63 @@ class UserController extends Controller
      */
     public function update(UpdateuserRequest $request, user $user)
     {
-        // return $user;
-        $user->update([
-            "name" => $request->name,
-            "email" => $request->email,
-            "password" => $request->password,
-        ]);
-        
+        // return $request;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+
+        if ($request->hasFile('image')) {
+            //delete old image
+            Storage::disk('public')->delete('user/' . $user->image);
+
+            //new image name
+            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+
+            //store image to storage
+            $request->image->storeAs('user', $newImageName, 'public');
+
+            //store image to database
+            $user->image = $newImageName;
+
+            //store image alt to database
+            $user->image_alt = $request->image_alt;
+        }
+
+        $user->update();
+
         return redirect()->route("user.index")->with("success", "User info updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(user $user)
+    public function destroy($id)
     {
-        $user->delete();
-        return redirect()->route("user.index")->with("success", "User deleted successfully");
+        $user = user::withTrashed()->findOrFail($id);
+
+        if (request("delete") === "restore") {
+
+            //restore user
+            $user->restore();
+
+            return redirect()->route("user.index")->with("success", "User Restore successfully");
+        } elseif (request("delete") === "force") {
+
+            //delete image from storage
+            if (isset($user->image)) {
+                Storage::disk('public')->delete('user/' . $user->image);
+            }
+
+            //force delete from database
+            $user->forceDelete();
+
+            return redirect()->route("user.index")->with("success", "User delete successfully");
+        } else {
+
+            //Move user to trash
+            $user->delete();
+
+            return redirect()->route("user.index")->with("success", "User trash successfully");
+        }
     }
 }

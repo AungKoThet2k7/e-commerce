@@ -779,7 +779,7 @@
                                     <div class="cursor-pointer symbol symbol-30px symbol-md-40px"
                                         data-kt-menu-trigger="click" data-kt-menu-attach="parent"
                                         data-kt-menu-placement="bottom-end">
-                                        <img src="{{ asset('template/media/avatars/300-1.jpg') }}" alt="user" />
+                                        <img src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" alt="user" />
                                     </div>
                                     <!--begin::User account menu-->
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px"
@@ -790,7 +790,7 @@
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-50px me-5">
                                                     <img alt="Logo"
-                                                        src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                                        src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Username-->
@@ -1099,7 +1099,7 @@
                                         <!--begin::User-->
                                         <div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip"
                                             data-bs-boundary="window" data-bs-placement="top" title="Alan Nilson">
-                                            <img src="{{ asset('template/media/avatars/300-1.jpg') }}"
+                                            <img src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}"
                                                 alt="img" />
                                         </div>
                                         <!--end::User-->
@@ -1780,7 +1780,7 @@
                                 <!--end::Details-->
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-35px symbol-circle">
-                                    <img alt="Pic" src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                    <img alt="Pic" src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                 </div>
                                 <!--end::Avatar-->
                             </div>
@@ -1837,7 +1837,7 @@
                                 <!--end::Details-->
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-35px symbol-circle">
-                                    <img alt="Pic" src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                    <img alt="Pic" src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                 </div>
                                 <!--end::Avatar-->
                             </div>
@@ -1897,7 +1897,7 @@
                                 <!--end::Details-->
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-35px symbol-circle">
-                                    <img alt="Pic" src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                    <img alt="Pic" src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                 </div>
                                 <!--end::Avatar-->
                             </div>
@@ -1954,7 +1954,7 @@
                                 <!--end::Details-->
                                 <!--begin::Avatar-->
                                 <div class="symbol symbol-35px symbol-circle">
-                                    <img alt="Pic" src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                    <img alt="Pic" src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                 </div>
                                 <!--end::Avatar-->
                             </div>
@@ -3702,7 +3702,7 @@
                                     <!--begin::Avatar-->
                                     <div class="symbol symbol-35px symbol-circle">
                                         <img alt="Pic"
-                                            src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                            src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                     </div>
                                     <!--end::Avatar-->
                                     <!--begin::Details-->
@@ -4271,7 +4271,7 @@
                                         <!--begin::Avatar-->
                                         <div class="symbol symbol-35px symbol-circle me-5">
                                             <img alt="Pic"
-                                                src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                                src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                         </div>
                                         <!--end::Avatar-->
                                         <!--begin::Info-->
@@ -4422,7 +4422,7 @@
                                             <!--begin::Avatar-->
                                             <div class="symbol symbol-35px symbol-circle">
                                                 <img alt="Pic"
-                                                    src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                                    src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                             </div>
                                             <!--end::Avatar-->
                                             <!--begin::Details-->
@@ -5205,7 +5205,7 @@
                                     <!--begin::Avatar-->
                                     <div class="symbol symbol-35px symbol-circle">
                                         <img alt="Pic"
-                                            src="{{ asset('template/media/avatars/300-1.jpg') }}" />
+                                            src="{{ Auth::user()->image ? asset('storage/user/' . Auth::user()->image) : asset('template/media/avatars/300-1.jpg') }}" />
                                     </div>
                                     <!--end::Avatar-->
                                     <!--begin::Details-->

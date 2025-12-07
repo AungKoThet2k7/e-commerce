@@ -43,7 +43,7 @@ class CategoryController extends Controller
         $category->created_by = Auth::id();
         $category->updated_by = Auth::id();
 
-        if ($request->file('image')) {
+        if ($request->hasFile('image')) {
             //new image name
             $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
 
@@ -84,7 +84,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->updated_by = Auth::id();
 
-        if ($request->file('image')) {
+        if ($request->hasFile('image')) {
             //delete old image
             Storage::disk('public')->delete('category/' . $category->image);
 

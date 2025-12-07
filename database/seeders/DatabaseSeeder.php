@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
 
         Storage::disk('public')->deleteDirectory('category');
         Storage::disk('public')->deleteDirectory('sub-category');
+        Storage::disk('public')->deleteDirectory('user');
         // echo "\e[92mStorage Cleaned\n";
     }
 }

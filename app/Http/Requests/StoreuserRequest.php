@@ -25,6 +25,8 @@ class StoreuserRequest extends FormRequest
             "name" => "required|min:3|max:30",
             "email" => "required|email|unique:users,email",
             "password" => "required|min:8|max:20",
+            "image" => "required|image|mimes:jpeg,png,jpg|max:5012",
+            "image_alt" => "required|min:3|max:30",
         ];
     }
 }

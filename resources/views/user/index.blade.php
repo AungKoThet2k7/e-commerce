@@ -16,9 +16,25 @@
                 <!--end::Separator-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                    <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Users</li>
-                    <!--end::Item-->
+                    @trashed
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">
+                            <a href="{{ route('user.index') }}" class="text-muted text-hover-primary">Users</a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item">
+                            <span class="bullet bg-gray-300 w-5px h-2px"></span>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Trashed Users</li>
+                        <!--end::Item-->
+                    @else
+                        <!--begin::Item-->
+                        <li class="breadcrumb-item text-muted">Users</li>
+                        <!--end::Item-->
+                    @endtrashed
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
@@ -81,27 +97,43 @@
                         <!--end::Search-->
                     </div>
                     <!--begin::Card title-->
-                    <!--begin::Card toolbar-->
-                    <div class="card-toolbar">
-                        <!--begin::Toolbar-->
-                        <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                            <!--begin::Add user-->
-                            <a href="{{ route('user.create') }}" class="btn btn-primary flex">
-                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                                <span class="svg-icon svg-icon-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none">
-                                        <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
-                                            rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor">
-                                        </rect>
-                                        <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
-                                            fill="currentColor"></rect>
-                                    </svg>
-                                </span>
-                                <!--end::Svg Icon-->Add User</a>
-                            <!--end::Add user-->
+                    <div class="flex justify-center items-center gap-3">
+                        @trashed
+                        @else
+                            <!--begin::Card toolbar-->
+                            <div class="card-toolbar">
+                                <!--begin::trash-->
+                                <a href="{{ route('user.index', ['trashed' => true]) }}"
+                                    class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
+                                    <i class="bi bi-trash text-white"></i>
+                                    <span class="text-white">Trash</span>
+                                </a>
+                                <!--end::trash-->
+                            </div>
+                            <!--end::Card toolbar-->
+                        @endtrashed
+                        <!--begin::Card toolbar-->
+                        <div class="card-toolbar">
+                            <!--begin::Toolbar-->
+                            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                                <!--begin::Add user-->
+                                <a href="{{ route('user.create') }}" class="btn btn-primary flex">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
+                                                rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor">
+                                            </rect>
+                                            <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
+                                                fill="currentColor"></rect>
+                                        </svg>
+                                    </span>
+                                    <!--end::Svg Icon-->Add User</a>
+                                <!--end::Add user-->
+                            </div>
+                            <!--end::Toolbar-->
                         </div>
-                        <!--end::Toolbar-->
                     </div>
                     <!--end::Card toolbar-->
                 </div>
@@ -120,7 +152,8 @@
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                             rowspan="1" colspan="1"
                                             aria-label="User: activate to sort column ascending"
-                                            style="width: 228.167px;">User</th>
+                                            style="width: 228.167px;">
+                                            User</th>
                                         <th class="min-w-125px sorting" tabindex="0" aria-controls="kt_table_users"
                                             rowspan="1" colspan="1"
                                             aria-label="Role: activate to sort column ascending" style="width: 125px;">
@@ -129,8 +162,8 @@
                                             rowspan="1" colspan="1"
                                             aria-label="Joined Date: activate to sort column ascending"
                                             style="width: 125px;">Joined Date</th>
-                                        <th class="text-center min-w-100px sorting_disabled" rowspan="1" colspan="1"
-                                            aria-label="Actions" style="width: 100px;">Actions</th>
+                                        <th class="text-center min-w-100px sorting_disabled" rowspan="1"
+                                            colspan="1" aria-label="Actions" style="width: 100px;">Actions</th>
                                     </tr>
                                     <!--end::Table row-->
                                 </thead>
@@ -146,8 +179,9 @@
                                                 <!--begin:: Avatar -->
                                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                     <div class="symbol-label">
-                                                        <img src="{{ asset('template/media/avatars/300-11.jpg') }}"
-                                                            alt="Profile image" class="w-100">
+                                                        <img src="{{ $user->image ? asset('storage/user/' . $user->image) : asset('template/media/avatars/300-1.jpg') }}"
+                                                            alt="{{ $user->image_alt }}"
+                                                            class="w-100 aspect-square object-cover">
                                                     </div>
                                                 </div>
                                                 <!--end::Avatar-->
@@ -171,65 +205,93 @@
                                             <!--end:created at-->
                                             <!--begin::Action=-->
                                             <td class="text-end">
-                                                <!--begin::Edit-->
                                                 <div class="flex gap-1 px-3">
-                                                    <a href="{{ route('user.edit', $user->id) }}"
-                                                        class="px-3 bg-sky-400 p-2 rounded-md">
-                                                        <i class="bi bi-pencil-square text-white"></i>
-                                                    </a>
-
-                                                    <!--end::Edit-->
-                                                    <!--begin::Delete-->
-                                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="px-3 bg-red-400 p-2 rounded-md">
-                                                            <i class="bi bi-trash text-white"></i>
-                                                        </button>
-                                                    </form>
+                                                    @trashed
+                                                        <!--begin:: Recycle-->
+                                                        <form
+                                                            action="{{ route('user.destroy', [$user->id, 'delete' => 'restore']) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
+                                                                <i class="bi bi-recycle text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--begin:: Recycle-->
+                                                        <!--begin:: Force Delete-->
+                                                        <form
+                                                            action="{{ route('user.destroy', [$user->id, 'delete' => 'force']) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--begin:: Force Delete-->
+                                                    @else
+                                                        <!--begin::Edit-->
+                                                        <a href="{{ route('user.edit', $user->id) }}"
+                                                            class="px-3 bg-green-500 p-2 rounded-md">
+                                                            <i class="bi bi-pencil-square text-white"></i>
+                                                        </a>
+                                                        <!--end::Edit-->
+                                                        <!--begin::Delete-->
+                                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--end::Delete-->
+                                                    @endtrashed
                                                 </div>
-                                                <!--end::Delete-->
                                             </td>
                                             <!--end::Action=-->
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="text-center">No User Found</td>
+                                            @trashed
+                                                <td colspan="6" class="text-center">No Trashed Category Found</td>
+                                            @else
+                                                <td colspan="6" class="text-center">No Category Found</td>
+                                            @endtrashed
                                         </tr>
                                     @endforelse
-                            </tbody>
-                            <!--end::Table body-->
-                        </table>
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                        </div>
+                        <!--begin::Pagination-->
+                        <div class="">
+                            {{ $users->onEachSide(1)->links() }}
+                        </div>
+                        <!--end::Pagination-->
                     </div>
-                    <!--begin::Pagination-->
-                    <div class="">
-                        {{ $users->onEachSide(1)->links() }}
-                    </div>
-                    <!--end::Pagination-->
+                    <!--end::Table-->
                 </div>
-                <!--end::Table-->
+                <!--end::Card body-->
             </div>
-            <!--end::Card body-->
+            <!--end::Card-->
         </div>
-        <!--end::Card-->
+        <!--end::Container-->
     </div>
-    <!--end::Container-->
-</div>
-<!--end::Post-->
+    <!--end::Post-->
 @endsection
 @push('script')
-<!--begin::Page Vendors Javascript(used by this page)-->
-<script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-<!--end::Page Vendors Javascript-->
-<!--begin::Page Custom Javascript(used by this page)-->
-<script src="{{ asset('template/js/custom/apps/user-management/users/list/table.js') }}"></script>
-<script src="{{ asset('template/js/custom/apps/user-management/users/list/export-users.js') }}"></script>
-<script src="{{ asset('template/js/custom/apps/user-management/users/list/add.js') }}"></script>
-<script src="{{ asset('template/js/widgets.bundle.js') }}"></script>
-<script src="{{ asset('template/js/custom/widgets.js') }}"></script>
-<script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script>
-<script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
-<script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script>
-<script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script>
-<!--end::Page Custom Javascript-->
+    <!--begin::Page Vendors Javascript(used by this page)-->
+    <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    <!--end::Page Vendors Javascript-->
+    <!--begin::Page Custom Javascript(used by this page)-->
+    <script src="{{ asset('template/js/custom/apps/user-management/users/list/table.js') }}"></script>
+    <script src="{{ asset('template/js/custom/apps/user-management/users/list/export-users.js') }}"></script>
+    <script src="{{ asset('template/js/custom/apps/user-management/users/list/add.js') }}"></script>
+    <script src="{{ asset('template/js/widgets.bundle.js') }}"></script>
+    <script src="{{ asset('template/js/custom/widgets.js') }}"></script>
+    <script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script>
+    <script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
+    <script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script>
+    <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script>
+    <!--end::Page Custom Javascript-->
 @endpush

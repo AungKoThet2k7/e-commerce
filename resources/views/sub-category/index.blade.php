@@ -119,8 +119,9 @@
                             <div class="card-toolbar">
                                 <!--begin::trash-->
                                 <a href="{{ route('sub-category.index', ['trashed' => true]) }}"
-                                    class="px-3 bg-red-500 p-2 rounded-md">
-                                    <i class="bi bi-trash text-white">Trash</i>
+                                    class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
+                                    <i class="bi bi-trash text-white"></i>
+                                    <span class="text-white">Trash</span>
                                 </a>
                                 <!--end::trash-->
                             </div>
@@ -198,7 +199,7 @@
                                                         <!--end::Title-->
                                                         <!--begin::badge-->
                                                         <div class="badge badge-light-primary">
-                                                            {{ $subCategory->category?->name ?? "---" }}</div>
+                                                            {{ $subCategory->category?->name ?? '---' }}</div>
                                                         <!--end::badge-->
                                                     </div>
                                                 </div>
@@ -236,7 +237,7 @@
                                             <td class="">
                                                 <div>
                                                     <h1 class="text-gray-700 fs-5 fw-bolder">
-                                                        {{ $subCategory->updatedBy->name }}</h1>
+                                                        {{ $subCategory->updatedBy?->name ?? '---' }}</h1>
                                                     <p>{{ $subCategory->created_at->format('j M Y') }}
                                                         <span>{{ $subCategory->created_at->format('g : m A') }}</span>
                                                     </p>
@@ -274,7 +275,7 @@
                                                     @else
                                                         <!--begin::Edit-->
                                                         <a href="{{ route('sub-category.edit', $subCategory->id) }}"
-                                                            class="px-3 bg-sky-500 p-2 rounded-md">
+                                                            class="px-3 bg-green-500 p-2 rounded-md">
                                                             <i class="bi bi-pencil-square text-white"></i>
                                                         </a>
                                                         <!--end::Edit-->
