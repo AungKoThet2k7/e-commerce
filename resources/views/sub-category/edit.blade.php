@@ -42,7 +42,8 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <form action="{{ route('sub-category.update', $subCategory->id) }}" enctype="multipart/form-data" method="POST" id="kt_ecommerce_add_category_form"
+            <form action="{{ route('sub-category.update', $subCategory->id) }}" enctype="multipart/form-data" method="POST"
+                id="kt_ecommerce_add_category_form"
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
                 @method('PUT')
@@ -97,9 +98,26 @@
                             </div>
                             <!--end::Image input-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the category thumbnail image. Only *.png, *.jpg and *.jpeg
+                            <div class="text-muted fs-7">Set the sub category thumbnail image. Only *.png, *.jpg and *.jpeg
                                 image files are accepted</div>
+                            @error('image')
+                                <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                            @enderror
                             <!--end::Description-->
+                            <div class="flex flex-col items-start mt-5">
+                                <!--begin::Label-->
+                                <label class="required form-label">Image Alt</label>
+                                <!--end::Label-->
+                                <input value="{{ old('image_alt', $subCategory->image_alt) }}" type="text"
+                                    name="image_alt" class="form-control w-full mb-2" placeholder="image alt">
+                                @error('image_alt')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                                <!--begin::Description-->
+                                <!--end::Description-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
                         </div>
                         <!--end::Card body-->
                     </div>
@@ -249,12 +267,13 @@
                                     </div>
                                     <!--start::Category-->
                                     <div class="ms-3">
-                                        <select name="category_id" class=" w-250px form-select form-select-solid" data-kt-select2="true"
-                                            data-placeholder="Category" data-allow-clear="true"
+                                        <select name="category_id" class=" w-250px form-select form-select-solid"
+                                            data-kt-select2="true" data-placeholder="Category" data-allow-clear="true"
                                             data-select2-id="select2-data-7-l7k0" tabindex="-1" aria-hidden="true">
                                             <option data-select2-id="select2-data-9-3eq9"></option>
                                             @foreach (\App\Models\Category::all() as $category)
-                                                <option value="{{ $category->id }}" @selected(old('category_id', $subCategory->category_id) == $category->id)>{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" @selected(old('category_id', $subCategory->category_id) == $category->id)>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

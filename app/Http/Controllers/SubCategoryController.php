@@ -17,7 +17,18 @@ class SubCategoryController extends Controller
     public function index(Request $request)
     {
         $subCategories = SubCategory::latest("id")->when(request("search"), function ($q) {
+            //search by Sub Category Name
             $q->where("name", "like", "%" . request("search") . "%");
+
+            //search with Category Name (category_id)
+            $q->orWhereHas("category", function ($q) {
+                $q->where("name", "like", "%" . request("search") . "%");
+            });
+
+            //search with Username (updated_by)
+            $q->orWhereHas("updatedBy", function ($q) {
+                $q->where("name", "like", "%" . request("search") . "%");
+            });
         })->when(request('trashed'), fn($q) => $q->onlyTrashed())
             ->with(['category', 'createdBy', 'updatedBy'])
             ->paginate(3)
@@ -53,6 +64,9 @@ class SubCategoryController extends Controller
 
             //store image to database
             $subCategory->image = $newImageName;
+
+            //store image alt to database
+            $subCategory->image_alt = $request->image_alt;
         }
 
         $subCategory->save();
@@ -85,7 +99,7 @@ class SubCategoryController extends Controller
         $subCategory->category_id = $request->category_id;
         $subCategory->updated_by = Auth::id();
 
-        if ($request->file('image')) {
+        if ($request->hasFile('image')) {
             //delete old image
             Storage::disk('public')->delete('sub-category/' . $subCategory->image);
 
@@ -97,6 +111,9 @@ class SubCategoryController extends Controller
 
             //store image to database
             $subCategory->image = $newImageName;
+
+            //store image alt to database
+            $subCategory->image_alt = $request->image_alt;
         }
 
         $subCategory->update();

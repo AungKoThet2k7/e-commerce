@@ -30,6 +30,7 @@ class UpdateCategoryRequest extends FormRequest
                 Rule::unique('categories', 'name')->ignore($this->route('category')),
             ],
             "image" => "required|image|mimes:jpeg,png,jpg|max:5012",
+            "image_alt" => "required|min:3|max:30",
         ];
     }
 }

@@ -104,6 +104,20 @@
                             @error('image')
                                 <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
+                            <div class="flex flex-col items-start mt-5">
+                                <!--begin::Label-->
+                                <label class="required form-label">Image Alt</label>
+                                <!--end::Label-->
+                                <input value="{{ old('image_alt', $category->image_alt) }}" type="text" name="image_alt"
+                                    class="form-control w-full mb-2" placeholder="image alt">
+                                @error('image_alt')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                                <!--begin::Description-->
+                                <!--end::Description-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
                         </div>
                         <!--end::Card body-->
                     </div>

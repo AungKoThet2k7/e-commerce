@@ -17,7 +17,13 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest("id")->when(request("search"), function ($q) {
+            //search by Category Name
             $q->where("name", "like", "%" . request("search") . "%");
+
+            //search with Username (updated_by)
+            $q->orWhereHas("updatedBy", function ($q) {
+                $q->where("name", "like", "%" . request("search") . "%");
+            });
         })->when(request('trashed'), fn($q) => $q->onlyTrashed())
             ->with(['createdBy', 'updatedBy'])
             ->paginate(3)
@@ -52,6 +58,9 @@ class CategoryController extends Controller
 
             //store image to database
             $category->image = $newImageName;
+
+            //store image alt to database
+            $category->image_alt = $request->image_alt;
         }
 
         $category->save();
@@ -96,6 +105,9 @@ class CategoryController extends Controller
 
             //store image to database
             $category->image = $newImageName;
+
+            //store image alt to database
+            $category->image_alt = $request->image_alt;
         }
 
         $category->update();

@@ -182,7 +182,7 @@
                                             <td>
                                                 <div class="d-flex">
                                                     <!--begin::Thumbnail-->
-                                                    <a href="{{ route('category.show', $category->id) }}"
+                                                    <a href="{{ route('category.edit', $category->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
                                                             style="background-image:url({{ $category->image ? asset('storage/category/' . $category->image) : asset('template/media/svg/files/blank-image.svg') }});">
@@ -230,19 +230,17 @@
                                                     </button>
                                                 </div>
                                             </td>
-                                            <!--begin::Created at=-->
+                                            <!--begin::Updated at=-->
                                             <td class="">
                                                 <div>
                                                     <h1 class="text-gray-700 fs-5 fw-bolder">
                                                         {{ $category->updatedBy?->name ?? '---' }}</h1>
-                                                    <p>{{ $category->created_at->format('j M Y') }}
-                                                        <span>{{ $category->created_at->format('g : m A') }}</span>
+                                                    <p class=" text-nowrap">{{ $category->updated_at->format('j M Y') }}
+                                                        <span>{{ $category->updated_at->format('g : m A') }}</span>
                                                     </p>
-                                                    <p></p>
                                                 </div>
-
                                             </td>
-                                            <!--end::Created at=-->
+                                            <!--end::Updated at=-->
                                             <!--begin::Action=-->
                                             <td class="text-end">
                                                 <div class="flex gap-1 px-3">

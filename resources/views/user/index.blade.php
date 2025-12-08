@@ -187,7 +187,7 @@
                                                 <!--end::Avatar-->
                                                 <!--begin::User details-->
                                                 <div class="flex items-center">
-                                                    <a href="{{ route('user.show', $user->id) }}"
+                                                    <a href="{{ route('user.edit', $user->id) }}"
                                                         class="text-gray-800 text-hover-primary">{{ $user->name }}</a>
                                                     {{-- <span>melody@altbox.com</span> --}}
                                                 </div>

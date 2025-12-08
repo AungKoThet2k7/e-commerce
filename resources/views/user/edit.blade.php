@@ -96,6 +96,8 @@
                             </div>
                             <!--end::Image input-->
                             <!--begin::Description-->
+                            <div class="text-muted fs-7">Set the Profile image. Only *.png, *.jpg and *.jpeg
+                                image files are accepted</div>
                             @error('image')
                                 <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
