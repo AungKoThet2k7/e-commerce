@@ -16,5 +16,6 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::resource('user', \App\Http\Controllers\UserController::class);
     Route::resource('category', \App\Http\Controllers\CategoryController::class);
+    Route::patch('category/{id}/status', [\App\Http\Controllers\CategoryController::class, 'updateStatus'])->name('category.update-status');
     Route::resource('sub-category', \App\Http\Controllers\SubCategoryController::class);
 });

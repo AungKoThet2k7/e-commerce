@@ -105,12 +105,26 @@
                             @error('image')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
+                            <div class="flex flex-col items-start mt-5">
+                                <!--begin::Label-->
+                                <label class="required form-label">Image Alt</label>
+                                <!--end::Label-->
+                                <input value="{{ old('image_alt') }}" type="text" name="image_alt"
+                                    class="form-control w-full mb-2" placeholder="image alt">
+                                @error('image_alt')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                                <!--begin::Description-->
+                                <!--end::Description-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
                         </div>
                         <!--end::Card body-->
                     </div>
                     <!--end::Thumbnail settings-->
                     <!--begin::Status-->
-                    {{-- <div class="card card-flush py-4">
+                    <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
@@ -119,55 +133,40 @@
                             </div>
                             <!--end::Card title-->
                             <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                                <div class="rounded-circle bg-success w-15px h-15px"
-                                    id="kt_ecommerce_add_category_status"></div>
-                            </div>
+                            {{-- <div class="card-toolbar">
+                                <div class="rounded-circle bg-success w-15px h-15px" id="kt_ecommerce_add_category_status">
+                                </div>
+                            </div> --}}
                             <!--begin::Card toolbar-->
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
                             <!--begin::Select2-->
-                            <select class="form-select mb-2 select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select an option"
+                            <select name="status" class="form-select mb-2 select2-hidden-accessible" data-control="select2"
+                                data-hide-search="true" data-placeholder="Select Status"
                                 id="kt_ecommerce_add_category_status_select"
                                 data-select2-id="select2-data-kt_ecommerce_add_category_status_select" tabindex="-1"
                                 aria-hidden="true">
-                                <option></option>
-                                <option value="published" selected="selected" data-select2-id="select2-data-11-zyfp">
-                                    Published</option>
-                                <option value="scheduled">Scheduled</option>
-                                <option value="unpublished">Unpublished</option>
-                            </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr"
-                                data-select2-id="select2-data-10-v0de" style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single form-select mb-2"
-                                        role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-disabled="false"
-                                        aria-labelledby="select2-kt_ecommerce_add_category_status_select-container"
-                                        aria-controls="select2-kt_ecommerce_add_category_status_select-container"><span
-                                            class="select2-selection__rendered"
-                                            id="select2-kt_ecommerce_add_category_status_select-container" role="textbox"
-                                            aria-readonly="true" title="Published">Published</span><span
-                                            class="select2-selection__arrow" role="presentation"><b
-                                                role="presentation"></b></span></span></span><span
-                                    class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                <option value="1">Active</option>
+                                <option value="0">inactive</option>
+                            </select>
                             <!--end::Select2-->
                             <!--begin::Description-->
                             <div class="text-muted fs-7">Set the category status.</div>
                             <!--end::Description-->
                             <!--begin::Datepicker-->
-                            <div class="d-none mt-10">
+                            {{-- <div class="d-none mt-10">
                                 <label for="kt_ecommerce_add_category_status_datepicker" class="form-label">Select
                                     publishing date and time</label>
                                 <input class="form-control flatpickr-input"
                                     id="kt_ecommerce_add_category_status_datepicker" placeholder="Pick date &amp; time"
                                     type="text" readonly="readonly">
-                            </div>
+                            </div> --}}
                             <!--end::Datepicker-->
                         </div>
                         <!--end::Card body-->
-                    </div> --}}
+                    </div>
                     <!--end::Status-->
                     <!--begin::Template settings-->
                     {{-- <div class="card card-flush py-4">
@@ -702,16 +701,16 @@
 @endsection
 @push('script')
     <!--begin::Page Vendors Javascript(used by this page)-->
-    {{-- <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('template/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/plugins/custom/formrepeater/formrepeater.bundle.js') }}"></script> --}}
     <!--end::Page Vendors Javascript-->
     <!--begin::Page Custom Javascript(used by this page)-->
-    {{-- <script src="{{ asset('template/js/custom/apps/ecommerce/catalog/save-category.js') }}"></script>
-    <script src="{{ asset('template/js/widgets.bundle.js') }}"></script>
-    <script src="{{ asset('template/js/custom/widgets.js') }}"></script>
-    <script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/custom/apps/ecommerce/catalog/save-category.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/widgets.bundle.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/custom/widgets.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script> --}}
+    {{-- <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script> --}}
     <!--end::Page Custom Javascript-->
 @endpush

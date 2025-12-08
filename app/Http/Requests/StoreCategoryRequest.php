@@ -25,6 +25,7 @@ class StoreCategoryRequest extends FormRequest
             "name" => "required|unique:categories,name|min:3|max:20",
             "image" => "required|image|mimes:jpeg,png,jpg|max:5012",
             "image_alt" => "required|min:3|max:30",
+            "status" => "required|integer|in:0,1",
         ];
     }
 }

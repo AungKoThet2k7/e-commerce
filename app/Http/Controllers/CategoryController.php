@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Http\Request;
 // use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,11 +21,13 @@ class CategoryController extends Controller
             //search by Category Name
             $q->where("name", "like", "%" . request("search") . "%");
 
-            //search with Username (updated_by)
+            //search by Username (updated_by)
             $q->orWhereHas("updatedBy", function ($q) {
                 $q->where("name", "like", "%" . request("search") . "%");
             });
         })->when(request('trashed'), fn($q) => $q->onlyTrashed())
+            //filter by status
+            ->when(request('status') !== null && request('status') !== '', fn($q) => $q->where('status', request('status')))
             ->with(['createdBy', 'updatedBy'])
             ->paginate(3)
             ->withQueryString();
@@ -44,8 +47,10 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        // return $request;
         $category = new Category();
         $category->name = $request->name;
+        $category->status = $request->status;
         $category->created_by = Auth::id();
         $category->updated_by = Auth::id();
 
@@ -91,6 +96,7 @@ class CategoryController extends Controller
     {
         // return $request;
         $category->name = $request->name;
+        $category->status = $request->status;
         $category->updated_by = Auth::id();
 
         if ($request->hasFile('image')) {
@@ -146,5 +152,16 @@ class CategoryController extends Controller
 
             return redirect()->route("category.index")->with("success", "Category trash successfully");
         }
+    }
+
+    public function updateStatus($id)
+    {
+        $category = Category::findOrFail($id);
+
+        $category->status = $category->status == 1 ? 0 : 1;
+
+        $category->update();
+
+        return redirect()->back();
     }
 }
