@@ -15,8 +15,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::resource('user', \App\Http\Controllers\UserController::class);
+    
     Route::resource('category', \App\Http\Controllers\CategoryController::class);
     Route::patch('category/{id}/status', [\App\Http\Controllers\CategoryController::class, 'updateStatus'])->name('category.update-status');
+    Route::patch('category/{id}/sort', [\App\Http\Controllers\CategoryController::class, 'updateSort'])->name('category.update-sort');
+
     Route::resource('sub-category', \App\Http\Controllers\SubCategoryController::class);
     Route::patch('sub-category/{id}/status', [\App\Http\Controllers\SubCategoryController::class, 'updateStatus'])->name('sub-category.update-status');
+    Route::patch('sub-category/{id}/sort', [\App\Http\Controllers\SubCategoryController::class, 'updateSort'])->name('sub-category.update-sort');
 });

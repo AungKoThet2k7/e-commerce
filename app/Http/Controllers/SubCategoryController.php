@@ -16,7 +16,7 @@ class SubCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $subCategories = SubCategory::latest("id")->when(request("search"), function ($q) {
+        $subCategories = SubCategory::orderBy("sort", "desc")->when(request("search"), function ($q) {
             //search by Sub Category Name
             $q->where("name", "like", "%" . request("search") . "%");
 
@@ -52,9 +52,13 @@ class SubCategoryController extends Controller
     public function store(StoreSubCategoryRequest $request)
     {
         // return $request;
+        $maxSortNumber = SubCategory::all()->max('sort');
+
         $subCategory = new SubCategory();
+
         $subCategory->name = $request->name;
         $subCategory->status = $request->status;
+        $subCategory->sort = $maxSortNumber + 1;
         $subCategory->category_id = $request->category_id;
         $subCategory->created_by = Auth::id();
         $subCategory->updated_by = Auth::id();
@@ -162,6 +166,23 @@ class SubCategoryController extends Controller
         $subCategory = SubCategory::findOrFail($id);
 
         $subCategory->status = $subCategory->status == 1 ? 0 : 1;
+        $subCategory->updated_by = Auth::id();
+
+        $subCategory->update();
+
+        return redirect()->back();
+    }
+
+    public function updateSort(Request $request, $id)
+    {
+        $request->validate([
+            'sort' => 'required|integer',
+        ]);
+
+        $subCategory = SubCategory::findOrFail($id);
+
+        $subCategory->sort = $request->sort;
+        $subCategory->updated_by = Auth::id();
 
         $subCategory->update();
 

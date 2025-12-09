@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest("id")->when(request("search"), function ($q) {
+        $categories = Category::orderBy("sort", "desc")->when(request("search"), function ($q) {
             //search by Category Name
             $q->where("name", "like", "%" . request("search") . "%");
 
@@ -29,7 +29,7 @@ class CategoryController extends Controller
             //filter by status
             ->when(request('status') !== null && request('status') !== '', fn($q) => $q->where('status', request('status')))
             ->with(['createdBy', 'updatedBy'])
-            ->paginate(3)
+            ->paginate(5)
             ->withQueryString();
         return view('category.index', compact(["categories"]));
     }
@@ -48,9 +48,13 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         // return $request;
+        $maxSortNumber = Category::all()->max('sort');
+
         $category = new Category();
+
         $category->name = $request->name;
         $category->status = $request->status;
+        $category->sort = $maxSortNumber + 1;
         $category->created_by = Auth::id();
         $category->updated_by = Auth::id();
 
@@ -159,6 +163,23 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         $category->status = $category->status == 1 ? 0 : 1;
+        $category->updated_by = Auth::id();
+
+        $category->update();
+
+        return redirect()->back();
+    }
+
+    public function updateSort(Request $request, $id)
+    {
+        $request->validate([
+            'sort' => 'required|integer',
+        ]);
+
+        $category = Category::findOrFail($id);
+
+        $category->sort = $request->sort;
+        $category->updated_by = Auth::id();
 
         $category->update();
 
