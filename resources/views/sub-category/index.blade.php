@@ -101,15 +101,16 @@
                             <!--end::Search-->
                             <!--start::Status-->
                             <div class="ms-3">
-                                <select class=" w-150px form-select form-select-solid" data-kt-select2="true"
-                                    data-placeholder="Status" data-allow-clear="true" data-select2-id="select2-data-7-l7k0"
-                                    tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="select2-data-9-3eq9"></option>
-                                    <option value="1">Approved</option>
-                                    <option value="2">Pending</option>
-                                    <option value="2">In Process</option>
-                                    <option value="2">Rejected</option>
-                                </select>
+                                <form action="{{ route('sub-category.index') }}" method="GET">
+                                    <select onchange="this.form.submit()" name="status"
+                                        class=" w-150px form-select form-select-solid" data-kt-select2="true"
+                                        data-placeholder="status" data-allow-clear="true"
+                                        data-select2-id="select2-data-7-l7k0" tabindex="-1" aria-hidden="true">
+                                        <option data-select2-id="select2-data-9-3eq9"></option>
+                                        <option value="1" @selected(request('status') == '1')>Active</option>
+                                        <option value="0" @selected(request('status') == '0')>Inactive</option>
+                                    </select>
+                                </form>
                             </div>
                             <!--end::Status-->
                         </div>
@@ -212,11 +213,17 @@
                                                 <!--end::Category=-->
                                                 <!--Begin::Status=-->
                                                 <td>
-                                                    <div
-                                                        class="flex justify-center form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="checkbox" value=""
-                                                            name="notifications" checked="checked">
-                                                    </div>
+                                                    <form action="{{ route('sub-category.update-status', $subCategory->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <div
+                                                            class="flex justify-center form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                                            <input onchange="this.form.submit()" class="form-check-input"
+                                                                type="checkbox" value="" name="status"
+                                                                @checked($subCategory->status)>
+                                                        </div>
+                                                    </form>
                                                 </td>
                                                 <!--Begin::Status=-->
                                                 <!--Begin::Sorting=-->
@@ -243,7 +250,8 @@
                                                     <div>
                                                         <h1 class="text-gray-700 fs-5 fw-bolder">
                                                             {{ $subCategory->updatedBy?->name ?? '---' }}</h1>
-                                                        <p class=" text-nowrap">{{ $subCategory->updated_at->format('j M Y') }}
+                                                        <p class=" text-nowrap">
+                                                            {{ $subCategory->updated_at->format('j M Y') }}
                                                             <span>{{ $subCategory->updated_at->format('g : m A') }}</span>
                                                         </p>
                                                     </div>

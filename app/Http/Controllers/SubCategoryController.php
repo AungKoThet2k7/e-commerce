@@ -30,6 +30,8 @@ class SubCategoryController extends Controller
                 $q->where("name", "like", "%" . request("search") . "%");
             });
         })->when(request('trashed'), fn($q) => $q->onlyTrashed())
+            //filter by status
+            ->when(request('status') !== null && request('status') !== '', fn($q) => $q->where('status', request('status')))
             ->with(['category', 'createdBy', 'updatedBy'])
             ->paginate(3)
             ->withQueryString();
@@ -49,8 +51,10 @@ class SubCategoryController extends Controller
      */
     public function store(StoreSubCategoryRequest $request)
     {
+        // return $request;
         $subCategory = new SubCategory();
         $subCategory->name = $request->name;
+        $subCategory->status = $request->status;
         $subCategory->category_id = $request->category_id;
         $subCategory->created_by = Auth::id();
         $subCategory->updated_by = Auth::id();
@@ -96,6 +100,7 @@ class SubCategoryController extends Controller
     public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
     {
         $subCategory->name = $request->name;
+        $subCategory->status = $request->status;
         $subCategory->category_id = $request->category_id;
         $subCategory->updated_by = Auth::id();
 
@@ -150,5 +155,16 @@ class SubCategoryController extends Controller
 
             return redirect()->route("sub-category.index")->with("success", "Sub Category trash successfully");
         }
+    }
+
+    public function updateStatus($id)
+    {
+        $subCategory = SubCategory::findOrFail($id);
+
+        $subCategory->status = $subCategory->status == 1 ? 0 : 1;
+
+        $subCategory->update();
+
+        return redirect()->back();
     }
 }

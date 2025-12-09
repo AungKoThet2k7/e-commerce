@@ -42,7 +42,8 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <form action="{{ route('sub-category.store') }}" enctype="multipart/form-data" method="POST" id="kt_ecommerce_add_category_form"
+            <form action="{{ route('sub-category.store') }}" enctype="multipart/form-data" method="POST"
+                id="kt_ecommerce_add_category_form"
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
                 {{-- <!--begin::Aside column-->data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/categories.html" --}}
@@ -62,13 +63,12 @@
                         <div class="card-body text-center pt-0">
                             <!--begin::Image input-->
                             <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
-                                style="background-image: url({{asset('template/media/svg/files/blank-image.svg')}})">
+                                style="background-image: url({{ asset('template/media/svg/files/blank-image.svg') }})">
                                 <!--begin::Preview existing avatar-->
                                 <div class="image-input-wrapper w-150px h-150px"></div>
                                 <!--end::Preview existing avatar-->
                                 <!--begin::Label-->
-                                <label
-                                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
                                     data-bs-original-title="Change image">
                                     <!--begin::Icon-->
@@ -100,12 +100,29 @@
                             <div class="text-muted fs-7">Set the category thumbnail image. Only *.png, *.jpg and *.jpeg
                                 image files are accepted</div>
                             <!--end::Description-->
+                            @error('image')
+                                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                            @enderror
+                            <div class="flex flex-col items-start mt-5">
+                                <!--begin::Label-->
+                                <label class="required form-label">Image Alt</label>
+                                <!--end::Label-->
+                                <input value="{{ old('image_alt') }}" type="text" name="image_alt"
+                                    class="form-control w-full mb-2" placeholder="image alt">
+                                @error('image_alt')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                                <!--begin::Description-->
+                                <!--end::Description-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
                         </div>
                         <!--end::Card body-->
                     </div>
                     <!--end::Thumbnail settings-->
                     <!--begin::Status-->
-                    {{-- <div class="card card-flush py-4">
+                    <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
@@ -114,55 +131,40 @@
                             </div>
                             <!--end::Card title-->
                             <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                                <div class="rounded-circle bg-success w-15px h-15px"
-                                    id="kt_ecommerce_add_category_status"></div>
-                            </div>
+                            {{-- <div class="card-toolbar">
+                                <div class="rounded-circle bg-success w-15px h-15px" id="kt_ecommerce_add_category_status">
+                                </div>
+                            </div> --}}
                             <!--begin::Card toolbar-->
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
                             <!--begin::Select2-->
-                            <select class="form-select mb-2 select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select an option"
+                            <select name="status" class="form-select mb-2 select2-hidden-accessible" data-control="select2"
+                                data-hide-search="true" data-placeholder="Select Status"
                                 id="kt_ecommerce_add_category_status_select"
                                 data-select2-id="select2-data-kt_ecommerce_add_category_status_select" tabindex="-1"
                                 aria-hidden="true">
-                                <option></option>
-                                <option value="published" selected="selected" data-select2-id="select2-data-11-zyfp">
-                                    Published</option>
-                                <option value="scheduled">Scheduled</option>
-                                <option value="unpublished">Unpublished</option>
-                            </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr"
-                                data-select2-id="select2-data-10-v0de" style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single form-select mb-2"
-                                        role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-disabled="false"
-                                        aria-labelledby="select2-kt_ecommerce_add_category_status_select-container"
-                                        aria-controls="select2-kt_ecommerce_add_category_status_select-container"><span
-                                            class="select2-selection__rendered"
-                                            id="select2-kt_ecommerce_add_category_status_select-container" role="textbox"
-                                            aria-readonly="true" title="Published">Published</span><span
-                                            class="select2-selection__arrow" role="presentation"><b
-                                                role="presentation"></b></span></span></span><span
-                                    class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                <option value="1">Active</option>
+                                <option value="0">inactive</option>
+                            </select>
                             <!--end::Select2-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the category status.</div>
+                            <div class="text-muted fs-7">Set the sub category status.</div>
                             <!--end::Description-->
                             <!--begin::Datepicker-->
-                            <div class="d-none mt-10">
+                            {{-- <div class="d-none mt-10">
                                 <label for="kt_ecommerce_add_category_status_datepicker" class="form-label">Select
                                     publishing date and time</label>
                                 <input class="form-control flatpickr-input"
                                     id="kt_ecommerce_add_category_status_datepicker" placeholder="Pick date &amp; time"
                                     type="text" readonly="readonly">
-                            </div>
+                            </div> --}}
                             <!--end::Datepicker-->
                         </div>
                         <!--end::Card body-->
-                    </div> --}}
+                    </div>
                     <!--end::Status-->
                     <!--begin::Template settings-->
                     {{-- <div class="card card-flush py-4">
@@ -249,12 +251,13 @@
                                     </div>
                                     <!--start::Category-->
                                     <div class="ms-3">
-                                        <select name="category_id" class=" w-250px form-select form-select-solid" data-kt-select2="true"
-                                            data-placeholder="Category" data-allow-clear="true"
+                                        <select name="category_id" class=" w-250px form-select form-select-solid"
+                                            data-kt-select2="true" data-placeholder="Category" data-allow-clear="true"
                                             data-select2-id="select2-data-7-l7k0" tabindex="-1" aria-hidden="true">
                                             <option data-select2-id="select2-data-9-3eq9"></option>
                                             @foreach (\App\Models\Category::all() as $category)
-                                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>

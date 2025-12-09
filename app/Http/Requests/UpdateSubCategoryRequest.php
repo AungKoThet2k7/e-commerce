@@ -29,8 +29,9 @@ class UpdateSubCategoryRequest extends FormRequest
                 'max:20',
                 Rule::unique('sub_categories', 'name')->ignore($this->route('sub_category')),
             ],
-            "image" => "required|image|mimes:jpeg,png,jpg|max:5012",
+            "image" => "nullable|image|mimes:jpeg,png,jpg|max:5012",
             "image_alt" => "required|min:3|max:30",
+            "status" => "required|integer|in:0,1",
             "category_id" => 'required|exists:categories,id',
         ];
     }
