@@ -38,11 +38,6 @@
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
-            <!--begin::Page Success Message-->
-            @session('success')
-                <h1 class=" text-green-500 font-sm">{{ session('success') }}</h1>
-            @endsession
-            <!--end::Page Success Message-->
         </div>
         <!--end::Container-->
     </div>
@@ -60,7 +55,7 @@
                         <!--begin::Search-->
                         <div class="d-flex align-items-center position-relative my-1">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                            <span class="svg-icon svg-icon-1 position-absolute ms-52 mt-1">
+                            <span class="svg-icon svg-icon-1 position-absolute ms-36 mt-1">
                                 @if (request('search'))
                                     <a href="{{ route('user.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -90,8 +85,8 @@
                             <!--end::Svg Icon-->
                             <form id="searchForm" action="{{ route('user.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
-                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-200px ps-5"
-                                    placeholder="Search Users">
+                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
+                                    placeholder="Search ...">
                             </form>
                         </div>
                         <!--end::Search-->

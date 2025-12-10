@@ -41,11 +41,6 @@
                     <!--end::Breadcrumb-->
                 </div>
                 <!--end::Page title-->
-                <!--begin::Page Success Message-->
-                @session('success')
-                    <h1 class=" text-green-500 font-sm">{{ session('success') }}</h1>
-                @endsession
-                <!--end::Page Success Message-->
             </div>
             <!--end::Container-->
         </div>
@@ -63,7 +58,7 @@
                             <!--begin::Search-->
                             <div class="d-flex align-items-center position-relative my-1">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                                <span class="svg-icon svg-icon-1 position-absolute ms-52 mt-1">
+                                <span class="svg-icon svg-icon-1 position-absolute ms-36 mt-1">
                                     @if (request('search'))
                                         <a href="{{ route('sub-category.index') }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -95,24 +90,44 @@
                                 <form id="searchForm" action="{{ route('sub-category.index') }}" method="GET">
                                     <input value="{{ request('search') }}" name="search" type="text"
                                         data-kt-user-table-filter="search"
-                                        class="form-control form-control-solid w-200px ps-5" placeholder="Search ...">
+                                        class="form-control form-control-solid w-150px ps-5" placeholder="Search ...">
                                 </form>
                             </div>
                             <!--end::Search-->
+                            <div class="w-100 mw-150px ms-3">
+                                <form action="{{ route('sub-category.index') }}" method="GET">
+                                    <!--begin::Select2-->
+                                    <select onchange="this.form.submit()" name="status"
+                                        class="form-select form-select-solid select2-hidden-accessible"
+                                        data-control="select2" data-hide-search="true" data-placeholder="Status"
+                                        data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
+                                        tabindex="-1" aria-hidden="true">
+                                        <option data-select2-id="select2-data-12-pxpb"></option>
+                                        <option value="all" @selected(request('status') == 'all')>All</option>
+                                        <option value="1" @selected(request('status') == '1')>Active</option>
+                                        <option value="0" @selected(request('status') == '0')>Inactive</option>
+                                    </select>
+                                    <!--end::Select2-->
+                                </form>
+                            </div>
                             <!--start::Status-->
                             <div class="ms-3">
                                 <form action="{{ route('sub-category.index') }}" method="GET">
-                                    <select onchange="this.form.submit()" name="status"
-                                        class=" w-150px form-select form-select-solid" data-kt-select2="true"
-                                        data-placeholder="status" data-allow-clear="true"
+                                    <select onchange="this.form.submit()" name="category"
+                                        class="w-200px form-select form-select-solid" data-kt-select2="true"
+                                        data-placeholder="category" data-allow-clear="true"
                                         data-select2-id="select2-data-7-l7k0" tabindex="-1" aria-hidden="true">
                                         <option data-select2-id="select2-data-9-3eq9"></option>
-                                        <option value="1" @selected(request('status') == '1')>Active</option>
-                                        <option value="0" @selected(request('status') == '0')>Inactive</option>
+                                        @foreach (\App\Models\Category::all() as $category)
+                                            <option value="{{ $category->id }}" @selected(request('category') == $category->id)>
+                                                {{ $category->name }}</option>
+                                        @endforeach
                                     </select>
                                 </form>
                             </div>
                             <!--end::Status-->
+
+
                         </div>
                         <!--end::Card title-->
                         <div class="flex gap-3">
@@ -229,23 +244,25 @@
                                                 <!--Begin::Status=-->
                                                 <!--Begin::Sorting=-->
                                                 <td class="text-start">
-                                                    <form class="flex gap-1" action="{{ route('sub-category.update-sort', $subCategory->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <input value="{{ $subCategory->sort }}" type="number" name="sort"
-                                                        class=" w-100px px-3 py-2 rounded-md border border-gray-900 focus:outline-none">
-                                                    
-                                                    <button type="submit"
-                                                        class="px-3.5 py-2 rounded-md bg-purple-700 text-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12"
-                                                            height="12" fill="currentColor" viewBox="0 0 16 16">
-                                                            <path d="M12 2h-2v3h2z" />
-                                                            <path
-                                                                d="M1.5 0A1.5 1.5 0 0 0 0 1.5v13A1.5 1.5 0 0 0 1.5 16h13a1.5 1.5 0 0 0 1.5-1.5V2.914a1.5 1.5 0 0 0-.44-1.06L14.147.439A1.5 1.5 0 0 0 13.086 0zM4 6a1 1 0 0 1-1-1V1h10v4a1 1 0 0 1-1 1zM3 9h10a1 1 0 0 1 1 1v5H2v-5a1 1 0 0 1 1-1" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
+                                                    <form class="flex gap-1"
+                                                        action="{{ route('sub-category.update-sort', $subCategory->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <input value="{{ $subCategory->sort }}" type="number"
+                                                            name="sort"
+                                                            class=" w-100px px-3 py-2 rounded-md border border-gray-900 focus:outline-none">
+
+                                                        <button type="submit"
+                                                            class="px-3.5 py-2 rounded-md bg-purple-700 text-white">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="12"
+                                                                height="12" fill="currentColor" viewBox="0 0 16 16">
+                                                                <path d="M12 2h-2v3h2z" />
+                                                                <path
+                                                                    d="M1.5 0A1.5 1.5 0 0 0 0 1.5v13A1.5 1.5 0 0 0 1.5 16h13a1.5 1.5 0 0 0 1.5-1.5V2.914a1.5 1.5 0 0 0-.44-1.06L14.147.439A1.5 1.5 0 0 0 13.086 0zM4 6a1 1 0 0 1-1-1V1h10v4a1 1 0 0 1-1 1zM3 9h10a1 1 0 0 1 1 1v5H2v-5a1 1 0 0 1 1-1" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                                 <!--begin::Updated at=-->
                                                 <td class="">
@@ -343,6 +360,7 @@
         <!--end::Post-->
     @endsection
     @push('script')
+        
         <!--begin::Page Vendors Javascript(used by this page)-->
         {{-- <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script> --}}
         <!--end::Page Vendors Javascript-->
