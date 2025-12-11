@@ -1,6 +1,7 @@
 @extends('layouts.master')
-@section('title', 'Category')
+@section('title', 'Product Brand')
 @section('content')
+
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -10,7 +11,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Categories</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Product Brands</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -20,7 +21,8 @@
                     @trashed
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{ route('category.index') }}" class="text-muted text-hover-primary">Categories</a>
+                            <a href="{{ route('product-brand.index') }}" class="text-muted text-hover-primary">Product
+                                Brands</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -29,11 +31,11 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Trashed Categories</li>
+                        <li class="breadcrumb-item text-muted">Trashed Product Brands</li>
                         <!--end::Item-->
                     @else
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Categories</li>
+                        <li class="breadcrumb-item text-muted">Product Brands</li>
                         <!--end::Item-->
                     @endtrashed
                 </ul>
@@ -48,7 +50,7 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <!--begin::Category-->
+            <!--begin::Brand-->
             <div class="card card-flush">
                 <!--begin::Card header-->
                 <div class="card-header align-items-center py-5 gap-2 gap-md-5">
@@ -59,7 +61,7 @@
                             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                             <span class="svg-icon svg-icon-1 position-absolute ms-36 mt-1">
                                 @if (request('search'))
-                                    <a href="{{ route('category.index') }}">
+                                    <a href="{{ route('product-brand.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
@@ -85,7 +87,7 @@
                             </span>
 
                             <!--end::Svg Icon-->
-                            <form id="searchForm" action="{{ route('category.index') }}" method="GET">
+                            <form id="searchForm" action="{{ route('product-brand.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
                                     placeholder="Search ...">
@@ -93,16 +95,20 @@
                         </div>
                         <!--end::Search-->
                         <!--start::Status-->
-                        <div class="ms-3">
-                            <form action="{{ route('category.index') }}" method="GET">
+                        <div class="w-100 mw-150px ms-3">
+                            <form action="{{ route('product-brand.index') }}" method="GET">
+                                <!--begin::Select2-->
                                 <select onchange="this.form.submit()" name="status"
-                                    class=" w-150px form-select form-select-solid" data-kt-select2="true"
-                                    data-placeholder="status" data-allow-clear="true" data-select2-id="select2-data-7-l7k0"
+                                    class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
+                                    data-hide-search="true" data-placeholder="Status"
+                                    data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
                                     tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    <option data-select2-id="select2-data-12-pxpb"></option>
+                                    <option value="all" @selected(request('status') == 'all')>All</option>
                                     <option value="1" @selected(request('status') == '1')>Active</option>
                                     <option value="0" @selected(request('status') == '0')>Inactive</option>
                                 </select>
+                                <!--end::Select2-->
                             </form>
                         </div>
                         <!--end::Status-->
@@ -114,7 +120,7 @@
                             <!--begin::Card toolbar-->
                             <div class="card-toolbar">
                                 <!--begin::trash-->
-                                <a href="{{ route('category.index', ['trashed' => true]) }}"
+                                <a href="{{ route('product-brand.index', ['trashed' => true]) }}"
                                     class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
                                     <i class="bi bi-trash text-white"></i>
                                     <span class="text-white">Trash</span>
@@ -125,11 +131,11 @@
                         @endtrashed
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
-                            <!--begin::Add category-->
-                            <a href="{{ route('category.create') }}" class="btn btn-primary">
-                                Add Category
+                            <!--begin::Add product brand-->
+                            <a href="{{ route('product-brand.create') }}" class="btn btn-primary">
+                                Add Brand
                             </a>
-                            <!--end::Add category-->
+                            <!--end::Add product brand-->
                         </div>
                         <!--end::Card toolbar-->
                     </div>
@@ -149,7 +155,7 @@
                                         <th>#</th>
                                         <th class=" text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
-                                            aria-label="Category: activate to sort column ascending">Category</th>
+                                            aria-label="Category: activate to sort column ascending">Brand</th>
                                         <th class="text-nowarp text-center  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Status: activate to sort column ascending">
@@ -170,37 +176,38 @@
                                 <!--end::Table head-->
                                 <!--begin::Table body-->
                                 <tbody class="fw-bold text-gray-600">
-                                    @forelse ($categories as $key => $category)
+                                    @forelse ($productBrands as $key => $productBrand)
                                         <!--begin::Table row-->
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <!--begin::Category=-->
+                                            <!--begin::Brand=-->
                                             <td>
                                                 <div class="d-flex">
                                                     <!--begin::Thumbnail-->
-                                                    <a href="{{ route('category.edit', $category->id) }}"
+                                                    <a href="{{ route('product-brand.edit', $productBrand->id) }}"
                                                         class="symbol symbol-50px">
                                                         <span class="symbol-label"
-                                                            style="background-image:url({{ $category->image ? asset('storage/category/' . $category->image) : asset('template/media/svg/files/blank-image.svg') }});">
+                                                            style="background-image:url({{ $productBrand->logo ? asset('storage/product-brand/' . $productBrand->logo) : asset('template/media/svg/files/blank-image.svg') }});">
                                                         </span>
                                                         <!--Image with img tag-->
-                                                        {{-- <img class="fs-8" src="{{ asset('storage/category/' . $category->image) }}"
-                                                                alt="category image"> --}}
+                                                        {{-- <img class="fs-8" src="{{ asset('storage/product-brand/' . $productBrand->logo) }}"
+                                                                alt="brand logo"> --}}
                                                     </a>
                                                     <!--end::Thumbnail-->
                                                     <div class=" flex items-center ms-5">
                                                         <!--begin::Title-->
-                                                        <a href="{{ route('category.edit', $category->id) }}"
+                                                        <a href="{{ route('product-brand.edit', $productBrand->id) }}"
                                                             class="text-gray-700 text-hover-primary fs-5 fw-bolder"
-                                                            data-kt-ecommerce-category-filter="category_name">{{ $category->name }}</a>
+                                                            data-kt-ecommerce-category-filter="category_name">{{ $productBrand->name }}</a>
                                                         <!--end::Title-->
                                                     </div>
                                                 </div>
                                             </td>
-                                            <!--end::Category=-->
+                                            <!--end::Brand=-->
                                             <!--Begin::Status=-->
                                             <td>
-                                                <form action="{{ route('category.update-status', $category->id) }}"
+                                                <form
+                                                    action="{{ route('product-brand.update-status', $productBrand->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('PATCH')
@@ -208,20 +215,22 @@
                                                         class="flex justify-center form-check form-switch form-switch-sm form-check-custom form-check-solid">
                                                         <input onchange="this.form.submit()" class="form-check-input"
                                                             type="checkbox" value="" name="status"
-                                                            @checked($category->status)>
+                                                            @checked($productBrand->status)>
                                                     </div>
                                                 </form>
                                             </td>
                                             <!--Begin::Status=-->
                                             <!--Begin::Sorting=-->
                                             <td class="text-start">
-                                                <form class="flex gap-1" action="{{ route('category.update-sort', $category->id) }}"
+                                                <form class="flex gap-1"
+                                                    action="{{ route('product-brand.update-sort', $productBrand->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <input value="{{ $category->sort }}" type="number" name="sort"
+                                                    <input value="{{ $productBrand->sort }}" type="number"
+                                                        name="sort"
                                                         class=" w-100px px-3 py-2 rounded-md border border-gray-900 focus:outline-none">
-                                                    
+
                                                     <button type="submit"
                                                         class="px-3.5 py-2 rounded-md bg-purple-700 text-white">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12"
@@ -237,9 +246,10 @@
                                             <td class="">
                                                 <div>
                                                     <h1 class="text-gray-700 fs-5 fw-bolder">
-                                                        {{ $category->updatedBy?->name ?? '---' }}</h1>
-                                                    <p class=" text-nowrap">{{ $category->updated_at->format('j M Y') }}
-                                                        <span>{{ $category->updated_at->format('g : m A') }}</span>
+                                                        {{ $productBrand->updatedBy?->name ?? '---' }}</h1>
+                                                    <p class=" text-nowrap">
+                                                        {{ $productBrand->updated_at->format('j M Y') }}
+                                                        <span>{{ $productBrand->updated_at->format('g : m A') }}</span>
                                                     </p>
                                                 </div>
                                             </td>
@@ -250,7 +260,7 @@
                                                     @trashed
                                                         <!--begin:: Recycle-->
                                                         <form
-                                                            action="{{ route('category.destroy', [$category->id, 'delete' => 'restore']) }}"
+                                                            action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'restore']) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
@@ -261,7 +271,7 @@
                                                         <!--begin:: Recycle-->
                                                         <!--begin:: Force Delete-->
                                                         <form
-                                                            action="{{ route('category.destroy', [$category->id, 'delete' => 'force']) }}"
+                                                            action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'force']) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
@@ -272,13 +282,13 @@
                                                         <!--begin:: Force Delete-->
                                                     @else
                                                         <!--begin::Edit-->
-                                                        <a href="{{ route('category.edit', $category->id) }}"
+                                                        <a href="{{ route('product-brand.edit', $productBrand->id) }}"
                                                             class="px-3 bg-green-500 p-2 rounded-md">
                                                             <i class="bi bi-pencil-square text-white"></i>
                                                         </a>
                                                         <!--end::Edit-->
                                                         <!--begin::Delete-->
-                                                        <form action="{{ route('category.destroy', $category->id) }}"
+                                                        <form action="{{ route('product-brand.destroy', $productBrand->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
@@ -296,9 +306,9 @@
                                     @empty
                                         <tr>
                                             @trashed
-                                                <td colspan="6" class="text-center">No Trashed Category Found</td>
+                                                <td colspan="6" class="text-center">No Trashed Brand Found</td>
                                             @else
-                                                <td colspan="6" class="text-center">No Category Found</td>
+                                                <td colspan="6" class="text-center">No Brand Found</td>
                                             @endtrashed
                                         </tr>
                                     @endforelse
@@ -310,7 +320,7 @@
                         </div>
                         <!--begin::Pagination-->
                         <div class="">
-                            {{ $categories->onEachSide(1)->links() }}
+                            {{ $productBrands->onEachSide(1)->links() }}
                         </div>
 
                         <!--end::Pagination-->
@@ -319,23 +329,10 @@
                 </div>
                 <!--end::Card body-->
             </div>
-            <!--end::Category-->
+            <!--end::Brand-->
         </div>
         <!--end::Container-->
     </div>
     <!--end::Post-->
+
 @endsection
-@push('script')
-    <!--begin::Page Vendors Javascript(used by this page)-->
-    {{-- <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script> --}}
-    <!--end::Page Vendors Javascript-->
-    <!--begin::Page Custom Javascript(used by this page)-->
-    {{-- <script src="{{ asset('template/js/custom/apps/ecommerce/catalog/categories.js') }}"></script>
-    <script src="{{ asset('template/js/widgets.bundle.js') }}"></script>
-    <script src="{{ asset('template/js/custom/widgets.js') }}"></script>
-    <script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script> --}}
-    <!--end::Page Custom Javascript-->
-@endpush

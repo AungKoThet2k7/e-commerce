@@ -149,7 +149,7 @@
                             </select>
                             <!--end::Select2-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the category status.</div>
+                            <div class="text-muted fs-7">Set the sub category status.</div>
                             <!--end::Description-->
                             <!--begin::Datepicker-->
                             {{-- <div class="d-none mt-10">
@@ -224,7 +224,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Add Sub Category</h2>
+                                <h2>Edit Sub Category</h2>
                             </div>
                         </div>
                         <!--end::Card header-->

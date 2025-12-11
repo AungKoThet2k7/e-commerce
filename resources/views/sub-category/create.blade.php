@@ -97,7 +97,7 @@
                             </div>
                             <!--end::Image input-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the category thumbnail image. Only *.png, *.jpg and *.jpeg
+                            <div class="text-muted fs-7">Set the sub category thumbnail image. Only *.png, *.jpg and *.jpeg
                                 image files are accepted</div>
                             <!--end::Description-->
                             @error('image')
@@ -226,7 +226,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Add New Category</h2>
+                                <h2>Add Sub Category</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -235,7 +235,7 @@
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
                                 <!--begin::Label-->
-                                <label class="required form-label">Category Name</label>
+                                <label class="required form-label">Sub Category Name</label>
                                 <!--end::Label-->
                                 <div class="flex justify-center gap-10">
                                     <div class="">

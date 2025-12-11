@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             SubCategorySeeder::class,
+            ProductBrandSeeder::class
         ]);
 
         Storage::disk('public')->deleteDirectory('category');

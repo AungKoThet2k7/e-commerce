@@ -154,6 +154,14 @@
                                 <span class="menu-title">Sub Categories</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('product-brand.index')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Product Brands</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!--end::Product-->

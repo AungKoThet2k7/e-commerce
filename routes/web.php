@@ -23,4 +23,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('sub-category', \App\Http\Controllers\SubCategoryController::class);
     Route::patch('sub-category/{id}/status', [\App\Http\Controllers\SubCategoryController::class, 'updateStatus'])->name('sub-category.update-status');
     Route::patch('sub-category/{id}/sort', [\App\Http\Controllers\SubCategoryController::class, 'updateSort'])->name('sub-category.update-sort');
+
+    Route::resource('product-brand', \App\Http\Controllers\ProductBrandController::class);
+    Route::patch('product-brand/{id}/status', [\App\Http\Controllers\ProductBrandController::class, 'updateStatus'])->name('product-brand.update-status');
+    Route::patch('product-brand/{id}/sort', [\App\Http\Controllers\ProductBrandController::class, 'updateSort'])->name('product-brand.update-sort');
 });

@@ -94,6 +94,7 @@
                                 </form>
                             </div>
                             <!--end::Search-->
+                            <!--start::Status-->
                             <div class="w-100 mw-150px ms-3">
                                 <form action="{{ route('sub-category.index') }}" method="GET">
                                     <!--begin::Select2-->
@@ -110,7 +111,8 @@
                                     <!--end::Select2-->
                                 </form>
                             </div>
-                            <!--start::Status-->
+                            <!--end::Status-->
+                            <!--start::category-->
                             <div class="ms-3">
                                 <form action="{{ route('sub-category.index') }}" method="GET">
                                     <select onchange="this.form.submit()" name="category"
@@ -125,7 +127,7 @@
                                     </select>
                                 </form>
                             </div>
-                            <!--end::Status-->
+                            <!--end::category-->
 
 
                         </div>
