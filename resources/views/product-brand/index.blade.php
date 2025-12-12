@@ -72,7 +72,7 @@
                                         </svg>
                                     </a>
                                 @else
-                                    <button form="searchForm" type="submit">
+                                    <button form="filterForm" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
@@ -87,7 +87,7 @@
                             </span>
 
                             <!--end::Svg Icon-->
-                            <form id="searchForm" action="{{ route('product-brand.index') }}" method="GET">
+                            <form id="filterForm" action="{{ route('product-brand.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
                                     placeholder="Search ...">
@@ -96,9 +96,8 @@
                         <!--end::Search-->
                         <!--start::Status-->
                         <div class="w-100 mw-150px ms-3">
-                            <form action="{{ route('product-brand.index') }}" method="GET">
                                 <!--begin::Select2-->
-                                <select onchange="this.form.submit()" name="status"
+                                <select form="filterForm" onchange="this.form.submit()" name="status"
                                     class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
                                     data-hide-search="true" data-placeholder="Status"
                                     data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
@@ -109,7 +108,6 @@
                                     <option value="0" @selected(request('status') == '0')>Inactive</option>
                                 </select>
                                 <!--end::Select2-->
-                            </form>
                         </div>
                         <!--end::Status-->
                     </div>

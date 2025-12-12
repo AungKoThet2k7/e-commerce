@@ -15,19 +15,31 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy("sort", "desc")->when(request("search"), function ($q) {
-            //search by Category Name
-            $q->where("name", "like", "%" . request("search") . "%");
 
-            //search by Username (updated_by)
-            $q->orWhereHas("updatedBy", function ($q) {
-                $q->where("name", "like", "%" . request("search") . "%");
-            });
-        })->when(request('trashed'), fn($q) => $q->onlyTrashed())
+        $request->validate([
+            "search" => "nullable|string",
+            "trashed" => "nullable|in:1",
+            "status" => "nullable|in:all,0,1",
+        ]);
+
+        $categories = Category::orderBy("sort", "desc")
+            ->when(request("search"), function ($q) {
+
+                $q->where(function ($q) {
+                    //search by Category Name
+                    $q->where("name", "like", "%" . request("search") . "%")
+
+                        //search by Username (updated_by)
+                        ->orWhereHas("updatedBy", function ($q) {
+                            $q->where("name", "like", "%" . request("search") . "%");
+                        });
+                });
+            })
+            ->when(request('trashed'), fn($q) => $q->onlyTrashed())
             //filter by status
-            ->when(request('status') !== null && request('status') !== '', fn($q) => $q->where('status', request('status')))
+            ->when(request('status') !== null && request('status') !== 'all', fn($q) => $q->where('status', request('status')))
             ->with(['createdBy', 'updatedBy'])
             ->paginate(5)
             ->withQueryString();

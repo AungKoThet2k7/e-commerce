@@ -70,7 +70,7 @@
                                         </svg>
                                     </a>
                                 @else
-                                    <button form="searchForm" type="submit">
+                                    <button form="filterForm" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
@@ -85,7 +85,7 @@
                             </span>
 
                             <!--end::Svg Icon-->
-                            <form id="searchForm" action="{{ route('category.index') }}" method="GET">
+                            <form id="filterForm" action="{{ route('category.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
                                     placeholder="Search ...">
@@ -94,16 +94,17 @@
                         <!--end::Search-->
                         <!--start::Status-->
                         <div class="ms-3">
-                            <form action="{{ route('category.index') }}" method="GET">
-                                <select onchange="this.form.submit()" name="status"
-                                    class=" w-150px form-select form-select-solid" data-kt-select2="true"
-                                    data-placeholder="status" data-allow-clear="true" data-select2-id="select2-data-7-l7k0"
-                                    tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="select2-data-9-3eq9"></option>
-                                    <option value="1" @selected(request('status') == '1')>Active</option>
-                                    <option value="0" @selected(request('status') == '0')>Inactive</option>
-                                </select>
-                            </form>
+                            <!--begin::Select2-->
+                            <select form="filterForm" onchange="this.form.submit()" name="status"
+                                class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
+                                data-hide-search="true" data-placeholder="Status" data-kt-ecommerce-product-filter="status"
+                                data-select2-id="select2-data-10-whsc" tabindex="-1" aria-hidden="true">
+                                <option data-select2-id="select2-data-12-pxpb"></option>
+                                <option value="all" @selected(request('status') == 'all')>All</option>
+                                <option value="1" @selected(request('status') == '1')>Active</option>
+                                <option value="0" @selected(request('status') == '0')>Inactive</option>
+                            </select>
+                            <!--end::Select2-->
                         </div>
                         <!--end::Status-->
                     </div>
@@ -215,13 +216,14 @@
                                             <!--Begin::Status=-->
                                             <!--Begin::Sorting=-->
                                             <td class="text-start">
-                                                <form class="flex gap-1" action="{{ route('category.update-sort', $category->id) }}"
+                                                <form class="flex gap-1"
+                                                    action="{{ route('category.update-sort', $category->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('PATCH')
                                                     <input value="{{ $category->sort }}" type="number" name="sort"
                                                         class=" w-100px px-3 py-2 rounded-md border border-gray-900 focus:outline-none">
-                                                    
+
                                                     <button type="submit"
                                                         class="px-3.5 py-2 rounded-md bg-purple-700 text-white">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12"

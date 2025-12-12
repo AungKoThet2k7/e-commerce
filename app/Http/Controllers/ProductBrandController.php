@@ -14,22 +14,30 @@ class ProductBrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productBrands = ProductBrand::when(request('search'), function ($q) {
-            //search by Product Brand Name
-            $q->where("name", "like", "%" . request('search') . "%");
 
-            //search with Username (updated_by)
-            $q->orwhereHas('updatedBy', function ($q) {
-                $q->where("name", "like", "%" . request('search') . "%");
-            });
-        })  //filter by status
-            ->when(request('status') != "all" && request('status') != null, function ($q) {
-                $q->where('status', request('status'));
-            }) //trashed
+        $request->validate([
+            "search" => "nullable|string",
+            "status" => "nullable|in:all,0,1",
+            "trashed" => "nullable|in:1",
+        ]);
+
+        $productBrands = ProductBrand::orderBy("sort", "desc")
+            ->when(request('search'), function ($q) {
+                $q->where(function ($q) {
+                    //search by Product Brand Name
+                    $q->where("name", "like", "%" . request('search') . "%")
+
+                        //search with Username (updated_by)
+                        ->orwhereHas('updatedBy', function ($q) {
+                            $q->where("name", "like", "%" . request('search') . "%");
+                        });
+                });
+            })  //filter by status
+            ->when(request('status') != "all" && request('status') != null, fn($q) => $q->where('status', request('status'))) 
+            //trashed
             ->when(request('trashed'), fn($q) => $q->onlyTrashed())
-            ->orderBy("sort", "desc")
             ->with(['createdBy', 'updatedBy'])
             ->paginate(3)
             ->withQueryString();

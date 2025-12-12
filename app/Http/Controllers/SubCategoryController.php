@@ -16,19 +16,28 @@ class SubCategoryController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            "search" => "nullable|string",
+            "trashed" => "nullable|in:1",
+            "status" => "nullable|in:all,0,1",
+            "category" => "nullable|exists:categories,id",
+        ]);
+        // return $request;
         $subCategories = SubCategory::orderBy("sort", "desc")
             ->when(request("search"), function ($q) {
-                //search by Sub Category Name
-                $q->where("name", "like", "%" . request("search") . "%");
+                $q->where(function ($q) {
+                    //search by Sub Category Name
+                    $q->where("name", "like", "%" . request("search") . "%")
 
-                //search with Category Name (category_id)
-                $q->orWhereHas("category", function ($q) {
-                    $q->where("name", "like", "%" . request("search") . "%");
-                });
+                        //search with Category Name (category_id)
+                        ->orWhereHas("category", function ($q) {
+                            $q->where("name", "like", "%" . request("search") . "%");
+                        })
 
-                //search with Username (updated_by)
-                $q->orWhereHas("updatedBy", function ($q) {
-                    $q->where("name", "like", "%" . request("search") . "%");
+                        //search with Username (updated_by)
+                        ->orWhereHas("updatedBy", function ($q) {
+                            $q->where("name", "like", "%" . request("search") . "%");
+                        });
                 });
             })
             ->when(request('trashed'), fn($q) => $q->onlyTrashed())
