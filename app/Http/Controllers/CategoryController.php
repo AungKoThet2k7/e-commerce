@@ -6,15 +6,32 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 // use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
      */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:categories.index', only: ['index']),
+            new Middleware('permission:categories.create', only: ['create']),
+            new Middleware('permission:categories.store', only: ['store']),
+            new Middleware('permission:categories.show', only: ['show']),
+            new Middleware('permission:categories.edit', only: ['edit']),
+            new Middleware('permission:categories.update', only: ['update']),
+            new Middleware('permission:categories.destroy', only: ['destroy']),
+            new Middleware('permission:categories.status', only: ['updateStatus']),
+            new Middleware('permission:categories.sort', only: ['updateSort']),
+        ];
+    }
     public function index(Request $request)
     {
 
@@ -172,6 +189,7 @@ class CategoryController extends Controller
 
     public function updateStatus($id)
     {
+        // return request();
         $category = Category::findOrFail($id);
 
         $category->status = $category->status == 1 ? 0 : 1;

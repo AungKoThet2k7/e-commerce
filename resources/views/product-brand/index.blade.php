@@ -247,7 +247,7 @@
                                                         {{ $productBrand->updatedBy?->name ?? '---' }}</h1>
                                                     <p class=" text-nowrap">
                                                         {{ $productBrand->updated_at->format('j M Y') }}
-                                                        <span>{{ $productBrand->updated_at->format('g : m A') }}</span>
+                                                        <span>{{ $productBrand->updated_at->format('g : i A') }}</span>
                                                     </p>
                                                 </div>
                                             </td>

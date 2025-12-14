@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\Permissions\CategoryPermissionSeeder;
+use Database\Seeders\Permissions\UserPermissionSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,10 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('asdffdsa'),
+        $this->call([
+            UserPermissionSeeder::class,
+            CategoryPermissionSeeder::class,
+            AdminSeeder::class,
         ]);
 
         User::factory(10)->create();
@@ -26,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             SubCategorySeeder::class,
-            ProductBrandSeeder::class
+            ProductBrandSeeder::class,
         ]);
 
         Storage::disk('public')->deleteDirectory('category');

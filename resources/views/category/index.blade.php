@@ -112,6 +112,7 @@
                     <div class="flex gap-3">
                         @trashed
                         @else
+                            {{-- @can('delete') --}}
                             <!--begin::Card toolbar-->
                             <div class="card-toolbar">
                                 <!--begin::trash-->
@@ -123,7 +124,10 @@
                                 <!--end::trash-->
                             </div>
                             <!--end::Card toolbar-->
+                            {{-- @endcan --}}
                         @endtrashed
+
+                        {{-- @can('create') --}}
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
                             <!--begin::Add category-->
@@ -133,6 +137,7 @@
                             <!--end::Add category-->
                         </div>
                         <!--end::Card toolbar-->
+                        {{-- @endcan --}}
                     </div>
                 </div>
                 <!--end::Card header-->
@@ -241,54 +246,60 @@
                                                     <h1 class="text-gray-700 fs-5 fw-bolder">
                                                         {{ $category->updatedBy?->name ?? '---' }}</h1>
                                                     <p class=" text-nowrap">{{ $category->updated_at->format('j M Y') }}
-                                                        <span>{{ $category->updated_at->format('g : m A') }}</span>
+                                                        <span>{{ $category->updated_at->format('g : i A') }}</span>
                                                     </p>
                                                 </div>
                                             </td>
                                             <!--end::Updated at=-->
                                             <!--begin::Action=-->
                                             <td class="text-end">
-                                                <div class="flex gap-1 px-3">
+                                                <div class="flex justify-center gap-1 px-3">
                                                     @trashed
-                                                        <!--begin:: Recycle-->
-                                                        <form
-                                                            action="{{ route('category.destroy', [$category->id, 'delete' => 'restore']) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
-                                                                <i class="bi bi-recycle text-white"></i>
-                                                            </button>
-                                                        </form>
-                                                        <!--begin:: Recycle-->
-                                                        <!--begin:: Force Delete-->
-                                                        <form
-                                                            action="{{ route('category.destroy', [$category->id, 'delete' => 'force']) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                <i class="bi bi-trash text-white"></i>
-                                                            </button>
-                                                        </form>
-                                                        <!--begin:: Force Delete-->
+                                                        @can('categories.destroy')
+                                                            <!--begin:: Recycle-->
+                                                            <form
+                                                                action="{{ route('category.destroy', [$category->id, 'delete' => 'restore']) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
+                                                                    <i class="bi bi-recycle text-white"></i>
+                                                                </button>
+                                                            </form>
+                                                            <!--end:: Recycle-->
+                                                            <!--begin:: Force Delete-->
+                                                            <form
+                                                                action="{{ route('category.destroy', [$category->id, 'delete' => 'force']) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                    <i class="bi bi-trash text-white"></i>
+                                                                </button>
+                                                            </form>
+                                                            <!--end:: Force Delete-->
+                                                        @endcan
                                                     @else
-                                                        <!--begin::Edit-->
-                                                        <a href="{{ route('category.edit', $category->id) }}"
-                                                            class="px-3 bg-green-500 p-2 rounded-md">
-                                                            <i class="bi bi-pencil-square text-white"></i>
-                                                        </a>
-                                                        <!--end::Edit-->
-                                                        <!--begin::Delete-->
-                                                        <form action="{{ route('category.destroy', $category->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                <i class="bi bi-trash text-white"></i>
-                                                            </button>
-                                                        </form>
-                                                        <!--end::Delete-->
+                                                        @can('categories.edit')
+                                                            <!--begin::Edit-->
+                                                            <a href="{{ route('category.edit', $category->id) }}"
+                                                                class="px-3 bg-green-500 p-2 rounded-md">
+                                                                <i class="bi bi-pencil-square text-white"></i>
+                                                            </a>
+                                                            <!--end::Edit-->
+                                                        @endcan
+                                                        @can('categories.destroy')
+                                                            <!--begin::Delete-->
+                                                            <form action="{{ route('category.destroy', $category->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                    <i class="bi bi-trash text-white"></i>
+                                                                </button>
+                                                            </form>
+                                                            <!--end::Delete-->
+                                                        @endcan
                                                     @endtrashed
                                                 </div>
                                             </td>

@@ -145,7 +145,7 @@
                                         <label class="required form-label">User Name</label>
                                         <!--end::Label-->
                                         <input value="{{ old('name', $user->name) }}" type="text" name="name"
-                                            class="form-control w-6/12 mb-2" placeholder="user name">
+                                            class="form-control mb-2" placeholder="user name">
                                         @error('name')
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
@@ -159,7 +159,7 @@
                                         <label class="form-label">Email</label>
                                         <!--end::Label-->
                                         <input value="{{ old('email', $user->email) }}" type="email" readonly
-                                            name="email" class="form-control w-6/12 mb-2" placeholder="email">
+                                            name="email" class="form-control mb-2" placeholder="email">
                                         @error('email')
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
@@ -168,12 +168,12 @@
                                         <!--end::Description-->
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
-                                    <div class="">
+                                    {{-- <div class="">
                                         <!--begin::Label-->
                                         <label class="required form-label">Password</label>
                                         <!--end::Label-->
                                         <input value="{{ old('password') }}" type="password" name="password"
-                                            class="form-control w-6/12 mb-2" placeholder="password">
+                                            class="form-control mb-2" placeholder="password">
                                         @error('password')
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
@@ -181,6 +181,23 @@
                                         <!--begin::Description-->
                                         <!--end::Description-->
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    </div> --}}
+                                    <div class="">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Role</label>
+                                        <!--end::Label-->
+                                        <select name="role" class=" form-select form-select-solid"
+                                            data-kt-select2="true" data-placeholder="Role"
+                                            data-select2-id="select2-data-7-l7k0" tabindex="-1" aria-hidden="true">
+                                            <option data-select2-id="select2-data-9-3eq9"></option>
+                                            @foreach ($roles as $role)
+                                                <option value="{{ $role->name }}" @selected(old('role', $user->getRoleNames()->first()) == $role->name)>
+                                                    {{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('role')
+                                            <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

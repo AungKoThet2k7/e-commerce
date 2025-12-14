@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Users')
+@section('title', 'Role')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -9,17 +9,17 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Roles</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
                 <!--end::Separator-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-                    @trashed
+                    {{-- @trashed
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{ route('user.index') }}" class="text-muted text-hover-primary">Users</a>
+                            <a href="{{ route('role.index') }}" class="text-muted text-hover-primary">Users</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -30,11 +30,11 @@
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">Trashed Users</li>
                         <!--end::Item-->
-                    @else
-                        <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Users</li>
-                        <!--end::Item-->
-                    @endtrashed
+                    @else --}}
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Roles</li>
+                    <!--end::Item-->
+                    {{-- @endtrashed --}}
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
@@ -57,7 +57,7 @@
                             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                             <span class="svg-icon svg-icon-1 position-absolute ms-36 mt-1">
                                 @if (request('search'))
-                                    <a href="{{ route('user.index') }}">
+                                    <a href="{{ route('role.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
@@ -83,7 +83,7 @@
                             </span>
 
                             <!--end::Svg Icon-->
-                            <form id="searchForm" action="{{ route('user.index') }}" method="GET">
+                            <form id="searchForm" action="{{ route('role.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
                                     placeholder="Search ...">
@@ -93,12 +93,12 @@
                     </div>
                     <!--begin::Card title-->
                     <div class="flex justify-center items-center gap-3">
-                        @trashed
+                        {{-- @trashed
                         @else
                             <!--begin::Card toolbar-->
                             <div class="card-toolbar">
                                 <!--begin::trash-->
-                                <a href="{{ route('user.index', ['trashed' => true]) }}"
+                                <a href="{{ route('role.index', ['trashed' => true]) }}"
                                     class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
                                     <i class="bi bi-trash text-white"></i>
                                     <span class="text-white">Trash</span>
@@ -106,13 +106,13 @@
                                 <!--end::trash-->
                             </div>
                             <!--end::Card toolbar-->
-                        @endtrashed
+                        @endtrashed --}}
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                 <!--begin::Add user-->
-                                <a href="{{ route('user.create') }}" class="btn btn-primary flex">
+                                <a href="{{ route('role.create') }}" class="btn btn-primary flex">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                     <span class="svg-icon svg-icon-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -124,7 +124,7 @@
                                                 fill="currentColor"></rect>
                                         </svg>
                                     </span>
-                                    <!--end::Svg Icon-->Add User</a>
+                                    <!--end::Svg Icon-->Add Role</a>
                                 <!--end::Add user-->
                             </div>
                             <!--end::Toolbar-->
@@ -145,16 +145,13 @@
                                     <!--begin::Table row-->
                                     <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                                         <th>#</th>
-                                        <th class=" text-nowrap  sorting" tabindex="0"
+                                        <th class=" min-w-250px text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Category: activate to sort column ascending">Name</th>
-                                        <th class="text-nowarp text-start  sorting" tabindex="0"
-                                            aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
-                                            aria-label="Status: activate to sort column ascending">
-                                            Email</th>
+                                        
                                         <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1"
                                             colspan="1">
-                                            Joined Date
+                                            Created Date
                                         </th>
                                         <th class="text-nowarp text-center min-w-70px sorting_disabled" rowspan="1"
                                             colspan="1" aria-label="Actions" style="width: 96.2292px;">Actions</th>
@@ -166,108 +163,84 @@
                                 <tbody class="text-gray-600 fw-bold">
                                     <!--begin::Table row-->
 
-                                    @forelse ($users as $key => $user)
+                                    @forelse ($roles as $role)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <!--begin::User=-->
-                                            <td class="d-flex align-items-center">
-                                                <!--begin:: Avatar -->
-                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                    <div class="symbol-label">
-                                                        <img src="{{ $user->image ? asset('storage/user/' . $user->image) : asset('template/media/avatars/300-1.jpg') }}"
-                                                            alt="{{ $user->image_alt }}"
-                                                            class="w-100 aspect-square object-cover">
+                                            <!--begin::Id=-->
+                                            <td>{{ $role->id }}</td>
+                                            <!--end::Id=-->
+                                            <!--begin::Role=-->
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class=" flex items-center">
+                                                        <!--begin::Title-->
+                                                        <a href="{{ route('role.edit', $role->id) }}"
+                                                            class="text-gray-700 text-hover-primary fs-5 fw-bolder"
+                                                            data-kt-ecommerce-category-filter="category_name">{{ $role->name }}</a>
+                                                        <!--end::Title-->
                                                     </div>
                                                 </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::User details-->
-                                                <div class=" flex flex-col gap-1 items-start justify-center ms-5">
-                                                    <a href="{{ route('user.edit', $user->id) }}"
-                                                        class="text-gray-800 text-hover-primary">
-                                                        {{ $user->name }}
-                                                    </a>
-
-                                                    <!--begin::badge-->
-                                                    @if ($user->getRoleNames()->first())
-                                                        <div class="badge badge-light-primary">
-                                                            <p>{{ $user->getRoleNames()->first() }}</p>
-                                                        </div>
-                                                    @endif
-                                                    <!--end::badge-->
-                                                    {{-- <span>melody@altbox.com</span> --}}
-                                                </div>
-                                                <!--begin::User details-->
                                             </td>
-                                            <!--end::User=-->
-                                            <!--begin::Email=-->
-                                            <td>{{ $user->email }}</td>
-                                            <!--end::Email=-->
+                                            <!--end::Role=-->
                                             <!--begin::created at-->
                                             <td>
-                                                {{ $user->created_at->format('d M Y') }}
-                                                <p>{{ $user->created_at->format('g : i A') }}</p>
+                                                {{ $role->created_at->format('d M Y') }}
+                                                <p>{{ $role->created_at->format('g : i A') }}</p>
                                             </td>
                                             <!--end:created at-->
                                             <!--begin::Action=-->
                                             <td class="text-end">
                                                 <div class="flex justify-center gap-1 px-3">
-                                                    @trashed
-                                                        @can('users.destroy')
-                                                            <!--begin:: Recycle-->
-                                                            <form
-                                                                action="{{ route('user.destroy', [$user->id, 'delete' => 'restore']) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
-                                                                    <i class="bi bi-recycle text-white"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!--end:: Recycle-->
-                                                            <!--begin:: Force Delete-->
-                                                            <form
-                                                                action="{{ route('user.destroy', [$user->id, 'delete' => 'force']) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                    <i class="bi bi-trash text-white"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!--end:: Force Delete-->
-                                                        @endcan
-                                                    @else
-                                                        @can('users.edit')
-                                                            <!--begin::Edit-->
-                                                            <a href="{{ route('user.edit', $user->id) }}"
-                                                                class="px-3 bg-green-500 p-2 rounded-md">
-                                                                <i class="bi bi-pencil-square text-white"></i>
-                                                            </a>
-                                                            <!--end::Edit-->
-                                                        @endcan
-                                                        @can('users.destroy')
-                                                            <!--begin::Delete-->
-                                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                    <i class="bi bi-trash text-white"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!--end::Delete-->
-                                                        @endcan
-                                                    @endtrashed
+                                                    {{-- @trashed
+                                                        <!--begin:: Recycle-->
+                                                        <form
+                                                            action="{{ route('role.destroy', [$role->id, 'delete' => 'restore']) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
+                                                                <i class="bi bi-recycle text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--begin:: Recycle-->
+                                                        <!--begin:: Force Delete-->
+                                                        <form
+                                                            action="{{ route('role.destroy', [$role->id, 'delete' => 'force']) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--begin:: Force Delete-->
+                                                    @else --}}
+                                                        <!--begin::Edit-->
+                                                        <a href="{{ route('role.edit', $role->id) }}"
+                                                            class="px-3 bg-green-500 p-2 rounded-md">
+                                                            <i class="bi bi-pencil-square text-white"></i>
+                                                        </a>
+                                                        <!--end::Edit-->
+                                                        <!--begin::Delete-->
+                                                        <form action="{{ route('role.destroy', $role->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                        </form>
+                                                        <!--end::Delete-->
+                                                    {{-- @endtrashed --}}
                                                 </div>
                                             </td>
                                             <!--end::Action=-->
                                         </tr>
                                     @empty
                                         <tr>
-                                            @trashed
+                                            {{-- @trashed
                                                 <td colspan="6" class="text-center">No Trashed Category Found</td>
-                                            @else
-                                                <td colspan="6" class="text-center">No Category Found</td>
-                                            @endtrashed
+                                            @else --}}
+                                                <td colspan="6" class="text-center">No Role Found</td>
+                                            {{-- @endtrashed --}}
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -275,9 +248,9 @@
                             </table>
                         </div>
                         <!--begin::Pagination-->
-                        <div class="">
-                            {{ $users->onEachSide(1)->links() }}
-                        </div>
+                        {{-- <div class="">
+                            {{ $roles->onEachSide(1)->links() }}
+                        </div> --}}
                         <!--end::Pagination-->
                     </div>
                     <!--end::Table-->
@@ -290,19 +263,3 @@
     </div>
     <!--end::Post-->
 @endsection
-@push('script')
-    <!--begin::Page Vendors Javascript(used by this page)-->
-    <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-    <!--end::Page Vendors Javascript-->
-    <!--begin::Page Custom Javascript(used by this page)-->
-    <script src="{{ asset('template/js/custom/apps/user-management/users/list/table.js') }}"></script>
-    <script src="{{ asset('template/js/custom/apps/user-management/users/list/export-users.js') }}"></script>
-    <script src="{{ asset('template/js/custom/apps/user-management/users/list/add.js') }}"></script>
-    <script src="{{ asset('template/js/widgets.bundle.js') }}"></script>
-    <script src="{{ asset('template/js/custom/widgets.js') }}"></script>
-    <script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script>
-    <!--end::Page Custom Javascript-->
-@endpush

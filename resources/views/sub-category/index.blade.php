@@ -269,7 +269,8 @@
                                                             {{ $subCategory->updatedBy?->name ?? '---' }}</h1>
                                                         <p class=" text-nowrap">
                                                             {{ $subCategory->updated_at->format('j M Y') }}
-                                                            <span>{{ $subCategory->updated_at->format('g : m A') }}</span>
+                                                            <span>{{ $subCategory->updated_at->format('g : i A') }}</span>
+                                                            {{-- @dump(\Carbon\Carbon::parse($subCategory->updated_at)->setTimezone('Asia/Yangon')->format('Y-m-d H:i:s A'))) --}}
                                                         </p>
                                                     </div>
 
