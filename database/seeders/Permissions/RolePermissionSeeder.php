@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
-class UserPermissionSeeder extends Seeder
+class RolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,14 +14,13 @@ class UserPermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'dashboard',
-            'users.index',
-            'users.create',
-            'users.store',
-            'users.show',
-            'users.edit',
-            'users.update',
-            'users.destroy',
+            'roles.index',
+            'roles.create',
+            'roles.store',
+            'roles.show',
+            'roles.edit',
+            'roles.update',
+            'roles.destroy',
         ];
 
         foreach ($permissions as $permission) {

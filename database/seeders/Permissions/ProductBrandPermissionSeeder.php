@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
-class UserPermissionSeeder extends Seeder
+class ProductBrandPermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,14 +14,15 @@ class UserPermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'dashboard',
-            'users.index',
-            'users.create',
-            'users.store',
-            'users.show',
-            'users.edit',
-            'users.update',
-            'users.destroy',
+            'productbrand.index',
+            'productbrand.create',
+            'productbrand.store',
+            'productbrand.show',
+            'productbrand.edit',
+            'productbrand.update',
+            'productbrand.destroy',
+            'productbrand.status',
+            'productbrand.sort',
         ];
 
         foreach ($permissions as $permission) {

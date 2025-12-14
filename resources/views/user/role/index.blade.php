@@ -124,7 +124,9 @@
                                                 fill="currentColor"></rect>
                                         </svg>
                                     </span>
-                                    <!--end::Svg Icon-->Add Role</a>
+                                    <!--end::Svg Icon-->
+                                    Add Role
+                                </a>
                                 <!--end::Add user-->
                             </div>
                             <!--end::Toolbar-->
@@ -148,9 +150,8 @@
                                         <th class=" min-w-250px text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Category: activate to sort column ascending">Name</th>
-                                        
-                                        <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1"
-                                            colspan="1">
+
+                                        <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1" colspan="1">
                                             Created Date
                                         </th>
                                         <th class="text-nowarp text-center min-w-70px sorting_disabled" rowspan="1"
@@ -214,12 +215,16 @@
                                                         </form>
                                                         <!--begin:: Force Delete-->
                                                     @else --}}
+
+                                                    @can('roles.edit')
                                                         <!--begin::Edit-->
                                                         <a href="{{ route('role.edit', $role->id) }}"
                                                             class="px-3 bg-green-500 p-2 rounded-md">
                                                             <i class="bi bi-pencil-square text-white"></i>
                                                         </a>
                                                         <!--end::Edit-->
+                                                    @endcan
+                                                    @can('roles.destroy')
                                                         <!--begin::Delete-->
                                                         <form action="{{ route('role.destroy', $role->id) }}" method="POST">
                                                             @csrf
@@ -229,6 +234,8 @@
                                                             </button>
                                                         </form>
                                                         <!--end::Delete-->
+                                                    @endcan
+
                                                     {{-- @endtrashed --}}
                                                 </div>
                                             </td>
@@ -239,7 +246,7 @@
                                             {{-- @trashed
                                                 <td colspan="6" class="text-center">No Trashed Category Found</td>
                                             @else --}}
-                                                <td colspan="6" class="text-center">No Role Found</td>
+                                            <td colspan="6" class="text-center">No Role Found</td>
                                             {{-- @endtrashed --}}
                                         </tr>
                                     @endforelse

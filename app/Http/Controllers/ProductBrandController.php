@@ -6,11 +6,29 @@ use App\Models\ProductBrand;
 use App\Http\Requests\StoreProductBrandRequest;
 use App\Http\Requests\UpdateProductBrandRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ProductBrandController extends Controller
+class ProductBrandController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:productbrand.index', only: ['index']),
+            new Middleware('permission:productbrand.create', only: ['create']),
+            new Middleware('permission:productbrand.store', only: ['store']),
+            new Middleware('permission:productbrand.show', only: ['show']),
+            new Middleware('permission:productbrand.edit', only: ['edit']),
+            new Middleware('permission:productbrand.update', only: ['update']),
+            new Middleware('permission:productbrand.destroy', only: ['destroy']),
+            new Middleware('permission:productbrand.status', only: ['updateStatus']),
+            new Middleware('permission:productbrand.sort', only: ['updateSort']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

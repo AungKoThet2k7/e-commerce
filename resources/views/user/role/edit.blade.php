@@ -76,8 +76,8 @@
                             </div>
                             <!--end::Input group-->
 
-                            <!--start::Category-->
-                            <div class="">
+                            <!--start::permission select-->
+                            {{-- <div class="">
                                 <!--begin::Permission-->
                                 <label class="required form-label">Permissions</label>
 
@@ -98,8 +98,29 @@
                                     </div>
                                 @endforeach
                                 <!--end::Permission-->
+                            </div> --}}
+                            <!--end::permission select-->
+
+                            <!--start::permission list group-->
+                            <div class=" border border-gray-100">
+                                @foreach ($permissions as $groupName => $permissionGroup)
+                                    <div class="form-check mb-0 flex justify-between items-center bg-gray-100 p-5">
+                                        <label class=" form-check-label text-gray-900 text-hover-primary fs-5 fw-bolder"
+                                            for="">{{ $groupName }}</label>
+                                    </div>
+
+                                    @foreach ($permissionGroup as $permission)
+                                        <div class="form-check mb-0 flex justify-between items-center py-5 px-10">
+                                            <label class=" form-check-label text-gray-700 text-hover-primary fs-5 fw-bolder"
+                                                for="">{{ $permission->name }}</label>
+                                            <input class=" form-check-input" name="permissions[]" multiple
+                                                value="{{ $permission->name }}" @checked($role->hasPermissionTo($permission->name))
+                                                type="checkbox">
+                                        </div>
+                                    @endforeach
+                                @endforeach
                             </div>
-                            <!--end::Category-->
+                            <!--end::permission list group-->
 
                         </div>
                         <!--end::Card header-->

@@ -74,8 +74,8 @@
                             </div>
                             <!--end::Input group-->
 
-                            <!--start::Category-->
-                            <div class="">
+                            <!--start::Permission select-->
+                            {{-- <div class="">
                                 <!--begin::Permission-->
                                 <label class="required form-label">Permissions</label>
                                 @error('permissions')
@@ -93,21 +93,29 @@
                                             value="{{ $permission->name }}" type="checkbox">
                                     </div>
                                 @endforeach
-
-                                {{-- <select multiple name="permissions[]"
-                                    class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
-                                    data-hide-search="true" data-placeholder="Permission"
-                                    data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
-                                    tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="select2-data-12-pxpb"></option>
-                                    @foreach ($permissions as $permission)
-                                        <option value="{{ $permission->name }}" @selected(old('permissions.*') == $permission->name)>
-                                            {{ $permission->name }}</option>
-                                    @endforeach
-                                </select> --}}
                                 <!--end::Permission-->
+                            </div> --}}
+                            <!--end::Permission select-->
+
+                            <!--start::permission list group-->
+                            <div class=" border border-gray-100">
+                                @foreach ($permissions as $groupName => $permissionGroup)
+                                    <div class="form-check mb-0 flex justify-between items-center bg-gray-200 p-5">
+                                        <h1 class=" form-check-label text-gray-900 text-hover-primary fs-5 fw-bolder"
+                                            for="">{{ $groupName }}</h1>
+                                    </div>
+
+                                    @foreach ($permissionGroup as $permission)
+                                        <div class="form-check mb-0 flex justify-between items-center py-5 px-10">
+                                            <label class=" form-check-label text-gray-700 text-hover-primary fs-5 fw-bolder"
+                                                for="">{{ $permission->name }}</label>
+                                            <input class=" form-check-input" name="permissions[]" multiple
+                                                value="{{ $permission->name }}" type="checkbox">
+                                        </div>
+                                    @endforeach
+                                @endforeach
                             </div>
-                            <!--end::Category-->
+                            <!--end::permission list group-->
 
                         </div>
                         <!--end::Card header-->

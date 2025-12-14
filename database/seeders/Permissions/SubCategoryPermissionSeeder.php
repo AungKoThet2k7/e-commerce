@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
-class UserPermissionSeeder extends Seeder
+class SubCategoryPermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,14 +14,15 @@ class UserPermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'dashboard',
-            'users.index',
-            'users.create',
-            'users.store',
-            'users.show',
-            'users.edit',
-            'users.update',
-            'users.destroy',
+            'subcategories.index',
+            'subcategories.create',
+            'subcategories.store',
+            'subcategories.show',
+            'subcategories.edit',
+            'subcategories.update',
+            'subcategories.destroy',
+            'subcategories.status',
+            'subcategories.sort',
         ];
 
         foreach ($permissions as $permission) {

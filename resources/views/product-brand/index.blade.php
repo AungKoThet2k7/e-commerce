@@ -96,18 +96,17 @@
                         <!--end::Search-->
                         <!--start::Status-->
                         <div class="w-100 mw-150px ms-3">
-                                <!--begin::Select2-->
-                                <select form="filterForm" onchange="this.form.submit()" name="status"
-                                    class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
-                                    data-hide-search="true" data-placeholder="Status"
-                                    data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
-                                    tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="select2-data-12-pxpb"></option>
-                                    <option value="all" @selected(request('status') == 'all')>All</option>
-                                    <option value="1" @selected(request('status') == '1')>Active</option>
-                                    <option value="0" @selected(request('status') == '0')>Inactive</option>
-                                </select>
-                                <!--end::Select2-->
+                            <!--begin::Select2-->
+                            <select form="filterForm" onchange="this.form.submit()" name="status"
+                                class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
+                                data-hide-search="true" data-placeholder="Status" data-kt-ecommerce-product-filter="status"
+                                data-select2-id="select2-data-10-whsc" tabindex="-1" aria-hidden="true">
+                                <option data-select2-id="select2-data-12-pxpb"></option>
+                                <option value="all" @selected(request('status') == 'all')>All</option>
+                                <option value="1" @selected(request('status') == '1')>Active</option>
+                                <option value="0" @selected(request('status') == '0')>Inactive</option>
+                            </select>
+                            <!--end::Select2-->
                         </div>
                         <!--end::Status-->
                     </div>
@@ -256,45 +255,51 @@
                                             <td class="text-end">
                                                 <div class="flex gap-1 px-3">
                                                     @trashed
-                                                        <!--begin:: Recycle-->
-                                                        <form
-                                                            action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'restore']) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
-                                                                <i class="bi bi-recycle text-white"></i>
-                                                            </button>
-                                                        </form>
-                                                        <!--begin:: Recycle-->
-                                                        <!--begin:: Force Delete-->
-                                                        <form
-                                                            action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'force']) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                <i class="bi bi-trash text-white"></i>
-                                                            </button>
-                                                        </form>
-                                                        <!--begin:: Force Delete-->
+                                                        @can('productbrand.destroy')
+                                                            <!--begin:: Recycle-->
+                                                            <form
+                                                                action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'restore']) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="px-3 bg-green-500 p-2 rounded-md">
+                                                                    <i class="bi bi-recycle text-white"></i>
+                                                                </button>
+                                                            </form>
+                                                            <!--begin:: Recycle-->
+                                                            <!--begin:: Force Delete-->
+                                                            <form
+                                                                action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'force']) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                    <i class="bi bi-trash text-white"></i>
+                                                                </button>
+                                                            </form>
+                                                            <!--begin:: Force Delete-->
+                                                        @endcan
                                                     @else
-                                                        <!--begin::Edit-->
-                                                        <a href="{{ route('product-brand.edit', $productBrand->id) }}"
-                                                            class="px-3 bg-green-500 p-2 rounded-md">
-                                                            <i class="bi bi-pencil-square text-white"></i>
-                                                        </a>
-                                                        <!--end::Edit-->
-                                                        <!--begin::Delete-->
-                                                        <form action="{{ route('product-brand.destroy', $productBrand->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                <i class="bi bi-trash text-white"></i>
-                                                            </button>
-                                                        </form>
-                                                        <!--end::Delete-->
+                                                        @can('productbrand.destroy')
+                                                            <!--begin::Edit-->
+                                                            <a href="{{ route('product-brand.edit', $productBrand->id) }}"
+                                                                class="px-3 bg-green-500 p-2 rounded-md">
+                                                                <i class="bi bi-pencil-square text-white"></i>
+                                                            </a>
+                                                            <!--end::Edit-->
+                                                        @endcan
+                                                        @can('productbrand.destroy')
+                                                            <!--begin::Delete-->
+                                                            <form action="{{ route('product-brand.destroy', $productBrand->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                    <i class="bi bi-trash text-white"></i>
+                                                                </button>
+                                                            </form>
+                                                            <!--end::Delete-->
+                                                        @endcan
                                                     @endtrashed
                                                 </div>
                                             </td>

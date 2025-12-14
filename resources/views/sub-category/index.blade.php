@@ -280,47 +280,53 @@
                                                 <td class="text-end">
                                                     <div class="flex gap-1 px-3">
                                                         @trashed
-                                                            <!--begin:: Recycle-->
-                                                            <form
-                                                                action="{{ route('sub-category.destroy', [$subCategory->id, 'delete' => 'restore']) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="px-3 bg-green-500 p-2 rounded-md">
-                                                                    <i class="bi bi-recycle text-white"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!--begin:: Recycle-->
-                                                            <!--begin:: Force Delete-->
-                                                            <form
-                                                                action="{{ route('sub-category.destroy', [$subCategory->id, 'delete' => 'force']) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                    <i class="bi bi-trash text-white"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!--begin:: Force Delete-->
+                                                            @can('subcategories.destroy')
+                                                                <!--begin:: Recycle-->
+                                                                <form
+                                                                    action="{{ route('sub-category.destroy', [$subCategory->id, 'delete' => 'restore']) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="px-3 bg-green-500 p-2 rounded-md">
+                                                                        <i class="bi bi-recycle text-white"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <!--begin:: Recycle-->
+                                                                <!--begin:: Force Delete-->
+                                                                <form
+                                                                    action="{{ route('sub-category.destroy', [$subCategory->id, 'delete' => 'force']) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                        <i class="bi bi-trash text-white"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <!--begin:: Force Delete-->
+                                                            @endcan
                                                         @else
-                                                            <!--begin::Edit-->
-                                                            <a href="{{ route('sub-category.edit', $subCategory->id) }}"
-                                                                class="px-3 bg-green-500 p-2 rounded-md">
-                                                                <i class="bi bi-pencil-square text-white"></i>
-                                                            </a>
-                                                            <!--end::Edit-->
-                                                            <!--begin::Delete-->
-                                                            <form
-                                                                action="{{ route('sub-category.destroy', $subCategory->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button class="px-3 bg-red-500 p-2 rounded-md">
-                                                                    <i class="bi bi-trash text-white"></i>
-                                                                </button>
-                                                            </form>
-                                                            <!--end::Delete-->
+                                                            @can('subcategories.edit')
+                                                                <!--begin::Edit-->
+                                                                <a href="{{ route('sub-category.edit', $subCategory->id) }}"
+                                                                    class="px-3 bg-green-500 p-2 rounded-md">
+                                                                    <i class="bi bi-pencil-square text-white"></i>
+                                                                </a>
+                                                                <!--end::Edit-->
+                                                            @endcan
+                                                            @can('subcategories.destroy')
+                                                                <!--begin::Delete-->
+                                                                <form
+                                                                    action="{{ route('sub-category.destroy', $subCategory->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="px-3 bg-red-500 p-2 rounded-md">
+                                                                        <i class="bi bi-trash text-white"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <!--end::Delete-->
+                                                            @endcan
                                                         @endtrashed
                                                     </div>
                                                 </td>

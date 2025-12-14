@@ -3,18 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:roles.index', only: ['index']),
+            new Middleware('permission:roles.create', only: ['create']),
+            new Middleware('permission:roles.store', only: ['store']),
+            new Middleware('permission:roles.show', only: ['show']),
+            new Middleware('permission:roles.edit', only: ['edit']),
+            new Middleware('permission:roles.update', only: ['update']),
+            new Middleware('permission:roles.destroy', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $roles = Role::all();
+
         // return $roles;
         return view('user.role.index', compact('roles'));
     }
@@ -24,7 +40,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::all()->groupBy(fn ($permission) => explode('.', $permission->name)[0]);
+        // return $permissions;
+
         return view('user.role.create', compact('permissions'));
     }
 
@@ -41,12 +59,11 @@ class RoleController extends Controller
 
         // return $request->permissions;
 
-         $role = Role::create([
+        $role = Role::create([
             'name' => $request->name,
         ]);
 
         $role->syncPermissions($request->permissions);
-
 
         return redirect()->route('role.index')->with('success', 'Role created successfully');
     }
@@ -56,7 +73,7 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        return abort(404, "Page Not Found");
+        return abort(404, 'Page Not Found');
     }
 
     /**
@@ -65,8 +82,9 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         $role = Role::findOrFail($id);
-        $permissions = Permission::all();
+        $permissions = Permission::all()->groupBy(fn ($permission) => explode('.', $permission->name)[0]);
 
+        // return $permissions;
         return view('user.role.edit', compact(['role', 'permissions']));
     }
 
@@ -95,7 +113,6 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->permissions);
 
-
         return redirect()->route('role.index')->with('success', 'Role updated successfully');
     }
 
@@ -106,6 +123,7 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $role->delete();
+
         return redirect()->route('role.index')->with('success', 'Role deleted successfully');
     }
 }
