@@ -57,8 +57,6 @@ class RoleController extends Controller implements HasMiddleware
             'permissions.*' => 'exists:permissions,name',
         ]);
 
-        // return $request->permissions;
-
         $role = Role::create([
             'name' => $request->name,
         ]);

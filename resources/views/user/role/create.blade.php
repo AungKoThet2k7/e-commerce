@@ -98,7 +98,7 @@
                             <!--end::Permission select-->
 
                             <!--start::permission list group-->
-                            <div class=" border border-gray-100">
+                            {{-- <div class=" border border-gray-100">
                                 @foreach ($permissions as $groupName => $permissionGroup)
                                     <div class="form-check mb-0 flex justify-between items-center bg-gray-200 p-5">
                                         <h1 class=" form-check-label text-gray-900 text-hover-primary fs-5 fw-bolder"
@@ -114,8 +114,43 @@
                                         </div>
                                     @endforeach
                                 @endforeach
-                            </div>
+                            </div> --}}
                             <!--end::permission list group-->
+
+                            <!--Begin::Permission Accordion-->
+                            <div id="accordion-collapse" data-accordion="collapse"
+                                class="rounded-lg border border-gray-100 overflow-hidden">
+                                @foreach ($permissions as $groupName => $permissionGroup)
+                                    <h1 id="accordion-collapse-heading-{{ $groupName }}">
+                                        <button type="button"
+                                            class="bg-gray-100 hover:bg-gray-200 flex items-center justify-between w-full p-5 fs-5 fw-bolder rtl:text-right text-body border border-x-0 border-b-default border-t-0 hover:text-heading hover:bg-neutral-secondary-medium gap-3"
+                                            data-accordion-target="#accordion-collapse-body-{{ $groupName }}"
+                                            aria-expanded="false"
+                                            aria-controls="accordion-collapse-body-{{ $groupName }}">
+                                            <span>{{ $groupName }}</span>
+                                            <svg data-accordion-icon class="w-5 h-5 rotate-180 shrink-0" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2" d="m5 15 7-7 7 7" />
+                                            </svg>
+                                        </button>
+                                    </h1>
+                                    <div id="accordion-collapse-body-{{ $groupName }}"
+                                        class="hidden border border-s-0 border-e-0 border-t-0 border-b-default"
+                                        aria-labelledby="accordion-collapse-heading-{{ $groupName }}">
+                                        @foreach ($permissionGroup as $permission)
+                                            <div class="form-check bg-white mb-0 flex justify-between items-center p-5">
+                                                <label class="form-check-label text-gray-700 text-hover-primary font-medium"
+                                                    for="">{{ $permission->name }}</label>
+                                                <input class="size-6 form-check-input" name="permissions[]" multiple
+                                                    value="{{ $permission->name }}" type="checkbox">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                            <!--end::Permission Accordion-->
 
                         </div>
                         <!--end::Card header-->
@@ -140,3 +175,12 @@
     </div>
     <!--end::Post-->
 @endsection
+@push('script')
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script>
+        function toggleCheckbox(id) {
+            let checkbox = document.getElementById(id);
+            checkbox.checked = !checkbox.checked;
+        }
+    </script>
+@endpush
