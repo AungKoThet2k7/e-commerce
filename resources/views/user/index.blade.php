@@ -292,10 +292,10 @@
 @endsection
 @push('script')
     <!--begin::Page Vendors Javascript(used by this page)-->
-    <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    {{-- <script src="{{ asset('template/plugins/custom/datatables/datatables.bundle.js') }}"></script> --}}
     <!--end::Page Vendors Javascript-->
     <!--begin::Page Custom Javascript(used by this page)-->
-    <script src="{{ asset('template/js/custom/apps/user-management/users/list/table.js') }}"></script>
+    {{-- <script src="{{ asset('template/js/custom/apps/user-management/users/list/table.js') }}"></script>
     <script src="{{ asset('template/js/custom/apps/user-management/users/list/export-users.js') }}"></script>
     <script src="{{ asset('template/js/custom/apps/user-management/users/list/add.js') }}"></script>
     <script src="{{ asset('template/js/widgets.bundle.js') }}"></script>
@@ -303,6 +303,6 @@
     <script src="{{ asset('template/js/custom/apps/chat/chat.js') }}"></script>
     <script src="{{ asset('template/js/custom/utilities/modals/upgrade-plan.js') }}"></script>
     <script src="{{ asset('template/js/custom/utilities/modals/create-app.js') }}"></script>
-    <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script>
+    <script src="{{ asset('template/js/custom/utilities/modals/users-search.js') }}"></script> --}}
     <!--end::Page Custom Javascript-->
 @endpush

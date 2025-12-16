@@ -10,7 +10,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Categories</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('category.categories') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -33,7 +33,7 @@
                         <!--end::Item-->
                     @else
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Categories</li>
+                        <li class="breadcrumb-item text-muted">{{ __('category.categories')}}</li>
                         <!--end::Item-->
                     @endtrashed
                 </ul>
@@ -132,7 +132,7 @@
                         <div class="card-toolbar">
                             <!--begin::Add category-->
                             <a href="{{ route('category.create') }}" class="btn btn-primary">
-                                Add Category
+                                {{ __('category.create') }}
                             </a>
                             <!--end::Add category-->
                         </div>
