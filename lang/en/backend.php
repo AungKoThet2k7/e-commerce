@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'common' => [
+        'search' => 'Search',
+        'status' => 'Status',
+        'all' => 'All',
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+        'trash' => 'Trash',
+        'sorting' => 'Sorting',
+        'last_updated' => 'Last Updated',
+        'actions' => 'Actions',
+        'cancel' => 'Cancel',
+    ],
+    'category' => [
+        'categories' => 'Categories',
+        'category' => 'Category',
+        'trashed_categories' => 'Trashed Categories',
+        'not_found' => 'Category Not Found',
+        'create' => 'Add Category',
+        'create_category' => 'Add New Category',
+        'image' => 'Category Image',
+        'image_alt' => 'Image Alt',
+        'create_image' => 'Create Image',
+        'change_image' => 'Change Image',
+        'cancel_image' => 'Cancel Image',
+        'image_description' => 'Set the category image. Only *.png, *.jpg and *.jpeg image files are accepted.',
+        'status_description' => 'Set the category status.',
+        'name' => 'Category Name',
+        'name_description' => 'A category name is required and recommended to be unique.',
+        'edit' => 'Edit Category',
+        'update_category' => 'Update Category',
+    ],
+];

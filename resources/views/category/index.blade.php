@@ -10,7 +10,8 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('category.categories') }}</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.category.categories') }}
+                </h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -20,7 +21,8 @@
                     @trashed
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{ route('category.index') }}" class="text-muted text-hover-primary">Categories</a>
+                            <a href="{{ route('category.index') }}"
+                                class="text-muted text-hover-primary">{{ __('backend.category.categories') }}</a>
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
@@ -29,11 +31,11 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Trashed Categories</li>
+                        <li class="breadcrumb-item text-muted">{{ __('backend.category.trashed_categories') }}</li>
                         <!--end::Item-->
                     @else
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">{{ __('category.categories')}}</li>
+                        <li class="breadcrumb-item text-muted">{{ __('backend.category.categories') }}</li>
                         <!--end::Item-->
                     @endtrashed
                 </ul>
@@ -88,7 +90,7 @@
                             <form id="filterForm" action="{{ route('category.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
-                                    placeholder="Search ...">
+                                    placeholder="{{ __('backend.common.search') }} ...">
                             </form>
                         </div>
                         <!--end::Search-->
@@ -97,12 +99,15 @@
                             <!--begin::Select2-->
                             <select form="filterForm" onchange="this.form.submit()" name="status"
                                 class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="Status" data-kt-ecommerce-product-filter="status"
-                                data-select2-id="select2-data-10-whsc" tabindex="-1" aria-hidden="true">
+                                data-hide-search="true" data-placeholder="{{ __('backend.common.status') }}"
+                                data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
+                                tabindex="-1" aria-hidden="true">
                                 <option data-select2-id="select2-data-12-pxpb"></option>
-                                <option value="all" @selected(request('status') == 'all')>All</option>
-                                <option value="1" @selected(request('status') == '1')>Active</option>
-                                <option value="0" @selected(request('status') == '0')>Inactive</option>
+                                <option value="all" @selected(request('status') == 'all')>{{ __('backend.common.all') }}</option>
+                                <option value="1" @selected(request('status') == '1')>{{ __('backend.common.active') }}
+                                </option>
+                                <option value="0" @selected(request('status') == '0')>{{ __('backend.common.inactive') }}
+                                </option>
                             </select>
                             <!--end::Select2-->
                         </div>
@@ -119,7 +124,7 @@
                                 <a href="{{ route('category.index', ['trashed' => true]) }}"
                                     class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
                                     <i class="bi bi-trash text-white"></i>
-                                    <span class="text-white">Trash</span>
+                                    <span class="text-white">{{ __('backend.common.trash') }}</span>
                                 </a>
                                 <!--end::trash-->
                             </div>
@@ -127,17 +132,44 @@
                             {{-- @endcan --}}
                         @endtrashed
 
-                        {{-- @can('create') --}}
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
-                            <!--begin::Add category-->
-                            <a href="{{ route('category.create') }}" class="btn btn-primary">
-                                {{ __('category.create') }}
-                            </a>
-                            <!--end::Add category-->
+                            @trashed
+                                <!--begin::Category list-->
+                                <a href="{{ route('category.index') }}" class="btn btn-primary flex items-center justify-center">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                                        </svg>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    {{ __('backend.category.categories') }}
+                                </a>
+                                <!--end::Category list-->
+                            @else
+                                <!--begin::Add category-->
+                                <a href="{{ route('category.create') }}" class="btn btn-primary flex items-center justify-center">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
+                                                rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor">
+                                            </rect>
+                                            <rect x="4.36396" y="11.364" width="16" height="2" rx="1"
+                                                fill="currentColor"></rect>
+                                        </svg>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    {{ __('backend.category.create') }}
+                                </a>
+                                <!--end::Add category-->
+                            @endtrashed
                         </div>
                         <!--end::Card toolbar-->
-                        {{-- @endcan --}}
                     </div>
                 </div>
                 <!--end::Card header-->
@@ -155,21 +187,22 @@
                                         <th>#</th>
                                         <th class=" text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
-                                            aria-label="Category: activate to sort column ascending">Category</th>
+                                            aria-label="Category: activate to sort column ascending">
+                                            {{ __('backend.category.category') }}</th>
                                         <th class="text-nowarp text-center  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Status: activate to sort column ascending">
-                                            Status</th>
+                                            {{ __('backend.common.status') }}</th>
                                         <th class="text-nowarp  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Status: activate to sort column ascending">
-                                            Sorting</th>
+                                            {{ __('backend.common.sorting') }}</th>
                                         <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1"
                                             colspan="1">
-                                            Last Updated
+                                            {{ __('backend.common.last_updated') }}
                                         </th>
-                                        <th class="text-nowarp text-center min-w-70px sorting_disabled" rowspan="1"
-                                            colspan="1" aria-label="Actions" style="width: 96.2292px;">Actions</th>
+                                        <th class="text-nowarp text-center min-w-80px sorting_disabled" rowspan="1"
+                                            colspan="1" aria-label="Actions">{{ __('backend.common.actions') }}</th>
                                     </tr>
                                     <!--end::Table row-->
                                 </thead>
@@ -308,11 +341,8 @@
                                         <!--end::Table row-->
                                     @empty
                                         <tr>
-                                            @trashed
-                                                <td colspan="6" class="text-center">No Trashed Category Found</td>
-                                            @else
-                                                <td colspan="6" class="text-center">No Category Found</td>
-                                            @endtrashed
+                                            <td colspan="6" class="text-center">{{ __('backend.category.not_found') }}
+                                            </td>
                                         </tr>
                                     @endforelse
 

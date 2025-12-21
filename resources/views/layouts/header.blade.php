@@ -719,9 +719,9 @@
                     <ul class="dropdown-menu">
                         @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                             <li>
-                                <a class="dropdown-item" hreflang="{{ $localeCode }}"
+                                <a class="dropdown-item p-2 {{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'active' : '' }}" hreflang="{{ $localeCode }}"
                                     href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                    {{ $properties['name'] }}
+                                    {{ $properties['name'] }} 
                                 </a>
                             </li>
                         @endforeach
@@ -791,7 +791,7 @@
                 </div>
                 <!--end::User menu-->
                 <!--begin::Header menu toggle-->
-                <div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show header menu">
+                {{-- <div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show header menu">
                     <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
                         id="kt_header_menu_mobile_toggle">
                         <!--begin::Svg Icon | path: icons/duotune/text/txt001.svg-->
@@ -808,7 +808,7 @@
                         </span>
                         <!--end::Svg Icon-->
                     </div>
-                </div>
+                </div> --}}
                 <!--end::Header menu toggle-->
             </div>
             <!--end::Toolbar wrapper-->

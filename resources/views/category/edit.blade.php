@@ -10,7 +10,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Edit Category</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.category.edit') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -19,7 +19,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('category.index') }}" class="text-muted text-hover-primary">Categories</a>
+                        <a href="{{ route('category.index') }}" class="text-muted text-hover-primary">{{ __('backend.category.categories') }}</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -28,7 +28,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Edit Category</li>
+                    <li class="breadcrumb-item text-muted">{{ __('backend.category.edit') }}</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -55,7 +55,7 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Category Image</h2>
+                                <h2>{{ __('backend.category.image') }}</h2>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -71,7 +71,7 @@
                                 <!--begin::Label-->
                                 <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Change image">
+                                    data-bs-original-title="{{ __('backend.category.change_image') }}">
                                     <!--begin::Icon-->
                                     <i class="bi bi-pencil-fill fs-7"></i>
                                     <!--end::Icon-->
@@ -84,7 +84,7 @@
                                 <!--begin::Cancel-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Cancel image">
+                                    data-bs-original-title="{{ __('backend.category.cancel_image') }}">
                                     <i class="bi bi-x fs-2"></i>
                                 </span>
                                 <!--end::Cancel-->
@@ -98,25 +98,21 @@
                             </div>
                             <!--end::Image input-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the category thumbnail image. Only *.png, *.jpg and *.jpeg
-                                image files are accepted</div>
+                            <div class="text-muted fs-7">{{ __('backend.category.image_description') }}</div>
                             <!--end::Description-->
                             @error('image')
                                 <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
                             <div class="flex flex-col items-start mt-5">
                                 <!--begin::Label-->
-                                <label class="required form-label">Image Alt</label>
+                                <label class="required form-label">{{ __('backend.category.image_alt') }}</label>
                                 <!--end::Label-->
                                 <input value="{{ old('image_alt', $category->image_alt) }}" type="text" name="image_alt"
-                                    class="form-control w-full mb-2" placeholder="image alt">
+                                    class="form-control w-full mb-2" placeholder="{{ __('backend.category.image_alt') }}">
                                 @error('image_alt')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->
-                                <!--begin::Description-->
-                                <!--end::Description-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                         </div>
                         <!--end::Card body-->
@@ -128,15 +124,9 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Status</h2>
+                                <h2>{{ __('backend.common.status') }}</h2>
                             </div>
                             <!--end::Card title-->
-                            <!--begin::Card toolbar-->
-                            {{-- <div class="card-toolbar">
-                                <div class="rounded-circle bg-success w-15px h-15px" id="kt_ecommerce_add_category_status">
-                                </div>
-                            </div> --}}
-                            <!--begin::Card toolbar-->
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
@@ -144,77 +134,17 @@
                             <!--begin::Select2-->
                             <select name="status" class="form-select mb-2 select2-hidden-accessible" data-control="select2"
                                 data-hide-search="true" data-placeholder="Select Status">
-                                <option value="1" @selected(old('status', $category->status) == 1)>Active</option>
-                                <option value="0" @selected(old('status', $category->status) == 0)>Inactive</option>
+                                <option value="1" @selected(old('status', $category->status) == 1)>{{ __('backend.common.active') }}</option>
+                                <option value="0" @selected(old('status', $category->status) == 0)>{{ __('backend.common.inactive') }}</option>
                             </select>
                             <!--end::Select2-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the category status.</div>
+                            <div class="text-muted fs-7">{{ __('backend.category.status_description') }}</div>
                             <!--end::Description-->
-                            <!--begin::Datepicker-->
-                            {{-- <div class="d-none mt-10">
-                                <label for="kt_ecommerce_add_category_status_datepicker" class="form-label">Select
-                                    publishing date and time</label>
-                                <input class="form-control flatpickr-input"
-                                    id="kt_ecommerce_add_category_status_datepicker" placeholder="Pick date &amp; time"
-                                    type="text" readonly="readonly">
-                            </div> --}}
-                            <!--end::Datepicker-->
                         </div>
                         <!--end::Card body-->
                     </div>
                     <!--end::Status-->
-                    <!--begin::Template settings-->
-                    {{-- <div class="card card-flush py-4">
-                        <!--begin::Card header-->
-                        <div class="card-header">
-                            <!--begin::Card title-->
-                            <div class="card-title">
-                                <h2>Store Template</h2>
-                            </div>
-                            <!--end::Card title-->
-                        </div>
-                        <!--end::Card header-->
-                        <!--begin::Card body-->
-                        <div class="card-body pt-0">
-                            <!--begin::Select store template-->
-                            <label for="kt_ecommerce_add_category_store_template" class="form-label">Select a store
-                                template</label>
-                            <!--end::Select store template-->
-                            <!--begin::Select2-->
-                            <select class="form-select mb-2 select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select an option"
-                                id="kt_ecommerce_add_category_store_template"
-                                data-select2-id="select2-data-kt_ecommerce_add_category_store_template" tabindex="-1"
-                                aria-hidden="true">
-                                <option></option>
-                                <option value="default" selected="selected" data-select2-id="select2-data-13-8pfb">
-                                    Default template</option>
-                                <option value="electronics">Electronics</option>
-                                <option value="office">Office stationary</option>
-                                <option value="fashion">Fashion</option>
-                            </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr"
-                                data-select2-id="select2-data-12-hjx9" style="width: 100%;"><span class="selection"><span
-                                        class="select2-selection select2-selection--single form-select mb-2"
-                                        role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
-                                        aria-disabled="false"
-                                        aria-labelledby="select2-kt_ecommerce_add_category_store_template-container"
-                                        aria-controls="select2-kt_ecommerce_add_category_store_template-container"><span
-                                            class="select2-selection__rendered"
-                                            id="select2-kt_ecommerce_add_category_store_template-container" role="textbox"
-                                            aria-readonly="true" title="Default template">Default template</span><span
-                                            class="select2-selection__arrow" role="presentation"><b
-                                                role="presentation"></b></span></span></span><span
-                                    class="dropdown-wrapper" aria-hidden="true"></span></span>
-                            <!--end::Select2-->
-                            <!--begin::Description-->
-                            <div class="text-muted fs-7">Assign a template from your current theme to define how the
-                                category products are displayed.</div>
-                            <!--end::Description-->
-                        </div>
-                        <!--end::Card body-->
-                    </div> --}}
-                    <!--end::Template settings-->
                 </div>
                 <!--end::Aside column-->
                 <!--begin::Main column-->
@@ -224,7 +154,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Edit Category</h2>
+                                <h2>{{ __('backend.category.edit') }}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -233,20 +163,20 @@
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
                                 <!--begin::Label-->
-                                <label class="required form-label">Category Name</label>
+                                <label class="required form-label">{{ __('backend.category.name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input value="{{ old('name', $category->name) }}" type="text" name="name"
-                                    class="form-control w-6/12 mb-2" placeholder="category name">
+                                    class="form-control w-6/12 mb-2" placeholder="{{ __('backend.category.name') }}">
                                 @error('name')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->
                                 <!--begin::Description-->
-                                <div class="text-muted fs-7">A category name is required and recommended to be unique.
+                                <div class="text-muted fs-7">
+                                    {{ __('backend.category.name_description') }}
                                 </div>
                                 <!--end::Description-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                             <!--end::Input group-->
                         </div>
@@ -256,11 +186,11 @@
                     <div class="d-flex justify-content-end">
                         <!--begin::Button-->
                         <a href="{{ route('category.index') }}" id="kt_ecommerce_add_product_cancel"
-                            class="btn btn-light me-5">Cancel</a>
+                            class="btn btn-light me-5">{{ __('backend.common.cancel') }}</a>
                         <!--end::Button-->
                         <!--begin::Button-->
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">Update Category</span>
+                            <span class="indicator-label">{{ __('backend.category.update_category') }}</span>
                         </button>
                         <!--end::Button-->
                     </div>
