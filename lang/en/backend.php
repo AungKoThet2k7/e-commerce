@@ -13,6 +13,14 @@ return [
         'actions' => 'Actions',
         'cancel' => 'Cancel',
     ],
+    'sidebar' => [
+        'dashboard' => 'Dashboard',
+        'usermanagement' => 'User Management',
+        'users' => 'Users',
+        'roles' => 'Roles',
+        'productmanagement' => 'Product Management',
+        'products' => 'Products',
+    ],
     'category' => [
         'categories' => 'Categories',
         'category' => 'Category',
@@ -48,5 +56,8 @@ return [
         'name' => 'Sub Category Name',
         'edit' => 'Edit Sub Category',
         'update_subcategory' => 'Update Sub Category',
+    ],
+    'productbrand' => [
+        'productbrands' => 'Product Brands',
     ],
 ];

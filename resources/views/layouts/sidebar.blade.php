@@ -46,7 +46,7 @@
                 @can('dashboard')
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
-                            <span class="menu-section text-sky-500 text-uppercase fs-8 ls-1">Dashboard</span>
+                            <span class="menu-section text-sky-500 text-uppercase fs-8 ls-1">{{ __('backend.sidebar.dashboard') }}</span>
                         </div>
                     </div>
                     <div class="menu-item">
@@ -68,7 +68,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Dashboard</span>
+                            <span class="menu-title">{{ __('backend.sidebar.dashboard') }}</span>
                         </a>
                     </div>
                 @endcan
@@ -77,7 +77,7 @@
                 @can('users.index')
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
-                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">User Management</span>
+                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{ __('backend.sidebar.usermanagement') }}</span>
                         </div>
                     </div>
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -96,7 +96,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">User</span>
+                            <span class="menu-title">{{ __('backend.sidebar.users') }}</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
@@ -105,7 +105,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">User</span>
+                                    <span class="menu-title">{{ __('backend.sidebar.users') }}</span>
                                 </a>
                             </div>
                             @can('roles.index')
@@ -114,7 +114,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Role</span>
+                                        <span class="menu-title">{{ __('backend.sidebar.roles') }}</span>
                                     </a>
                                 </div>
                             @endcan
@@ -126,7 +126,7 @@
                 <!--begin::Product-->
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
-                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">Products</span>
+                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{ __('backend.sidebar.productmanagement') }}</span>
                     </div>
                 </div>
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -152,7 +152,7 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">Products</span>
+                        <span class="menu-title">{{ __('backend.sidebar.products') }}</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
@@ -161,7 +161,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Products</span>
+                                <span class="menu-title">{{ __('backend.sidebar.products') }}</span>
                             </a>
                         </div>
                         @can('categories.index')
@@ -170,7 +170,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Categories</span>
+                                    <span class="menu-title">{{ __('backend.category.categories') }}</span>
                                 </a>
                             </div>
                         @endcan
@@ -180,7 +180,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Sub Categories</span>
+                                    <span class="menu-title">{{ __('backend.subcategory.subcategories') }}</span>
                                 </a>
                             </div>
                         @endcan
@@ -190,7 +190,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Product Brands</span>
+                                    <span class="menu-title">{{ __('backend.productbrand.productbrands') }}</span>
                                 </a>
                             </div>
                         @endcan
@@ -203,7 +203,7 @@
                         <div class="separator mx-1 my-4"></div>
                     </div>
                 </div>
-                <div class="menu-item">
+                {{-- <div class="menu-item">
                     <a class="menu-link" href="../../demo1/dist/documentation/getting-started/changelog.html">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/coding/cod003.svg-->
@@ -222,7 +222,7 @@
                         </span>
                         <span class="menu-title">Changelog v8.0.38</span>
                     </a>
-                </div>
+                </div> --}}
             </div>
             <!--end::Menu-->
         </div>
