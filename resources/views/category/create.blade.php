@@ -174,14 +174,9 @@
                                 <input value="{{ old('name') }}" type="text" name="name"
                                     class="form-control w-6/12 mb-2" placeholder="{{ __('backend.category.name') }}">
                                 <!--end::Input-->
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">
-                                    {{ __('backend.category.name_description') }}
-                                </div>
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
-                                <!--end::Description-->
                             </div>
                             <!--end::Input group-->
                         </div>

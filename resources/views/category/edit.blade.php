@@ -172,11 +172,6 @@
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">
-                                    {{ __('backend.category.name_description') }}
-                                </div>
-                                <!--end::Description-->
                             </div>
                             <!--end::Input group-->
                         </div>
