@@ -9,7 +9,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Roles</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.role.roles') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -32,7 +32,7 @@
                         <!--end::Item-->
                     @else --}}
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Roles</li>
+                    <li class="breadcrumb-item text-muted">{{ __('backend.role.roles') }}</li>
                     <!--end::Item-->
                     {{-- @endtrashed --}}
                 </ul>
@@ -86,7 +86,7 @@
                             <form id="searchForm" action="{{ route('role.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
                                     data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
-                                    placeholder="Search ...">
+                                    placeholder="{{ __('backend.common.search') }} ...">
                             </form>
                         </div>
                         <!--end::Search-->
@@ -125,7 +125,7 @@
                                         </svg>
                                     </span>
                                     <!--end::Svg Icon-->
-                                    Add Role
+                                    {{ __('backend.role.create') }}
                                 </a>
                                 <!--end::Add user-->
                             </div>
@@ -149,13 +149,13 @@
                                         <th>#</th>
                                         <th class=" min-w-250px text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
-                                            aria-label="Category: activate to sort column ascending">Name</th>
+                                            aria-label="Category: activate to sort column ascending">{{ __('backend.role.name') }}</th>
 
                                         <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1" colspan="1">
-                                            Created Date
+                                            {{ __('backend.common.created_date') }}
                                         </th>
                                         <th class="text-nowarp text-center min-w-70px sorting_disabled" rowspan="1"
-                                            colspan="1" aria-label="Actions" style="width: 96.2292px;">Actions</th>
+                                            colspan="1" aria-label="Actions">{{ __('backend.common.actions') }}</th>
                                     </tr>
                                     <!--end::Table row-->
                                 </thead>
@@ -243,11 +243,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            {{-- @trashed
-                                                <td colspan="6" class="text-center">No Trashed Category Found</td>
-                                            @else --}}
-                                            <td colspan="6" class="text-center">No Role Found</td>
-                                            {{-- @endtrashed --}}
+                                            <td colspan="6" class="text-center">{{ __('backend.role.not_found') }}</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

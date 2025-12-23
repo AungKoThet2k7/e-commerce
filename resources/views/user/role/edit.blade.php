@@ -10,7 +10,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Edit Role</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.role.edit') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -19,7 +19,8 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('role.index') }}" class="text-muted text-hover-primary">Roles</a>
+                        <a href="{{ route('role.index') }}"
+                            class="text-muted text-hover-primary">{{ __('backend.role.roles') }}</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -28,7 +29,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Edit Role</li>
+                    <li class="breadcrumb-item text-muted">{{ __('backend.role.edit') }}</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -55,7 +56,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Edit Role</h2>
+                                <h2>{{ __('backend.role.edit') }}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -64,11 +65,11 @@
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
                                 <!--begin::Label-->
-                                <label class="required form-label">Name</label>
+                                <label class="required form-label">{{ __('backend.role.name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input value="{{ old('name', $role->name) }}" type="text" name="name"
-                                    class="form-control mb-2" placeholder="Name">
+                                    class="form-control mb-2" placeholder="{{ __('backend.role.name') }}">
                                 <!--end::Input-->
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
@@ -76,53 +77,8 @@
                             </div>
                             <!--end::Input group-->
 
-                            <!--start::permission select-->
-                            {{-- <div class="">
-                                <!--begin::Permission-->
-                                <label class="required form-label">Permissions</label>
-
-                                @error('permissions')
-                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
-
-                                @error('permissions.*')
-                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
-
-                                @foreach ($permissions as $permission)
-                                    <div class="form-check mb-0 flex justify-between items-center bg-gray-100 p-5">
-                                        <label class=" form-check-label text-gray-700 text-hover-primary fs-5 fw-bolder"
-                                            for="">{{ $permission->name }}</label>
-                                        <input class=" form-check-input" name="permissions[]" multiple
-                                            value="{{ $permission->name }}" @checked($role->hasPermissionTo($permission->name)) type="checkbox">
-                                    </div>
-                                @endforeach
-                                <!--end::Permission-->
-                            </div> --}}
-                            <!--end::permission select-->
-
-                            <!--start::permission list group-->
-                            {{-- <div class=" border border-gray-100">
-                                @foreach ($permissions as $groupName => $permissionGroup)
-                                    <div class="form-check mb-0 flex justify-between items-center bg-gray-100 p-5">
-                                        <label class=" form-check-label text-gray-900 text-hover-primary fs-5 fw-bolder"
-                                            for="">{{ $groupName }}</label>
-                                    </div>
-
-                                    @foreach ($permissionGroup as $permission)
-                                        <div class="form-check mb-0 flex justify-between items-center py-5 px-10">
-                                            <label class=" form-check-label text-gray-700 text-hover-primary fs-5 fw-bolder"
-                                                for="">{{ $permission->name }}</label>
-                                            <input class=" form-check-input" name="permissions[]" multiple
-                                                value="{{ $permission->name }}" @checked($role->hasPermissionTo($permission->name))
-                                                type="checkbox">
-                                        </div>
-                                    @endforeach
-                                @endforeach
-                            </div> --}}
-                            <!--end::permission list group-->
-
                             <!--Begin::Permission Accordion-->
+                            <label for="" class=" required form-label">{{ __('backend.role.permissions') }}</label>
                             <div id="accordion-collapse" data-accordion="collapse"
                                 class="bg-gray-100 rounded-lg border border-default overflow-hidden">
                                 @foreach ($permissions as $groupName => $permissionGroup)
@@ -166,11 +122,11 @@
                     <div class="d-flex justify-content-end">
                         <!--begin::Button-->
                         <a href="{{ route('role.index') }}" id="kt_ecommerce_add_product_cancel"
-                            class="btn btn-light me-5">Cancel</a>
+                            class="btn btn-light me-5">{{ __('backend.common.cancel') }}</a>
                         <!--end::Button-->
                         <!--begin::Button-->
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">Update Role</span>
+                            <span class="indicator-label">{{ __('backend.role.update_role') }}</span>
                         </button>
                         <!--end::Button-->
                     </div>

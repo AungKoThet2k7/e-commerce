@@ -171,7 +171,7 @@
                                             {{ __('backend.user.email') }}</th>
                                         <th class="text-nowarp min-w-70px sorting_disabled" rowspan="1"
                                             colspan="1">
-                                            {{ __('backend.common.joined_date') }}
+                                            {{ __('backend.user.joined_date') }}
                                         </th>
                                         <th class="text-nowarp text-center min-w-70px sorting_disabled" rowspan="1"
                                             colspan="1" aria-label="Actions">{{ __('backend.common.actions') }}</th>
