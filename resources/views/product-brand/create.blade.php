@@ -11,7 +11,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Add Brand</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.productbrand.create') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -20,7 +20,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('product-brand.index') }}" class="text-muted text-hover-primary">Product Brands</a>
+                        <a href="{{ route('product-brand.index') }}" class="text-muted text-hover-primary">{{ __('backend.productbrand.productbrands') }}</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -29,7 +29,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Add Brand</li>
+                    <li class="breadcrumb-item text-muted">{{ __('backend.productbrand.create') }}</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -56,7 +56,7 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Brand Logo</h2>
+                                <h2>{{ __('backend.productbrand.image') }}</h2>
                             </div>
                             <!--end::Card title-->
 
@@ -73,7 +73,7 @@
                                 <!--begin::Label-->
                                 <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Change Logo">
+                                    data-bs-original-title="{{ __('backend.productbrand.change_image') }}">
                                     <!--begin::Icon-->
                                     <i class="bi bi-pencil-fill fs-7"></i>
                                     <!--end::Icon-->
@@ -87,7 +87,7 @@
                                 <!--begin::Cancel-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Cancel image">
+                                    data-bs-original-title="{{ __('backend.productbrand.cancel_image') }}">
                                     <i class="bi bi-x fs-2"></i>
                                 </span>
                                 <!--end::Cancel-->
@@ -101,25 +101,21 @@
                             </div>
                             <!--end::Image input-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the Brand Logo. Only *.png, *.jpg and *.jpeg
-                                image files are accepted</div>
+                            <div class="text-muted fs-7">{{ __('backend.productbrand.image_description') }}</div>
                             <!--end::Description-->
                             @error('logo')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
                             <div class="flex flex-col items-start mt-5">
                                 <!--begin::Label-->
-                                <label class="required form-label">Image Alt</label>
+                                <label class="required form-label">{{ __('backend.productbrand.image_alt') }}</label>
                                 <!--end::Label-->
                                 <input value="{{ old('logo_alt') }}" type="text" name="logo_alt"
-                                    class="form-control w-full mb-2" placeholder="image alt">
+                                    class="form-control w-full mb-2" placeholder="{{ __('backend.productbrand.image_alt') }}">
                                 @error('logo_alt')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->
-                                <!--begin::Description-->
-                                <!--end::Description-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                         </div>
                         <!--end::Card body-->
@@ -131,7 +127,7 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Status</h2>
+                                <h2>{{ __('backend.common.status') }}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -143,12 +139,12 @@
                                 id="kt_ecommerce_add_category_status_select"
                                 data-select2-id="select2-data-kt_ecommerce_add_category_status_select" tabindex="-1"
                                 aria-hidden="true">
-                                <option value="1">Active</option>
-                                <option value="0">inactive</option>
+                                <option value="1">{{ __('backend.common.active') }}</option>
+                                <option value="0">{{ __('backend.common.inactive') }}</option>
                             </select>
                             <!--end::Select2-->
                             <!--begin::Description-->
-                            <div class="text-muted fs-7">Set the Brand status.</div>
+                            <div class="text-muted fs-7">{{ __('backend.productbrand.status_description') }}</div>
                             <!--end::Description-->
                         </div>
                         <!--end::Card body-->
@@ -163,7 +159,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Add Brand</h2>
+                                <h2>{{ __('backend.productbrand.create') }}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -172,19 +168,15 @@
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
                                 <!--begin::Label-->
-                                <label class="required form-label">Brand Name</label>
+                                <label class="required form-label">{{ __('backend.productbrand.name') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input value="{{ old('name') }}" type="text" name="name"
-                                    class="form-control w-6/12 mb-2" placeholder="Brand name">
+                                    class="form-control w-6/12 mb-2" placeholder="{{ __('backend.productbrand.name') }}">
                                 <!--end::Input-->
-                                <!--begin::Description-->
-                                <div class="text-muted fs-7">A Brand name is required and recommended to be unique.
-                                </div>
                                 @error('name')
                                     <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
-                                <!--end::Description-->
                             </div>
                             <!--end::Input group-->
                         </div>
@@ -194,11 +186,11 @@
                     <div class="d-flex justify-content-end">
                         <!--begin::Button-->
                         <a href="{{ route('product-brand.index') }}" id="kt_ecommerce_add_product_cancel"
-                            class="btn btn-light me-5">Cancel</a>
+                            class="btn btn-light me-5">{{ __('backend.common.cancel') }}</a>
                         <!--end::Button-->
                         <!--begin::Button-->
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">Add New Brand</span>
+                            <span class="indicator-label">{{ __('backend.productbrand.create') }}</span>
                         </button>
                         <!--end::Button-->
                     </div>

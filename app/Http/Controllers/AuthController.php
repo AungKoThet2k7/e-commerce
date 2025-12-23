@@ -14,13 +14,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:8'
         ]);
 
-        if (Auth::attempt($request->only("email", "password"))) {
+        $remember = $request->remember ? true : false;
+
+        if (Auth::attempt($request->only("email", "password"), $remember)) {
             return redirect()->route('dashboard')->with('success', 'Login successfully');
         }
 
