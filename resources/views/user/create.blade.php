@@ -9,7 +9,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">Users</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.user.create') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -18,7 +18,8 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a href="{{ route('user.index') }}" class="text-muted text-hover-primary">Users</a>
+                        <a href="{{ route('user.index') }}"
+                            class="text-muted text-hover-primary">{{ __('backend.user.users') }}</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -27,7 +28,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Add User</li>
+                    <li class="breadcrumb-item text-muted">{{ __('backend.user.create') }}</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -53,7 +54,7 @@
                         <div class="card-header">
                             <!--begin::Card title-->
                             <div class="card-title">
-                                <h2>Profile Image</h2>
+                                <h2>{{ __('backend.user.image') }}</h2>
                             </div>
                             <!--end::Card title-->
                         </div>
@@ -69,7 +70,7 @@
                                 <!--begin::Label-->
                                 <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Change image">
+                                    data-bs-original-title="{{ __('backend.user.create_image') }}">
                                     <!--begin::Icon-->
                                     <i class="bi bi-pencil-fill fs-7"></i>
                                     <!--end::Icon-->
@@ -82,7 +83,7 @@
                                 <!--begin::Cancel-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="Cancel image">
+                                    data-bs-original-title="{{ __('backend.user.cancel_image') }}">
                                     <i class="bi bi-x fs-2"></i>
                                 </span>
                                 <!--end::Cancel-->
@@ -96,22 +97,21 @@
                             </div>
                             <!--end::Image input-->
                             <!--begin::Description-->
+
+                            <div class="text-muted fs-7">{{ __('backend.user.image_description') }}</div>
                             @error('image')
                                 <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
                             <div class="flex flex-col items-start mt-5">
                                 <!--begin::Label-->
-                                <label class="required form-label">Image Alt</label>
+                                <label class="required form-label">{{ __('backend.user.image_alt') }}</label>
                                 <!--end::Label-->
                                 <input value="{{ old('image_alt') }}" type="text" name="image_alt"
-                                    class="form-control w-full mb-2" placeholder="image alt">
+                                    class="form-control w-full mb-2" placeholder="{{ __('backend.user.image_alt') }}">
                                 @error('image_alt')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->
-                                <!--begin::Description-->
-                                <!--end::Description-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
                             </div>
                             <!--end::Description-->
                         </div>
@@ -127,7 +127,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>Add User</h2>
+                                <h2>{{ __('backend.user.create') }}</h2>
                             </div>
                         </div>
                         <!--end::Card header-->
@@ -140,53 +140,44 @@
                                 <div class="flex flex-col justify-center gap-10">
                                     <div class="">
                                         <!--begin::Label-->
-                                        <label class="required form-label">User Name</label>
+                                        <label class="required form-label">{{ __('backend.user.name') }}</label>
                                         <!--end::Label-->
                                         <input value="{{ old('name') }}" type="text" name="name"
-                                            class="form-control mb-2" placeholder="user name">
+                                            class="form-control mb-2" placeholder="{{ __('backend.user.name') }}">
                                         @error('name')
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
                                         <!--end::Input-->
-                                        <!--begin::Description-->
-                                        <!--end::Description-->
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
                                     <div class="">
                                         <!--begin::Label-->
-                                        <label class="required form-label">Email</label>
+                                        <label class="required form-label">{{ __('backend.user.email') }}</label>
                                         <!--end::Label-->
                                         <input value="{{ old('email') }}" type="email" name="email"
-                                            class="form-control mb-2" placeholder="email">
+                                            class="form-control mb-2" placeholder="{{ __('backend.user.email') }}">
                                         @error('email')
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
                                         <!--end::Input-->
-                                        <!--begin::Description-->
-                                        <!--end::Description-->
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
                                     <div class="">
                                         <!--begin::Label-->
-                                        <label class="required form-label">Password</label>
+                                        <label class="required form-label">{{ __('backend.user.password') }}</label>
                                         <!--end::Label-->
                                         <input value="{{ old('password') }}" type="password" name="password"
-                                            class="form-control mb-2" placeholder="password">
+                                            class="form-control mb-2" placeholder="{{ __('backend.user.password') }}">
                                         @error('password')
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
                                         <!--end::Input-->
-                                        <!--begin::Description-->
-                                        <!--end::Description-->
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
                                     </div>
 
                                     <div class="">
                                         <!--begin::Label-->
-                                        <label class="required form-label">Role</label>
+                                        <label class="required form-label">{{ __('backend.role.role') }}</label>
                                         <!--end::Label-->
                                         <select name="role" class=" form-select form-select-solid"
-                                            data-kt-select2="true" data-placeholder="Role"
+                                            data-kt-select2="true" data-placeholder="{{ __('backend.role.role') }}"
                                             data-select2-id="select2-data-7-l7k0" tabindex="-1" aria-hidden="true">
                                             <option data-select2-id="select2-data-9-3eq9"></option>
                                             @foreach ($roles as $role)
@@ -208,11 +199,11 @@
                     <div class="d-flex justify-content-end">
                         <!--begin::Button-->
                         <a href="{{ route('user.index') }}" id="kt_ecommerce_add_product_cancel"
-                            class="btn btn-light me-5">Cancel</a>
+                            class="btn btn-light me-5">{{ __('backend.common.cancel') }}</a>
                         <!--end::Button-->
                         <!--begin::Button-->
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">Add User</span>
+                            <span class="indicator-label">{{ __('backend.user.create') }}</span>
                         </button>
                         <!--end::Button-->
                     </div>

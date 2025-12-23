@@ -96,7 +96,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">{{ __('backend.sidebar.users') }}</span>
+                            <span class="menu-title">{{ __('backend.user.users') }}</span>
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
@@ -105,7 +105,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">{{ __('backend.sidebar.users') }}</span>
+                                    <span class="menu-title">{{ __('backend.user.users') }}</span>
                                 </a>
                             </div>
                             @can('roles.index')
@@ -114,7 +114,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">{{ __('backend.sidebar.roles') }}</span>
+                                        <span class="menu-title">{{ __('backend.role.roles') }}</span>
                                     </a>
                                 </div>
                             @endcan
