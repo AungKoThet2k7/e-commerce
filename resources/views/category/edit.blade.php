@@ -163,12 +163,26 @@
                             <!--begin::Input group-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
                                 <!--begin::Label-->
-                                <label class="required form-label">{{ __('backend.category.name') }}</label>
+                                <label class="required form-label">{{ __('backend.category.name_en') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input value="{{ old('name', $category->name) }}" type="text" name="name"
-                                    class="form-control w-6/12 mb-2" placeholder="{{ __('backend.category.name') }}">
-                                @error('name')
+                                <input value="{{ old('name_en', $category->name_en) }}" type="text" name="name_en"
+                                    class="form-control w-6/12 mb-2" placeholder="">
+                                @error('name_en')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <!--begin::Label-->
+                                <label class="required form-label">{{ __('backend.category.name_mm') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input value="{{ old('name_mm', $category->name_mm) }}" type="text" name="name_mm"
+                                    class="form-control w-6/12 mb-2" placeholder="">
+                                @error('name_mm')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->

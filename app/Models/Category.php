@@ -2,21 +2,31 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Category extends Model
 {
     //
     use SoftDeletes;
-    
+
     protected $fillable = [
-        'name',
+        'name_en',
+        'name_mm',
         'image',
         'image_alt',
         'created_by',
         'updated_by',
     ];
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => LaravelLocalization::getCurrentLocale() == 'en' ? $this->name_en : $this->name_mm,
+        );
+    }
 
     public function createdBy()
     {

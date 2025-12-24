@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 // use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller implements HasMiddleware
@@ -32,35 +31,38 @@ class CategoryController extends Controller implements HasMiddleware
             new Middleware('permission:categories.sort', only: ['updateSort']),
         ];
     }
+
     public function index(Request $request)
     {
 
         $request->validate([
-            "search" => "nullable|string",
-            "trashed" => "nullable|in:1",
-            "status" => "nullable|in:all,0,1",
+            'search' => 'nullable|string',
+            'trashed' => 'nullable|in:1',
+            'status' => 'nullable|in:all,0,1',
         ]);
 
-        $categories = Category::orderBy("sort", "desc")
-            ->when(request("search"), function ($q) {
+        $categories = Category::orderBy('sort', 'desc')
+            ->when(request('search'), function ($q) {
 
                 $q->where(function ($q) {
-                    //search by Category Name
-                    $q->where("name", "like", "%" . request("search") . "%")
+                    // search by Category Name
+                    $q->where('name_en', 'like', '%'.request('search').'%')
+                        ->orWhere('name_mm', 'like', '%'.request('search').'%')
 
-                        //search by Username (updated_by)
-                        ->orWhereHas("updatedBy", function ($q) {
-                            $q->where("name", "like", "%" . request("search") . "%");
+                        // search by Username (updated_by)
+                        ->orWhereHas('updatedBy', function ($q) {
+                            $q->where('name', 'like', '%'.request('search').'%');
                         });
                 });
             })
-            ->when(request('trashed'), fn($q) => $q->onlyTrashed())
-            //filter by status
-            ->when(request('status') !== null && request('status') !== 'all', fn($q) => $q->where('status', request('status')))
+            ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
+            // filter by status
+            ->when(request('status') !== null && request('status') !== 'all', fn ($q) => $q->where('status', request('status')))
             ->with(['createdBy', 'updatedBy'])
             ->paginate(5)
             ->withQueryString();
-        return view('category.index', compact(["categories"]));
+
+        return view('category.index', compact(['categories']));
     }
 
     /**
@@ -79,31 +81,32 @@ class CategoryController extends Controller implements HasMiddleware
         // return $request;
         $maxSortNumber = Category::all()->max('sort');
 
-        $category = new Category();
+        $category = new Category;
 
-        $category->name = $request->name;
+        $category->name_en = $request->name_en;
+        $category->name_mm = $request->name_mm;
         $category->status = $request->status;
         $category->sort = $maxSortNumber + 1;
         $category->created_by = Auth::id();
         $category->updated_by = Auth::id();
 
         if ($request->hasFile('image')) {
-            //new image name
-            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+            // new image name
+            $newImageName = uniqid().'-'.$request->file('image')->getClientOriginalName();
 
-            //store image to storage
+            // store image to storage
             $request->image->storeAs('category', $newImageName, 'public');
 
-            //store image to database
+            // store image to database
             $category->image = $newImageName;
 
-            //store image alt to database
+            // store image alt to database
             $category->image_alt = $request->image_alt;
         }
 
         $category->save();
 
-        return redirect()->route("category.index")->with("success", "New Category Added successfully");
+        return redirect()->route('category.index')->with('success', 'New Category Added successfully');
     }
 
     /**
@@ -111,7 +114,7 @@ class CategoryController extends Controller implements HasMiddleware
      */
     public function show(Category $category)
     {
-        return abort(404, "Page Not Found");
+        return abort(404, 'Page Not Found');
     }
 
     /**
@@ -119,7 +122,7 @@ class CategoryController extends Controller implements HasMiddleware
      */
     public function edit(Category $category)
     {
-        return view('category.edit', compact(["category"]));
+        return view('category.edit', compact(['category']));
     }
 
     /**
@@ -128,30 +131,31 @@ class CategoryController extends Controller implements HasMiddleware
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         // return $request;
-        $category->name = $request->name;
+        $category->name_en = $request->name_en;
+        $category->name_mm = $request->name_mm;
         $category->status = $request->status;
         $category->updated_by = Auth::id();
 
         if ($request->hasFile('image')) {
-            //delete old image
-            Storage::disk('public')->delete('category/' . $category->image);
+            // delete old image
+            Storage::disk('public')->delete('category/'.$category->image);
 
-            //new image name
-            $newImageName =  uniqid() . '-' . $request->file('image')->getClientOriginalName();
+            // new image name
+            $newImageName = uniqid().'-'.$request->file('image')->getClientOriginalName();
 
-            //store image to storage
+            // store image to storage
             $request->image->storeAs('category', $newImageName, 'public');
 
-            //store image to database
+            // store image to database
             $category->image = $newImageName;
 
-            //store image alt to database
+            // store image alt to database
             $category->image_alt = $request->image_alt;
         }
 
         $category->update();
 
-        return redirect()->route("category.index")->with("success", "Category updated successfully");
+        return redirect()->route('category.index')->with('success', 'Category updated successfully');
     }
 
     /**
@@ -161,29 +165,29 @@ class CategoryController extends Controller implements HasMiddleware
     {
         $category = Category::withTrashed()->findOrFail($id);
 
-        if (request("delete") === "restore") {
+        if (request('delete') === 'restore') {
 
-            //restore category
+            // restore category
             $category->restore();
 
-            return redirect()->route("category.index")->with("success", "Category Restore successfully");
-        } elseif (request("delete") === "force") {
+            return redirect()->route('category.index')->with('success', 'Category Restore successfully');
+        } elseif (request('delete') === 'force') {
 
-            //delete image from storage
+            // delete image from storage
             if (isset($category->image)) {
-                Storage::disk('public')->delete('category/' . $category->image);
+                Storage::disk('public')->delete('category/'.$category->image);
             }
 
-            //force delete from database
+            // force delete from database
             $category->forceDelete();
 
-            return redirect()->route("category.index")->with("success", "Category delete successfully");
+            return redirect()->route('category.index')->with('success', 'Category delete successfully');
         } else {
 
-            //Move category to trash
+            // Move category to trash
             $category->delete();
 
-            return redirect()->route("category.index")->with("success", "Category trash successfully");
+            return redirect()->route('category.index')->with('success', 'Category trash successfully');
         }
     }
 

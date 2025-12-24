@@ -23,11 +23,17 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => [
+            "name_en" => [
                 'required',
                 'min:3',
-                'max:20',
-                Rule::unique('categories', 'name')->ignore($this->route('category')),
+                'max:30',
+                Rule::unique('categories', 'name_en')->ignore($this->route('category')),
+            ],
+            "name_mm" => [
+                'nullable',
+                'min:3',
+                'max:30',
+                Rule::unique('categories', 'name_mm')->ignore($this->route('category')),
             ],
             "image" => "nullable|image|mimes:jpeg,png,jpg|max:5012",
             "image_alt" => "nullable|min:3|max:30",

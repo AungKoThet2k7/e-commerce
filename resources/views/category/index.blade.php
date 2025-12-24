@@ -136,7 +136,8 @@
                         <div class="card-toolbar">
                             @trashed
                                 <!--begin::Category list-->
-                                <a href="{{ route('category.index') }}" class="btn btn-primary flex items-center justify-center">
+                                <a href="{{ route('category.index') }}"
+                                    class="btn btn-primary flex items-center justify-center">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                     <span class="svg-icon svg-icon-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -151,7 +152,8 @@
                                 <!--end::Category list-->
                             @else
                                 <!--begin::Add category-->
-                                <a href="{{ route('category.create') }}" class="btn btn-primary flex items-center justify-center">
+                                <a href="{{ route('category.create') }}"
+                                    class="btn btn-primary flex items-center justify-center">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                     <span class="svg-icon svg-icon-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
