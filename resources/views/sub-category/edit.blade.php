@@ -165,40 +165,54 @@
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
                             <!--begin::Input group-->
-                            <div class="mb-10 fv-row fv-plugins-icon-container">
-                                <!--begin::Label-->
-                                <label class="required form-label">{{ __('backend.subcategory.name') }}</label>
-                                <!--end::Label-->
-                                <div class="flex justify-center gap-10">
-                                    <div class="">
-                                        <!--begin::Input-->
-                                        <input value="{{ old('name', $subCategory->name) }}" type="text" name="name"
-                                            class="form-control w-80 mb-2"
-                                            placeholder="{{ __('backend.subcategory.name') }}">
-                                        <!--end::Input-->
-                                        <!--begin::Error Message-->
-                                        @error('name')
-                                            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                        @enderror
-                                        <!--end::Error Message-->
-                                    </div>
-                                    <!--start::Category-->
-                                    <div class="ms-3">
-                                        <select name="category_id" class=" w-250px form-select form-select-solid"
-                                            data-kt-select2="true" data-placeholder="{{ __('backend.category.category') }}"
-                                            data-allow-clear="true" data-select2-id="select2-data-7-l7k0" tabindex="-1"
-                                            aria-hidden="true">
-                                            <option data-select2-id="select2-data-9-3eq9"></option>
-                                            @foreach (\App\Models\Category::all() as $category)
-                                                <option value="{{ $category->id }}" @selected(old('category_id', $subCategory->category_id) == $category->id)>
-                                                    {{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <!--end::Category-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container flex gap-10">
+                                <div class="">
+                                    <label class="required form-label">{{ __('backend.subcategory.name_en') }}</label>
+                                    <!--begin::Input-->
+                                    <input value="{{ old('name', $subCategory->name_en) }}" type="text" name="name_en"
+                                        class="form-control w-80 mb-2"
+                                        placeholder="{{ __('backend.subcategory.name_placeholder') }}" autocomplete>
+                                    <!--end::Input-->
+                                    <!--begin::Error Message-->
+                                    @error('name_en')
+                                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                    @enderror
+                                    <!--end::Error Message-->
                                 </div>
+                                <!--start::Category-->
+                                <div class="">
+                                    <label class="required form-label">{{ __('backend.category.category') }}</label>
+                                    <select name="category_id" class=" w-72 form-select form-select-solid"
+                                        data-kt-select2="true" data-placeholder="{{ __('backend.category.category') }}"
+                                        data-allow-clear="false" data-select2-id="select2-data-7-l7k0" tabindex="-1"
+                                        aria-hidden="true">
+                                        <option data-select2-id="select2-data-9-3eq9"></option>
+                                        @foreach (\App\Models\Category::all() as $category)
+                                            <option value="{{ $category->id }}" @selected(old('category_id', $subCategory->category_id) == $category->id)>
+                                                {{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!--end::Category-->
                             </div>
                             <!--end::Input group-->
+
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <!--begin::Label-->
+                                <label class="required form-label">{{ __('backend.subcategory.name_mm') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input value="{{ old('name_mm', $subCategory->name_mm) }}" type="text" name="name_mm"
+                                    class="form-control w-80 mb-2"
+                                    placeholder="{{ __('backend.subcategory.name_placeholder') }}">
+                                @error('name_mm')
+                                    <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+
                         </div>
                         <!--end::Card header-->
                     </div>

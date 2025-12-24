@@ -22,16 +22,22 @@ class StoreSubCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => [
+            'name_mm' => [
                 'required',
-                'unique:sub_categories,name',
+                'unique:sub_categories,name_en',
                 'min:3',
-                'max:20',
+                'max:30',
             ],
-            "image" => "required|image|mimes:jpeg,png,jpg|max:5012",
-            "image_alt" => "required|min:3|max:30",
-            "status" => "required|integer|in:0,1",
-            "category_id" => 'required|exists:categories,id',
+            'name_mm' => [
+                'nullable',
+                'unique:sub_categories,name_mm',
+                'min:3',
+                'max:30',
+            ],
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:5012',
+            'image_alt' => 'required|min:3|max:30',
+            'status' => 'required|integer|in:0,1',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 }

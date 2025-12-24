@@ -24,7 +24,7 @@ class Category extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn () => LaravelLocalization::getCurrentLocale() == 'en' ? $this->name_en : $this->name_mm,
+            get: fn () => LaravelLocalization::getCurrentLocale() == 'en' ? $this->name_en : $this->name_mm ?? $this->name_en,
         );
     }
 

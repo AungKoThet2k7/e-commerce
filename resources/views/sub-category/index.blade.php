@@ -204,7 +204,7 @@
                                         <th class=" text-nowrap  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Category: activate to sort column ascending">
-                                            {{ __('backend.subcategory.name') }}</th>
+                                            {{ __('backend.subcategory.subcategory') }}</th>
                                         <th class="text-nowarp text-center  sorting" tabindex="0"
                                             aria-controls="kt_ecommerce_category_table" rowspan="1" colspan="1"
                                             aria-label="Status: activate to sort column ascending">

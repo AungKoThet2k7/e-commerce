@@ -44,11 +44,13 @@ class SubCategoryController extends Controller implements HasMiddleware
             ->when(request('search'), function ($q) {
                 $q->where(function ($q) {
                     // search by Sub Category Name
-                    $q->where('name', 'like', '%'.request('search').'%')
+                    $q->where('name_en', 'like', '%'.request('search').'%')
+                        ->orWhere('name_mm', 'like', '%'.request('search').'%')
 
                         // search with Category Name (category_id)
                         ->orWhereHas('category', function ($q) {
-                            $q->where('name', 'like', '%'.request('search').'%');
+                            $q->where('name_en', 'like', '%'.request('search').'%')
+                                ->orWhere('name_mm', 'like', '%'.request('search').'%');
                         })
 
                         // search with Username (updated_by)
@@ -86,7 +88,8 @@ class SubCategoryController extends Controller implements HasMiddleware
 
         $subCategory = new SubCategory;
 
-        $subCategory->name = $request->name;
+        $subCategory->name_en = $request->name_en;
+        $subCategory->name_mm = $request->name_mm;
         $subCategory->status = $request->status;
         $subCategory->sort = $maxSortNumber + 1;
         $subCategory->category_id = $request->category_id;
@@ -133,7 +136,9 @@ class SubCategoryController extends Controller implements HasMiddleware
      */
     public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
     {
-        $subCategory->name = $request->name;
+        // return $request;
+        $subCategory->name_en = $request->name_en;
+        $subCategory->name_mm = $request->name_mm;
         $subCategory->status = $request->status;
         $subCategory->category_id = $request->category_id;
         $subCategory->updated_by = Auth::id();
