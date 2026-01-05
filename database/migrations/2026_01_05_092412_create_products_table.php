@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('sort')->default(1);
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

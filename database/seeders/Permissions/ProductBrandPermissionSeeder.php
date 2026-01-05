@@ -14,15 +14,15 @@ class ProductBrandPermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'productbrand.index',
-            'productbrand.create',
-            'productbrand.store',
-            'productbrand.show',
-            'productbrand.edit',
-            'productbrand.update',
-            'productbrand.destroy',
-            'productbrand.status',
-            'productbrand.sort',
+            'productbrands.index',
+            'productbrands.create',
+            'productbrands.store',
+            'productbrands.show',
+            'productbrands.edit',
+            'productbrands.update',
+            'productbrands.destroy',
+            'productbrands.status',
+            'productbrands.sort',
         ];
 
         foreach ($permissions as $permission) {

@@ -16,15 +16,15 @@ class ProductBrandController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:productbrand.index', only: ['index']),
-            new Middleware('permission:productbrand.create', only: ['create']),
-            new Middleware('permission:productbrand.store', only: ['store']),
-            new Middleware('permission:productbrand.show', only: ['show']),
-            new Middleware('permission:productbrand.edit', only: ['edit']),
-            new Middleware('permission:productbrand.update', only: ['update']),
-            new Middleware('permission:productbrand.destroy', only: ['destroy']),
-            new Middleware('permission:productbrand.status', only: ['updateStatus']),
-            new Middleware('permission:productbrand.sort', only: ['updateSort']),
+            new Middleware('permission:productbrands.index', only: ['index']),
+            new Middleware('permission:productbrands.create', only: ['create']),
+            new Middleware('permission:productbrands.store', only: ['store']),
+            new Middleware('permission:productbrands.show', only: ['show']),
+            new Middleware('permission:productbrands.edit', only: ['edit']),
+            new Middleware('permission:productbrands.update', only: ['update']),
+            new Middleware('permission:productbrands.destroy', only: ['destroy']),
+            new Middleware('permission:productbrands.status', only: ['updateStatus']),
+            new Middleware('permission:productbrands.sort', only: ['updateSort']),
         ];
     }
 

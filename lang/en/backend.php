@@ -53,11 +53,11 @@ return [
     ],
     'product'  => [
         'products' => 'Products',
-        'Product' => 'Product',
-        'trashed_Products' => 'Trashed Products',
+        'product' => 'Product',
+        'trashed_products' => 'Trashed Products',
         'not_found' => 'Product Not Found',
         'create' => 'Add Product',
-        'create_Product' => 'Add New Product',
+        'create_product' => 'Add New Product',
         'image' => 'Product Image',
         'image_alt' => 'Image Alt',
         'create_image' => 'Create Image',
@@ -69,7 +69,7 @@ return [
         'name_mm' => 'Product Name (mm)',
         'name_placeholder' => 'Product Name',
         'edit' => 'Edit Product',
-        'update_Product' => 'Update Product',
+        'update_product' => 'Update Product',
     ],
     'category' => [
         'categories' => 'Categories',

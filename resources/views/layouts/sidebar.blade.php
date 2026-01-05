@@ -156,6 +156,7 @@
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
+                        @can('products.index')
                         <div class="menu-item">
                             <a class="menu-link" href="{{  route('product.index') }}">
                                 <span class="menu-bullet">
@@ -164,6 +165,7 @@
                                 <span class="menu-title">{{ __('backend.product.products') }}</span>
                             </a>
                         </div>
+                        @endcan
                         @can('categories.index')
                             <div class="menu-item">
                                 <a class="menu-link" href="{{ route('category.index') }}">
@@ -184,7 +186,7 @@
                                 </a>
                             </div>
                         @endcan
-                        @can('productbrand.index')
+                        @can('productbrands.index')
                             <div class="menu-item">
                                 <a class="menu-link" href="{{ route('product-brand.index') }}">
                                     <span class="menu-bullet">
