@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Database\Seeders\Permissions\CategoryPermissionSeeder;
 use Database\Seeders\Permissions\ProductBrandPermissionSeeder;
+use Database\Seeders\Permissions\ProductPermissionSeeder;
 use Database\Seeders\Permissions\RolePermissionSeeder;
 use Database\Seeders\Permissions\SubCategoryPermissionSeeder;
 use Database\Seeders\Permissions\UserPermissionSeeder;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CategoryPermissionSeeder::class,
             SubCategoryPermissionSeeder::class,
             ProductBrandPermissionSeeder::class,
+            ProductPermissionSeeder::class,
             AdminSeeder::class,
         ]);
 
@@ -35,6 +37,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubCategorySeeder::class,
             ProductBrandSeeder::class,
+            ProductSeeder::class
         ]);
 
         Storage::disk('public')->deleteDirectory('category');

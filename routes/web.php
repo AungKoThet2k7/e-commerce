@@ -23,6 +23,8 @@ Route::group(
             Route::resource('user', \App\Http\Controllers\UserController::class);
             Route::resource('role', \App\Http\Controllers\RoleController::class);
 
+            Route::resource('product', \App\Http\Controllers\ProductController::class);
+
             Route::resource('category', \App\Http\Controllers\CategoryController::class);
             Route::patch('category/{id}/status', [\App\Http\Controllers\CategoryController::class, 'updateStatus'])->name('category.update-status');
             Route::patch('category/{id}/sort', [\App\Http\Controllers\CategoryController::class, 'updateSort'])->name('category.update-sort');

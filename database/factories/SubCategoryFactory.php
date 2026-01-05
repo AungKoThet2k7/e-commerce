@@ -19,9 +19,10 @@ class SubCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            "name" => $this->faker->company(),
-            "status" => $this->faker->randomElement([1, 0]),
+            'name_en' => $this->faker->word(),
+            'name_mm' => $this->faker->word(),
             "sort" => $this->faker->randomNumber(1),
+            "status" => $this->faker->randomElement([1, 0]),
             "category_id" => Category::inRandomOrder()->first()->id,
             "created_by" => User::inRandomOrder()->first()->id,
             "updated_by" => User::inRandomOrder()->first()->id,

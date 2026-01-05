@@ -152,16 +152,16 @@
                             </span>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-title">{{ __('backend.sidebar.products') }}</span>
+                        <span class="menu-title">{{ __('backend.product.products') }}</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                         <div class="menu-item">
-                            <a class="menu-link" href="../../demo1/dist/widgets/lists.html">
+                            <a class="menu-link" href="{{  route('product.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">{{ __('backend.sidebar.products') }}</span>
+                                <span class="menu-title">{{ __('backend.product.products') }}</span>
                             </a>
                         </div>
                         @can('categories.index')

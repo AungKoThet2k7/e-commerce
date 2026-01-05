@@ -6,9 +6,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductBrand>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
-class ProductBrandFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,10 +20,10 @@ class ProductBrandFactory extends Factory
         return [
             'name_en' => $this->faker->word(),
             'name_mm' => $this->faker->word(),
-            'sort' => $this->faker->randomNumber(1),
-            'status' => $this->faker->randomElement([1, 0]),
-            'created_by' => User::inRandomOrder()->first()->id,
-            'updated_by' => User::inRandomOrder()->first()->id
+            "sort" => $this->faker->randomNumber(1),
+            "status" => $this->faker->randomElement([1, 0]),
+            "created_by" => User::inRandomOrder()->first()->id,
+            "updated_by" => User::inRandomOrder()->first()->id
         ];
     }
 }
