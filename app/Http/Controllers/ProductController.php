@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -53,10 +55,13 @@ class ProductController extends Controller implements HasMiddleware
             })
             ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
             // filter by status
-            ->when(request('status') !== null && request('status') !== 'all', fn ($q) => $q->where('status', request('status')))
-            ->with(['createdBy', 'updatedBy'])
+            ->when(request('status') !== null && request('status') !== 'all',
+                fn ($q) => $q->where('status', request('status')))
+            ->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute'])
             ->paginate(5)
             ->withQueryString();
+
+        // return $products;
 
         return view('product.index', compact(['products']));
     }
@@ -66,7 +71,9 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        //
+        $attributes = ProductAttribute::with(['productAttributeOptions'])->get();
+
+        return view('product.create', compact(['attributes']));
     }
 
     /**
@@ -74,7 +81,28 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        // return $request;
+        $maxSortNumber = product::all()->max('sort');
+        $product = Product::firstOrCreate([
+            'name_en' => $request->name_en,
+        ], [
+            'name_mm' => $request->name_mm,
+            'status' => $request->status,
+            'sort' => $maxSortNumber + 1,
+            'created_by' => Auth::id(),
+            'updated_by' => Auth::id(),
+        ]);
+
+        foreach ($request->variants as $variant) {
+            $productVariant = $product->productVariants()->create([
+                'stock' => $variant['stock'],
+                'price' => $variant['price'],
+            ]);
+
+            $productVariant->productAttributeOptions()->sync($variant['attributeOptions']);
+        }
+
+        return redirect()->route('product.index')->with('success', 'Product created successfully');
     }
 
     /**

@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubCategorySeeder::class,
             ProductBrandSeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
+            ProductAttributeSeeder::class,
         ]);
 
         Storage::disk('public')->deleteDirectory('category');

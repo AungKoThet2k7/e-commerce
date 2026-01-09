@@ -37,4 +37,9 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
 }
