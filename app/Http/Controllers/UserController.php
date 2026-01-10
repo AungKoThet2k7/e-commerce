@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreuserRequest;
 use App\Http\Requests\UpdateuserRequest;
 use App\Models\user;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
@@ -28,15 +29,21 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest('id')->when(request('search'), function ($q) {
-            $q->where('name', 'like', '%'.request('search').'%');
-            $q->orWhere('email', 'like', '%'.request('search').'%');
-        })->when(request('trashed'), fn ($q) => $q->onlyTrashed())
+
+        $request->validate([
+            'search' => 'nullable|string',
+            'trashed' => 'nullable|in:1',
+        ]);
+        $users = User::latest('id')
+            ->search($request->search)
+            ->when($request->trashed, fn ($q) => $q->onlyTrashed())
             ->with('roles')
             ->paginate(5)
             ->withQueryString();
+
+        // return $users;
 
         return view('user.index', compact(['users']));
     }

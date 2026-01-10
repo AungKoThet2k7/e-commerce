@@ -20,7 +20,6 @@ class Product extends Model
         'updated_by',
     ];
 
-    
     protected function name(): Attribute
     {
         return Attribute::make(
@@ -41,5 +40,29 @@ class Product extends Model
     public function productVariants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function scopeSearch($q, $search)
+    {
+        $q->when($search, function ($q) use ($search) {
+
+            $q->where(function ($q) use ($search) {
+                // search by Product Name
+                $q->where('name_en', 'like', '%'.$search.'%')
+                    ->orWhere('name_mm', 'like', '%'.$search.'%')
+
+                    // search by Username (updated_by)
+                    ->orWhereHas('updatedBy', function ($q) use ($search) {
+                        $q->where('name', 'like', '%'.$search.'%');
+                    });
+            });
+        });
+    }
+
+    public function scopeStatus($q, $status)
+    {
+        $q->when($status !== null && $status !== 'all', function ($q) use ($status) {
+            $q->where('status', $status);
+        });
     }
 }

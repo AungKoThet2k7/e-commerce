@@ -41,19 +41,9 @@ class ProductBrandController extends Controller implements HasMiddleware
         ]);
 
         $productBrands = ProductBrand::orderBy('sort', 'desc')
-            ->when(request('search'), function ($q) {
-                $q->where(function ($q) {
-                    // search by Product Brand Name
-                    $q->where('name_en', 'like', '%'.request('search').'%')
-                        ->orWhere('name_mm', 'like', '%'.request('search').'%')
-
-                        // search with Username (updated_by)
-                        ->orwhereHas('updatedBy', function ($q) {
-                            $q->where('name', 'like', '%'.request('search').'%');
-                        });
-                });
-            })  // filter by status
-            ->when(request('status') != 'all' && request('status') != null, fn ($q) => $q->where('status', request('status')))
+            ->search($request->search)
+            // filter by status
+            ->status($request->status)
             // trashed
             ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
             ->with(['createdBy', 'updatedBy'])

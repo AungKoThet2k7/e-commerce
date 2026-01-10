@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -52,5 +52,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeSearch($q, $search)
+    {
+        $q->when($search, function ($q) use ($search) {
+            $q->where(function ($q) use ($search) {
+                // search by Username
+                $q->where('name', 'like', '%'.$search.'%')
+                // search by Email
+                    ->orWhere('email', 'like', '%'.$search.'%')
+                    // search by Role
+                    ->orWhereHas('roles', function ($q) use ($search) {
+                        $q->where('name', 'like', '%'.$search.'%');
+                    });
+            });
+        });
     }
 }

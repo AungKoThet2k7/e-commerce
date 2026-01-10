@@ -41,27 +41,10 @@ class SubCategoryController extends Controller implements HasMiddleware
         ]);
         // return $request;
         $subCategories = SubCategory::orderBy('sort', 'desc')
-            ->when(request('search'), function ($q) {
-                $q->where(function ($q) {
-                    // search by Sub Category Name
-                    $q->where('name_en', 'like', '%'.request('search').'%')
-                        ->orWhere('name_mm', 'like', '%'.request('search').'%')
-
-                        // search with Category Name (category_id)
-                        ->orWhereHas('category', function ($q) {
-                            $q->where('name_en', 'like', '%'.request('search').'%')
-                                ->orWhere('name_mm', 'like', '%'.request('search').'%');
-                        })
-
-                        // search with Username (updated_by)
-                        ->orWhereHas('updatedBy', function ($q) {
-                            $q->where('name', 'like', '%'.request('search').'%');
-                        });
-                });
-            })
+            ->search($request->search)
             ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
             // filter by status
-            ->when(request('status') !== 'all' && request('status') !== null, fn ($q) => $q->where('status', request('status')))
+            ->status($request->status)
             ->when(request('category'), fn ($q) => $q->where('category_id', request('category')))
             ->with(['category', 'createdBy', 'updatedBy'])
             ->paginate(3)

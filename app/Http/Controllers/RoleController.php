@@ -27,9 +27,17 @@ class RoleController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::all();
+        $request->validate([
+            'search' => 'nullable|string',
+        ]);
+        $roles = Role::latest('id')
+            ->when(request('search'), function ($q) {
+                $q->where('name', 'like', '%'.request('search').'%');
+            })
+            ->paginate(5)
+            ->withQueryString();
 
         // return $roles;
         return view('user.role.index', compact('roles'));
