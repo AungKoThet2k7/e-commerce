@@ -291,7 +291,7 @@
                                             <td class="text-end">
                                                 <div class="flex gap-1 px-3">
                                                     @trashed
-                                                        @can('productbrand.destroy')
+                                                        @can('productbrands.destroy')
                                                             <!--begin:: Recycle-->
                                                             <form
                                                                 action="{{ route('product-brand.destroy', [$productBrand->id, 'delete' => 'restore']) }}"
@@ -316,7 +316,7 @@
                                                             <!--begin:: Force Delete-->
                                                         @endcan
                                                     @else
-                                                        @can('productbrand.destroy')
+                                                        @can('productbrands.destroy')
                                                             <!--begin::Edit-->
                                                             <a href="{{ route('product-brand.edit', $productBrand->id) }}"
                                                                 class="px-3 bg-green-500 p-2 rounded-md">
@@ -324,7 +324,7 @@
                                                             </a>
                                                             <!--end::Edit-->
                                                         @endcan
-                                                        @can('productbrand.destroy')
+                                                        @can('productbrands.destroy')
                                                             <!--begin::Delete-->
                                                             <form action="{{ route('product-brand.destroy', $productBrand->id) }}"
                                                                 method="POST">

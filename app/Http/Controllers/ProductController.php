@@ -137,13 +137,25 @@ class ProductController extends Controller implements HasMiddleware
         //
     }
 
-    public function updateStatus(Product $product)
+    public function updateStatus(Product $product, Request $request)
     {
-        //
+        $product->status = $product->status == 1 ? 0 : 1;
+        $product->updated_by = Auth::id();
+        $product->update();
+
+        return redirect()->back();
     }
 
     public function updateSort(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'sort' => 'required|integer',
+        ]);
+
+        $product->sort = $request->sort;
+        $product->updated_by = Auth::id();
+        $product->update();
+
+        return redirect()->back();
     }
 }
