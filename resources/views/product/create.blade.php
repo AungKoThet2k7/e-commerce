@@ -199,7 +199,8 @@
                     <!--end::General options-->
 
                     <!--begin::Variants-->
-                    <div id="product_variants" data-attributes="{{ $attributes }}" class="card card-flush py-4"></div>
+                    <div id="product_variants" data-attributes='@json($attributes)' class="card card-flush py-4">
+                    </div>
                     <!--end::Variants-->
 
                     <div class="d-flex justify-content-end">
