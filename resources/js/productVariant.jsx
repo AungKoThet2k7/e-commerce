@@ -1,6 +1,8 @@
 const ProductVariant = () => {
     const el = document.getElementById("product_variants");
     const attributes = JSON.parse(el.dataset.attributes);
+    const errors = JSON.parse(el.dataset.errors);
+    const oldData = JSON.parse(el.dataset.old);
 
     const [variants, setVariants] = React.useState([
         {
@@ -8,6 +10,15 @@ const ProductVariant = () => {
             stock: "",
             price: "",
             attributeOptions: [{ id: 1, attributeId: "", optionId: "" }],
+        },
+        {
+            id: 2,
+            stock: "",
+            price: "",
+            attributeOptions: [
+                { id: 1, attributeId: "1", optionId: "1" },
+                { id: 2, attributeId: "", optionId: "" },
+            ],
         },
     ]);
 
@@ -18,7 +29,7 @@ const ProductVariant = () => {
                 id:
                     variants.length > 0
                         ? variants[variants.length - 1].id + 1
-                        : 0 + 1,
+                        : 1,
                 stock: "",
                 price: "",
                 attributeOptions: [
@@ -34,7 +45,7 @@ const ProductVariant = () => {
 
     const handleRemoveVariant = (variantId) => {
         const filterVariant = variants.filter(
-            (variant, index) => variant.id !== variantId
+            (variant, index) => variant.id !== variantId,
         );
         setVariants(filterVariant);
     };
@@ -46,16 +57,22 @@ const ProductVariant = () => {
                     ? {
                           ...variant,
                           attributeOptions: [
-                              ...variant.attributeOptions,
+                              ...variant?.attributeOptions,
                               {
-                                  id: variant.attributeOptions.length + 1,
+                                  id:
+                                      variant.attributeOptions.length > 0
+                                          ? variant.attributeOptions[
+                                                variant.attributeOptions
+                                                    .length - 1
+                                            ].id + 1
+                                          : 1,
                                   attributeId: "",
                                   optionId: "",
                               },
                           ],
                       }
-                    : variant
-            )
+                    : variant,
+            ),
         );
     };
 
@@ -67,21 +84,21 @@ const ProductVariant = () => {
                           ...variant,
                           attributeOptions: variant.attributeOptions.filter(
                               (attributeOption) =>
-                                  attributeOption.id !== attributeOptionId
+                                  attributeOption.id !== attributeOptionId,
                           ),
                       }
-                    : variant
-            )
+                    : variant,
+            ),
         );
     };
 
     const handleAttributeChange = (
         variantId,
         attributeOptionId,
-        attributeId
+        attributeId,
     ) => {
         const selectedAttribute = attributes.find(
-            (attribute) => attribute.id == attributeId
+            (attribute) => attribute.id == attributeId,
         );
 
         setVariants((prev) =>
@@ -100,11 +117,11 @@ const ProductVariant = () => {
                                                     .product_attribute_options[0]
                                                     .id,
                                         }
-                                      : attributeOption
+                                      : attributeOption,
                           ),
                       }
-                    : variant
-            )
+                    : variant,
+            ),
         );
     };
 
@@ -121,11 +138,11 @@ const ProductVariant = () => {
                                             ...attributeOption,
                                             optionId: optionId,
                                         }
-                                      : attributeOption
+                                      : attributeOption,
                           ),
                       }
-                    : variant
-            )
+                    : variant,
+            ),
         );
     };
 
@@ -197,28 +214,58 @@ const ProductVariant = () => {
                             </div>
                         </div>
                         <div className="card-body pt-0">
-                            <div className="w-full flex items-center justify-between mb-3">
-                                <div>
+                            <div className="w-full flex items-start justify-between gap-3 mb-3">
+                                <div className=" w-1/2 mb-2">
                                     <label className="required form-label">
                                         Stock
                                     </label>
                                     <input
                                         type="text"
                                         name={`variants[${variantIndex}][stock]`}
-                                        className="form-control w-72 mb-2"
+                                        defaultValue={
+                                            oldData?.variants?.[variantIndex]
+                                                ?.stock || ""
+                                        }
+                                        className="form-control"
                                         placeholder="Stock"
                                     />
+                                    {errors[
+                                        `variants.${variantIndex}.stock`
+                                    ] && (
+                                        <p className=" text-sm text-red-500 mt-2">
+                                            {
+                                                errors[
+                                                    `variants.${variantIndex}.stock`
+                                                ]
+                                            }
+                                        </p>
+                                    )}
                                 </div>
-                                <div>
+                                <div className=" w-1/2 mb-2">
                                     <label className="required form-label">
                                         Price
                                     </label>
                                     <input
                                         type="text"
                                         name={`variants[${variantIndex}][price]`}
-                                        className="form-control w-72 mb-2"
+                                        defaultValue={
+                                            oldData?.variants?.[variantIndex]
+                                                ?.price || ""
+                                        }
+                                        className="form-control"
                                         placeholder="Price"
                                     />
+                                    {errors[
+                                        `variants.${variantIndex}.price`
+                                    ] && (
+                                        <p className=" text-sm text-red-500 mt-2">
+                                            {
+                                                errors[
+                                                    `variants.${variantIndex}.price`
+                                                ]
+                                            }
+                                        </p>
+                                    )}
                                 </div>
                             </div>
 
@@ -253,107 +300,146 @@ const ProductVariant = () => {
                                     </div>
                                 </div>
                                 <div className="card-body pt-0">
-                                    {variant.attributeOptions.map(
-                                        (attributeOption) => {
-
+                                    {/* show error when ( attributeOptions required ) validation fail */}
+                                    {errors[
+                                        `variants.${variantIndex}.attributeOptions`
+                                    ] && (
+                                        <p className=" text-sm text-red-500 mb-2">
+                                            {
+                                                errors[
+                                                    `variants.${variantIndex}.attributeOptions`
+                                                ]
+                                            }
+                                        </p>
+                                    )}
+                                    {variant?.attributeOptions?.map(
+                                        (
+                                            attributeOption,
+                                            attributeOptionIndex,
+                                        ) => {
                                             const selectedAttributeOptions =
                                                 attributes[
                                                     attributeOption.attributeId -
                                                         1
                                                 ]?.product_attribute_options;
 
+                                            const selectedAttributeId =
+                                                selectedAttributeOptions &&
+                                                selectedAttributeOptions[0]
+                                                    .product_attribute_id;
+
                                             return (
                                                 <div
                                                     key={attributeOption.id}
-                                                    className="flex justify-center items-center gap-3 mb-3"
+                                                    className="flex justify-center items-start gap-3 mb-3"
                                                 >
-                                                    <select
-                                                        value={
-                                                            attributeOption.attributeId ||
-                                                            ""
-                                                        }
-                                                        onChange={(e) =>
-                                                            handleAttributeChange(
-                                                                variant.id,
-                                                                attributeOption.id,
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        className="form-select"
-                                                    >
-                                                        <option
-                                                            value=""
-                                                            disabled
-                                                            hidden
+                                                    <div className="w-1/2">
+                                                        <select
+                                                            value={
+                                                                selectedAttributeId ||
+                                                                ""
+                                                            }
+                                                            onChange={(e) =>
+                                                                handleAttributeChange(
+                                                                    variant.id,
+                                                                    attributeOption.id,
+                                                                    e.target
+                                                                        .value,
+                                                                )
+                                                            }
+                                                            className="form-select"
                                                         >
-                                                            Select Attribute
-                                                        </option>
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                            >
+                                                                Select Attribute
+                                                            </option>
 
-                                                        {attributes.map(
-                                                            (
-                                                                attribute,
-                                                                index
-                                                            ) => (
-                                                                <option
-                                                                    key={index}
-                                                                    value={
-                                                                        attribute.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        attribute.name
-                                                                    }
-                                                                </option>
-                                                            )
-                                                        )}
-                                                    </select>
-                                                    <select
-                                                        name={`variants[${variantIndex}][attributeOptions][]`}
-                                                        disabled={
-                                                            attributeOption.attributeId ==
-                                                            ""
-                                                        }
-                                                        value={
-                                                            attributeOption.optionId ||
-                                                            ""
-                                                        }
-                                                        onChange={(e) =>
-                                                            handleOptionChange(
-                                                                variant.id,
-                                                                attributeOption.id,
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                        className="form-select disabled:cursor-not-allowed cursor-pointer"
-                                                    >
-                                                        <option
-                                                            value=""
-                                                            disabled
-                                                            hidden
+                                                            {attributes.map(
+                                                                (
+                                                                    attribute,
+                                                                    index,
+                                                                ) => (
+                                                                    <option
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        value={
+                                                                            attribute.id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            attribute.name
+                                                                        }
+                                                                    </option>
+                                                                ),
+                                                            )}
+                                                        </select>
+                                                    </div>
+                                                    <div className="w-1/2">
+                                                        <select
+                                                            name={`variants[${variantIndex}][attributeOptions][]`}
+                                                            disabled={
+                                                                attributeOption.attributeId ==
+                                                                ""
+                                                            }
+                                                            value={
+                                                                attributeOption.optionId ||
+                                                                ""
+                                                            }
+                                                            onChange={(e) =>
+                                                                handleOptionChange(
+                                                                    variant.id,
+                                                                    attributeOption.id,
+                                                                    e.target
+                                                                        .value,
+                                                                )
+                                                            }
+                                                            className="form-select disabled:cursor-not-allowed cursor-pointer"
                                                         >
-                                                            Options
-                                                        </option>
+                                                            <option
+                                                                value=""
+                                                                disabled
+                                                                hidden
+                                                            >
+                                                                Options
+                                                            </option>
 
-                                                        {selectedAttributeOptions?.map(
-                                                            (
-                                                                option,
-                                                                optionIndex
-                                                            ) => (
-                                                                <option
-                                                                    key={
-                                                                        optionIndex
-                                                                    }
-                                                                    value={
-                                                                        option.id
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        option.name
-                                                                    }
-                                                                </option>
-                                                            )
+                                                            {selectedAttributeOptions?.map(
+                                                                (
+                                                                    option,
+                                                                    optionIndex,
+                                                                ) => (
+                                                                    <option
+                                                                        key={
+                                                                            optionIndex
+                                                                        }
+                                                                        value={
+                                                                            option.id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            option.name
+                                                                        }
+                                                                    </option>
+                                                                ),
+                                                            )}
+                                                        </select>
+                                                        {/* show error when ( attributeOptions.* ) validation fail */}
+                                                        {errors[
+                                                            `variants.${variantIndex}.attributeOptions.${attributeOptionIndex}`
+                                                        ] && (
+                                                            <p className=" text-sm text-red-500 mt-2">
+                                                                {
+                                                                    errors[
+                                                                        `variants.${variantIndex}.attributeOptions.${attributeOptionIndex}`
+                                                                    ]
+                                                                }
+                                                            </p>
                                                         )}
-                                                    </select>
+                                                    </div>
 
                                                     <button
                                                         disabled={
@@ -364,7 +450,7 @@ const ProductVariant = () => {
                                                         onClick={() =>
                                                             handleRemoveAttribute(
                                                                 variant.id,
-                                                                attributeOption.id
+                                                                attributeOption.id,
                                                             )
                                                         }
                                                         type="button"
@@ -389,7 +475,7 @@ const ProductVariant = () => {
                                                     </button>
                                                 </div>
                                             );
-                                        }
+                                        },
                                     )}
                                 </div>
                             </div>

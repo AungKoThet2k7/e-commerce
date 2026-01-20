@@ -32,4 +32,14 @@ class StoreProductRequest extends FormRequest
             'variants.*.attributeOptions.*' => ['required', Rule::exists('product_attribute_options', 'id')],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'variants.*.stock' => 'stock',
+            'variants.*.price' => 'price',
+            'variants.*.attributeOptions' => 'attributes',
+            'variants.*.attributeOptions.*' => 'option',
+        ];
+    }
 }

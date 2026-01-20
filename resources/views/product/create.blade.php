@@ -47,7 +47,7 @@
                 id="kt_ecommerce_add_category_form"
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
-                {{-- <!--begin::Aside column-->data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/categories.html" --}}
+                <!--begin::Aside column-->
                 <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                     <!--begin::Thumbnail settings-->
                     {{-- <div class="card card-flush py-4">
@@ -169,7 +169,7 @@
                                 <label class="required form-label">{{ __('backend.product.name_en') }}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input value="{{ old('name') }}" type="text" name="name_en"
+                                <input value="{{ old('name_en') }}" type="text" name="name_en"
                                     class="form-control w-6/12 mb-2"
                                     placeholder="{{ __('backend.product.name_placeholder') }}">
                                 <!--end::Input-->
@@ -199,7 +199,9 @@
                     <!--end::General options-->
 
                     <!--begin::Variants-->
-                    <div id="product_variants" data-attributes='@json($attributes)' class="card card-flush py-4">
+                    <div id="product_variants" data-attributes='@json($attributes)'
+                        data-errors='@json($errors->toArray() ?: new stdClass())' data-old='@json(old() ?: new stdClass())'
+                        class="card card-flush py-4">
                     </div>
                     <!--end::Variants-->
 
