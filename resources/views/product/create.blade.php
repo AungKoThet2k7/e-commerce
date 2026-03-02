@@ -200,8 +200,8 @@
 
                     <!--begin::Variants-->
                     <div id="product_variants" data-attributes='@json($attributes)'
-                        data-errors='@json($errors->toArray() ?: new stdClass())' data-old='@json(old() ?: new stdClass())'
-                        class="card card-flush py-4">
+                        data-options='@json($options)' data-errors='@json($errors->toArray() ?: new stdClass())'
+                        data-old='@json(old() ?: new stdClass())' class="card card-flush py-4">
                     </div>
                     <!--end::Variants-->
 
@@ -227,9 +227,9 @@
 @endsection
 @push('script')
     <!-- React CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
 
     <!-- Babel (JSX Support) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.24.0/babel.min.js"></script>
 @endpush

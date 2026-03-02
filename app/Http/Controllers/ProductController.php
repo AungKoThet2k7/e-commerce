@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductAttribute;
+use App\Models\ProductAttributeOption;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -59,8 +60,9 @@ class ProductController extends Controller implements HasMiddleware
     public function create()
     {
         $attributes = ProductAttribute::with(['productAttributeOptions'])->get();
+        $options = ProductAttributeOption::with(['productAttribute'])->get();
 
-        return view('product.create', compact(['attributes']));
+        return view('product.create', compact(['attributes', 'options']));
     }
 
     /**

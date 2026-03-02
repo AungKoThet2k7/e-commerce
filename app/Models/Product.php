@@ -16,6 +16,8 @@ class Product extends Model
     protected $fillable = [
         'name_en',
         'name_mm',
+        'status',
+        'sort',
         'created_by',
         'updated_by',
     ];
