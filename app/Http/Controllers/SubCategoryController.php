@@ -33,24 +33,31 @@ class SubCategoryController extends Controller implements HasMiddleware
      */
     public function index(Request $request)
     {
-        $request->validate([
-            'search' => 'nullable|string',
-            'trashed' => 'nullable|in:1',
-            'status' => 'nullable|in:all,0,1',
-            'category' => 'nullable|exists:categories,id',
-        ]);
-        // return $request;
-        $subCategories = SubCategory::orderBy('sort', 'desc')
-            ->search($request->search)
-            ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
-            // filter by status
-            ->status($request->status)
-            ->when(request('category'), fn ($q) => $q->where('category_id', request('category')))
-            ->with(['category', 'createdBy', 'updatedBy'])
-            ->paginate(3)
-            ->withQueryString();
+        // Query
+        $query = SubCategory::query();
 
-        return view('sub-category.index', compact(['subCategories']));
+        // Sort
+        $query->orderBy('sort', 'desc');
+
+        // Search
+        $query->search($request->search);
+
+        // Trashed
+        $query->when($request->trashed == '1', fn ($q) => $q->onlyTrashed());
+
+        // Filter by status
+        $validStatus = ['0', '1'];
+        $query->status($request->status, $validStatus);
+
+        // Filter by category
+        $query->when($request->category, fn ($q) => $q->where('category_id', $request->category));
+
+        $query->with(['category', 'createdBy', 'updatedBy']);
+
+        // Paginate
+        $subCategories = $query->paginate(5)->withQueryString();
+
+        return view('sub-category.index', compact('subCategories'));
     }
 
     /**
@@ -66,8 +73,7 @@ class SubCategoryController extends Controller implements HasMiddleware
      */
     public function store(StoreSubCategoryRequest $request)
     {
-        // return $request;
-        $maxSortNumber = SubCategory::all()->max('sort');
+        $maxSortNumber = SubCategory::max('sort') ?? 0;
 
         $subCategory = new SubCategory;
 

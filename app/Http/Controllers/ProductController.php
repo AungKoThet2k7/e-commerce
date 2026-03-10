@@ -34,22 +34,26 @@ class ProductController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
-        $request->validate([
-            'search' => 'nullable|string',
-            'trashed' => 'nullable|in:1',
-            'status' => 'nullable|in:all,0,1',
-        ]);
+        // Query
+        $query = Product::query();
 
-        $products = Product::orderBy('sort', 'desc')
-            ->search($request->search)
-            ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
-            // filter by status
-            ->status($request->status)
-            ->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute'])
-            ->paginate(5)
-            ->withQueryString();
+        // Sort
+        $query->orderBy('sort', 'desc');
 
-        // return $products;
+        // Search
+        $query->search($request->search);
+
+        // Trashed
+        $query->when($request->trashed == '1', fn ($q) => $q->onlyTrashed());
+
+        // filter by status
+        $validStatus = ['0', '1'];
+        $query->status($request->status, $validStatus);
+        
+        $query->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute']);
+
+        // Paginate
+        $products = $query->paginate(5)->withQueryString();
 
         return view('product.index', compact(['products']));
     }
@@ -70,8 +74,8 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(StoreProductRequest $request)
     {
-        // return $request;
-        $maxSortNumber = product::all()->max('sort');
+        $maxSortNumber = product::max('sort') ?? 0;
+
         $product = Product::firstOrCreate([
             'name_en' => $request->name_en,
         ], [

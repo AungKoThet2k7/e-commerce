@@ -34,23 +34,28 @@ class CategoryController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
+        // Query
+        $query = Category::query();
 
-        $request->validate([
-            'search' => 'nullable|string',
-            'trashed' => 'nullable|in:1',
-            'status' => 'nullable|in:all,0,1',
-        ]);
+        // Sort
+        $query->orderBy('sort', 'desc');
 
-        $categories = Category::orderBy('sort', 'desc')
-            ->search($request->search)
-            ->when(request('trashed'), fn ($q) => $q->onlyTrashed())
-            // filter by status
-            ->status($request->status)
-            ->with(['createdBy', 'updatedBy'])
-            ->paginate(5)
-            ->withQueryString();
+        // Search
+        $query->search($request->search);
 
-        return view('category.index', compact(['categories']));
+        // Trashed
+        $query->when($request->trashed == '1', fn ($q) => $q->onlyTrashed());
+
+        // Filter by status
+        $validStatus = ['0', '1'];
+        $query->status($request->status, $validStatus);
+
+        $query->with(['createdBy', 'updatedBy']);
+
+        // Paginate
+        $categories = $query->paginate(5)->withQueryString();
+
+        return view('category.index', compact('categories'));
     }
 
     /**
@@ -66,8 +71,7 @@ class CategoryController extends Controller implements HasMiddleware
      */
     public function store(StoreCategoryRequest $request)
     {
-        // return $request;
-        $maxSortNumber = Category::all()->max('sort');
+        $maxSortNumber = Category::max('sort') ?? 0;
 
         $category = new Category;
 

@@ -31,21 +31,24 @@ class UserController extends Controller implements HasMiddleware
      */
     public function index(Request $request)
     {
+        // Query
+        $query = User::query();
 
-        $request->validate([
-            'search' => 'nullable|string',
-            'trashed' => 'nullable|in:1',
-        ]);
-        $users = User::latest('id')
-            ->search($request->search)
-            ->when($request->trashed, fn ($q) => $q->onlyTrashed())
-            ->with('roles')
-            ->paginate(5)
-            ->withQueryString();
+        // Sort
+        $query->latest('id');
 
-        // return $users;
+        // Search
+        $query->search($request->search);
 
-        return view('user.index', compact(['users']));
+        // Trashed
+        $query->when($request->trashed == '1', fn ($q) => $q->onlyTrashed());
+
+        $query->with('roles');
+
+        // Paginate
+        $users = $query->paginate(5)->withQueryString();
+
+        return view('user.index', compact('users'));
     }
 
     /**

@@ -56,9 +56,9 @@ class Category extends Model
         });
     }
 
-    public function scopeStatus($q, $status)
+    public function scopeStatus($q, $status, $validStatus)
     {
-        $q->when($status !== null && $status !== 'all', function ($q) use ($status) {
+        $q->when(in_array($status, $validStatus, true), function ($q) use ($status) {
             $q->where('status', $status);
         });
     }
