@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreuserRequest;
-use App\Http\Requests\UpdateuserRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
@@ -64,14 +65,8 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreuserRequest $request)
+    public function store(StoreUserRequest $request)
     {
-        // return $request;
-        $user = new user;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->syncRoles($request->role);
 
         if ($request->hasFile('image')) {
             // new image name
@@ -81,13 +76,18 @@ class UserController extends Controller implements HasMiddleware
             $request->image->storeAs('user', $newImageName, 'public');
 
             // store image to database
-            $user->image = $newImageName;
-
-            // store image alt to database
-            $user->image_alt = $request->image_alt;
+            $request->image = $newImageName;
         }
 
-        $user->save();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'image' => $request->image,
+            'image_alt' => $request->image_alt,
+        ]);
+
+        $user->syncRoles($request->role);
 
         return redirect()->route('user.index')->with('success', 'New User Added successfully');
     }
@@ -113,12 +113,15 @@ class UserController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateuserRequest $request, user $user)
+    public function update(UpdateUserRequest $request, user $user)
     {
         // return $request;
         $user->name = $request->name;
         $user->email = $request->email;
-        // $user->password = $request->password;
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
         $user->syncRoles($request->role);
 
         if ($request->hasFile('image')) {

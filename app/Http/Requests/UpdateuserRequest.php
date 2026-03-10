@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateuserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,8 +30,8 @@ class UpdateuserRequest extends FormRequest
                 Rule::unique("users", "email")->ignore($this->route('user')),
             ],
             "password" => "nullable|min:8|max:20",
-            "image" => "nullable|image|mimes:jpeg,png,jpg|max:5012",
-            "image_alt" => "nullable|min:3|max:30",
+            "image" => "sometimes|image|mimes:jpeg,png,jpg|max:5012",
+            "image_alt" => "sometimes|min:3|max:30",
             "role" => "required|exists:roles,name",
         ];
     }

@@ -160,7 +160,7 @@
                                         @enderror
                                         <!--end::Input-->
                                     </div>
-                                    {{-- <div class="">
+                                    <div class="">
                                         <!--begin::Label-->
                                         <label class="required form-label">{{ __('backend.user.password') }}</label>
                                         <!--end::Label-->
@@ -170,7 +170,7 @@
                                             <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                         @enderror
                                         <!--end::Input-->
-                                    </div> --}}
+                                    </div>
                                     <div class="">
                                         <!--begin::Label-->
                                         <label class="required form-label">{{ __('backend.role.role') }}</label>
