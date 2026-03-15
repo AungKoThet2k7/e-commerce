@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\ProductBrand;
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,6 +25,9 @@ class ProductFactory extends Factory
             'name_mm' => $this->faker->word(),
             'sort' => $this->faker->randomNumber(1),
             'status' => $this->faker->randomElement([1, 0]),
+            "category_id" => Category::inRandomOrder()->first()->id,
+            "sub_category_id" => SubCategory::inRandomOrder()->first()->id,
+            "brand_id" => ProductBrand::inRandomOrder()->first()->id,
             'created_by' => User::inRandomOrder()->first()->id,
             'updated_by' => User::inRandomOrder()->first()->id
         ];

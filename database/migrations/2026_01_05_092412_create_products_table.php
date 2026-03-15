@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name_en');
             $table->string('name_mm')->nullable();
+            $table->string('default_image')->nullable();
+            $table->string('default_image_alt')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->bigInteger('sort')->default(1);
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('sub_category_id')->constrained();
+            $table->foreignId('brand_id')->constrained('product_brands');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');
             $table->softDeletes();

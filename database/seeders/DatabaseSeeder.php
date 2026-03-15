@@ -11,7 +11,6 @@ use Database\Seeders\Permissions\SubCategoryPermissionSeeder;
 use Database\Seeders\Permissions\UserPermissionSeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
@@ -41,9 +40,11 @@ class DatabaseSeeder extends Seeder
             ProductAttributeSeeder::class,
         ]);
 
+        Storage::disk('public')->deleteDirectory('user');
+        Storage::disk('public')->deleteDirectory('product');
+        Storage::disk('public')->deleteDirectory('product-brand');
         Storage::disk('public')->deleteDirectory('category');
         Storage::disk('public')->deleteDirectory('sub-category');
-        Storage::disk('public')->deleteDirectory('user');
-        // echo "\e[92mStorage Cleaned\n";
+        echo "\e[92mStorage Cleaned\n";
     }
 }

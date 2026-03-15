@@ -7,10 +7,12 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeOption;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -49,7 +51,7 @@ class ProductController extends Controller implements HasMiddleware
         // filter by status
         $validStatus = ['0', '1'];
         $query->status($request->status, $validStatus);
-        
+
         $query->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute']);
 
         // Paginate
@@ -74,26 +76,39 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(StoreProductRequest $request)
     {
+        // DB::transaction(function () use ($request) {
         $maxSortNumber = product::max('sort') ?? 0;
+        $userId = Auth::id();
+
+        $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
+        $request->default_image->storeAs('product', $defaultImageName, 'public');
+
+        $categoryId = SubCategory::find($request->sub_category_id)->category_id;
 
         $product = Product::firstOrCreate([
             'name_en' => $request->name_en,
         ], [
             'name_mm' => $request->name_mm,
+            'default_image' => $defaultImageName,
+            'default_image_alt' => $request->default_image_alt,
+            'sub_category_id' => $request->sub_category_id,
+            'category_id' => $categoryId,
+            'brand_id' => $request->brand_id,
             'status' => $request->status,
             'sort' => $maxSortNumber + 1,
-            'created_by' => Auth::id(),
-            'updated_by' => Auth::id(),
+            'created_by' => $userId,
+            'updated_by' => $userId,
         ]);
 
-        foreach ($request->variants as $variant) {
-            $productVariant = $product->productVariants()->create([
-                'stock' => $variant['stock'],
-                'price' => $variant['price'],
+        foreach ($request->variants as $variantData) {
+            $variant = $product->productVariants()->create([
+                'stock' => $variantData['stock'],
+                'price' => $variantData['price'],
             ]);
 
-            $productVariant->productAttributeOptions()->sync($variant['attributeOptions']);
+            $variant->productAttributeOptions()->sync($variantData['attributeOptions']);
         }
+        // });
 
         return redirect()->route('product.index')->with('success', 'Product created successfully');
     }

@@ -50,7 +50,7 @@
                 <!--begin::Aside column-->
                 <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                     <!--begin::Thumbnail settings-->
-                    {{-- <div class="card card-flush py-4">
+                    <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
@@ -77,7 +77,7 @@
                                     <i class="bi bi-pencil-fill fs-7"></i>
                                     <!--end::Icon-->
                                     <!--begin::Inputs-->
-                                    <input type="file" name="image" accept=".png, .jpg, .jpeg">
+                                    <input type="file" name="default_image" accept=".png, .jpg, .jpeg">
                                     <!--end::Inputs-->
 
                                 </label>
@@ -101,23 +101,23 @@
                             <!--begin::Description-->
                             <div class="text-muted fs-7">{{ __('backend.product.image_description') }} </div>
                             <!--end::Description-->
-                            @error('image')
+                            @error('default_image')
                                 <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
                             @enderror
                             <div class="flex flex-col items-start mt-5">
                                 <!--begin::Label-->
                                 <label class="required form-label">{{ __('backend.product.image_alt') }}</label>
                                 <!--end::Label-->
-                                <input value="{{ old('image_alt') }}" type="text" name="image_alt"
+                                <input value="{{ old('default_image_alt') }}" type="text" name="default_image_alt"
                                     class="form-control w-full mb-2" placeholder="{{ __('backend.product.image_alt') }}">
-                                @error('image_alt')
+                                @error('default_image_alt')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
                                 <!--end::Input-->
                             </div>
                         </div>
                         <!--end::Card body-->
-                    </div> --}}
+                    </div>
                     <!--end::Thumbnail settings-->
                     <!--begin::Status-->
                     <div class="card card-flush py-4">
@@ -163,36 +163,70 @@
                         </div>
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
-                            <!--begin::Input group-->
-                            <div class="mb-10 fv-row fv-plugins-icon-container">
-                                <!--begin::Label-->
-                                <label class="required form-label">{{ __('backend.product.name_en') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input value="{{ old('name_en') }}" type="text" name="name_en"
-                                    class="form-control w-6/12 mb-2"
-                                    placeholder="{{ __('backend.product.name_placeholder') }}">
-                                <!--end::Input-->
-                                @error('name_en')
-                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
+                            <div class="mb-10 fv-row fv-plugins-icon-container flex gap-10">
+                                <!--begin::Input group-->
+                                <div class="">
+                                    <!--begin::Label-->
+                                    <label class="required form-label">{{ __('backend.product.name_en') }}</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input value="{{ old('name_en') }}" type="text" name="name_en"
+                                        class="form-control w-80 mb-2"
+                                        placeholder="{{ __('backend.product.name_placeholder') }}">
+                                    <!--end::Input-->
+                                    @error('name_en')
+                                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="">
+                                    <!--begin::Label-->
+                                    <label class="form-label">{{ __('backend.product.name_mm') }}</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input value="{{ old('name_mm') }}" type="text" name="name_mm"
+                                        class="form-control w-80 mb-2"
+                                        placeholder="{{ __('backend.product.name_placeholder') }}">
+                                    <!--end::Input-->
+                                    @error('name_mm')
+                                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <!--end::Input group-->
                             </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
-                                <!--begin::Label-->
-                                <label class="form-label">{{ __('backend.product.name_mm') }}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input value="{{ old('name_mm') }}" type="text" name="name_mm"
-                                    class="form-control w-6/12 mb-2"
-                                    placeholder="{{ __('backend.product.name_placeholder') }}">
-                                <!--end::Input-->
-                                @error('name_mm')
-                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
+
+                                <!--start::Brand-->
+                                <label class="required form-label">{{ __('backend.productbrand.productbrand') }}</label>
+                                <select name="brand_id" class="w-full form-select" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.productbrand.productbrand') }}"
+                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k0" tabindex="-1"
+                                    aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\ProductBrand::all() as $brand)
+                                        <option value="{{ $brand->id }}" @selected(old('brand_id') == $brand->id)>
+                                            {{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                                
+                                <!--end::Brand-->
                             </div>
-                            <!--end::Input group-->
+                            <!--start::Sub Category-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <label class="required form-label">{{ __('backend.subcategory.subcategory') }}</label>
+                                <select name="sub_category_id" class="w-full form-select" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.subcategory.subcategory') }}"
+                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k1" tabindex="-1"
+                                    aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\SubCategory::all() as $subCategory)
+                                        <option value="{{ $subCategory->id }}" @selected(old('sub_category_id') == $subCategory->id)>
+                                            {{ $subCategory->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!--end::Sub Category-->
                         </div>
                         <!--end::Card body-->
                     </div>
