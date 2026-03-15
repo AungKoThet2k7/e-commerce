@@ -76,39 +76,39 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(StoreProductRequest $request)
     {
-        // DB::transaction(function () use ($request) {
-        $maxSortNumber = product::max('sort') ?? 0;
-        $userId = Auth::id();
+        DB::transaction(function () use ($request) {
+            $maxSortNumber = product::max('sort') ?? 0;
+            $userId = Auth::id();
 
-        $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
-        $request->default_image->storeAs('product', $defaultImageName, 'public');
+            $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
+            $request->default_image->storeAs('product', $defaultImageName, 'public');
 
-        $categoryId = SubCategory::find($request->sub_category_id)->category_id;
+            $categoryId = SubCategory::find($request->sub_category_id)->category_id;
 
-        $product = Product::firstOrCreate([
-            'name_en' => $request->name_en,
-        ], [
-            'name_mm' => $request->name_mm,
-            'default_image' => $defaultImageName,
-            'default_image_alt' => $request->default_image_alt,
-            'sub_category_id' => $request->sub_category_id,
-            'category_id' => $categoryId,
-            'brand_id' => $request->brand_id,
-            'status' => $request->status,
-            'sort' => $maxSortNumber + 1,
-            'created_by' => $userId,
-            'updated_by' => $userId,
-        ]);
-
-        foreach ($request->variants as $variantData) {
-            $variant = $product->productVariants()->create([
-                'stock' => $variantData['stock'],
-                'price' => $variantData['price'],
+            $product = Product::firstOrCreate([
+                'name_en' => $request->name_en,
+            ], [
+                'name_mm' => $request->name_mm,
+                'default_image' => $defaultImageName,
+                'default_image_alt' => $request->default_image_alt,
+                'sub_category_id' => $request->sub_category_id,
+                'category_id' => $categoryId,
+                'brand_id' => $request->brand_id,
+                'status' => $request->status,
+                'sort' => $maxSortNumber + 1,
+                'created_by' => $userId,
+                'updated_by' => $userId,
             ]);
 
-            $variant->productAttributeOptions()->sync($variantData['attributeOptions']);
-        }
-        // });
+            foreach ($request->variants as $variantData) {
+                $variant = $product->productVariants()->create([
+                    'stock' => $variantData['stock'],
+                    'price' => $variantData['price'],
+                ]);
+
+                $variant->productAttributeOptions()->sync($variantData['attributeOptions']);
+            }
+        });
 
         return redirect()->route('product.index')->with('success', 'Product created successfully');
     }
