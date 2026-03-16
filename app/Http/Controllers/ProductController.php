@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeOption;
+use App\Models\ProductVariant;
+use App\Models\ProductVariantOption;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -77,14 +79,21 @@ class ProductController extends Controller implements HasMiddleware
     public function store(StoreProductRequest $request)
     {
         DB::transaction(function () use ($request) {
-            $maxSortNumber = product::max('sort') ?? 0;
+            // Get max sort number
+            $maxSortNumber = product::orderByDesc('sort')->value('sort') ?? 0;
+
             $userId = Auth::id();
 
+            // Unique image name
             $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
+
+            // Store image to storage
             $request->default_image->storeAs('product', $defaultImageName, 'public');
 
+            // Get category from sub category
             $categoryId = SubCategory::find($request->sub_category_id)->category_id;
 
+            // Create product
             $product = Product::firstOrCreate([
                 'name_en' => $request->name_en,
             ], [
@@ -100,14 +109,31 @@ class ProductController extends Controller implements HasMiddleware
                 'updated_by' => $userId,
             ]);
 
+            // temp attribute options
+            $tmpAttributeOptions = [];
+
             foreach ($request->variants as $variantData) {
-                $variant = $product->productVariants()->create([
+                // Create variant and get id
+                $variantId = ProductVariant::insertGetId([
+                    'product_id' => $product->id,
                     'stock' => $variantData['stock'],
                     'price' => $variantData['price'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
 
-                $variant->productAttributeOptions()->sync($variantData['attributeOptions']);
+                // Add attribute options to temp array
+                foreach ($variantData['attributeOptions'] as $OptionId) {
+                    $tmpAttributeOptions[] = [
+                        'product_variant_id' => $variantId,
+                        'product_attribute_option_id' => $OptionId,
+                    ];
+                }
             }
+
+            // Insert attribute options
+            ProductVariantOption::insert($tmpAttributeOptions);
+
         });
 
         return redirect()->route('product.index')->with('success', 'Product created successfully');
