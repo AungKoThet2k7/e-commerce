@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(1);
             $table->bigInteger('sort')->default(1);
             $table->foreignId('category_id')->constrained();
-            $table->foreignId('subcategory_id')->constrained();
+            $table->foreignId('sub_category_id')->constrained();
             $table->foreignId('brand_id')->constrained('product_brands');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');

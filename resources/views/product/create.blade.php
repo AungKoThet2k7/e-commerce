@@ -215,13 +215,13 @@
                             <!--start::Sub Category-->
                             <div class="mb-10 fv-row fv-plugins-icon-container">
                                 <label class="required form-label">{{ __('backend.subcategory.subcategory') }}</label>
-                                <select name="subcategory_id" class="w-full form-select" data-kt-select2="true"
+                                <select name="sub_category_id" class="w-full form-select" data-kt-select2="true"
                                     data-placeholder="{{ __('backend.subcategory.subcategory') }}"
                                     data-allow-clear="true" data-select2-id="select2-data-7-l7k1" tabindex="-1"
                                     aria-hidden="true">
                                     <option data-select2-id="select2-data-9-3eq9"></option>
                                     @foreach (\App\Models\SubCategory::all() as $subCategory)
-                                        <option value="{{ $subCategory->id }}" @selected(old('subcategory_id') == $subCategory->id)>
+                                        <option value="{{ $subCategory->id }}" @selected(old('sub_category_id') == $subCategory->id)>
                                             {{ $subCategory->name }}</option>
                                     @endforeach
                                 </select>

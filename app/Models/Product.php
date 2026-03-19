@@ -19,7 +19,7 @@ class Product extends Model
         'default_image',
         'default_image_alt',
         'category_id',
-        'subcategory_id',
+        'sub_category_id',
         'brand_id',
         'status',
         'sort',

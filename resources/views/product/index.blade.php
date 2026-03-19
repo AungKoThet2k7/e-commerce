@@ -293,7 +293,7 @@
                                                             <!--begin::badge-->
                                                             <div class="badge badge-light-success">
                                                                 <a
-                                                                    href="{{ route('sub-category.edit', $product->subcategory_id) }}">{{ $product->subCategory?->name ?? '---' }}</a>
+                                                                    href="{{ route('sub-category.edit', $product->sub_category_id) }}">{{ $product->subCategory?->name ?? '---' }}</a>
                                                             </div>
                                                             <!--end::badge-->
                                                             <!--begin::badge-->
