@@ -27,7 +27,7 @@ class StoreProductRequest extends FormRequest
             'name_mm' => ['nullable', 'string', 'min:3', 'max:50'],
             'default_image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:5012'],
             'default_image_alt' => ['nullable', 'string', 'min:3', 'max:30'],
-            'sub_category_id' => ['required', 'exists:sub_categories,id'], 
+            'subcategory_id' => ['required', 'exists:sub_categories,id'], 
             'brand_id' => ['required', 'exists:product_brands,id'],
             'variants' => ['required', 'array'],
             'variants.*.stock' => ['required', 'integer', 'min:1'],

@@ -19,7 +19,7 @@ class Product extends Model
         'default_image',
         'default_image_alt',
         'category_id',
-        'sub_category_id',
+        'subcategory_id',
         'brand_id',
         'status',
         'sort',
@@ -47,6 +47,21 @@ class Product extends Model
     public function productVariants()
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(ProductBrand::class);
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function scopeSearch($q, $search)

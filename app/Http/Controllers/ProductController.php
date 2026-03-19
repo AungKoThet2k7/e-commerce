@@ -54,10 +54,21 @@ class ProductController extends Controller implements HasMiddleware
         $validStatus = ['0', '1'];
         $query->status($request->status, $validStatus);
 
-        $query->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute']);
+        // Filter by brand
+        $query->when($request->filter_by_brand, fn ($q) => $q->where('brand_id', $request->filter_by_brand));
+
+        // Filter by sub category
+        $query->when($request->filter_by_subcategory, fn ($q) => $q->where('subcategory_id', $request->filter_by_subcategory));
+
+        // Filter by category
+        $query->when($request->filter_by_category, fn ($q) => $q->where('category_id', $request->filter_by_category));
+
+        $query->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute', 'brand', 'subCategory' , 'category']);
 
         // Paginate
         $products = $query->paginate(5)->withQueryString();
+
+        // return $products;
 
         return view('product.index', compact(['products']));
     }
@@ -91,7 +102,7 @@ class ProductController extends Controller implements HasMiddleware
             $request->default_image->storeAs('product', $defaultImageName, 'public');
 
             // Get category from sub category
-            $categoryId = SubCategory::find($request->sub_category_id)->category_id;
+            $categoryId = SubCategory::find($request->subcategory_id)->category_id;
 
             // Create product
             $product = Product::firstOrCreate([
@@ -100,7 +111,7 @@ class ProductController extends Controller implements HasMiddleware
                 'name_mm' => $request->name_mm,
                 'default_image' => $defaultImageName,
                 'default_image_alt' => $request->default_image_alt,
-                'sub_category_id' => $request->sub_category_id,
+                'subcategory_id' => $request->subcategory_id,
                 'category_id' => $categoryId,
                 'brand_id' => $request->brand_id,
                 'status' => $request->status,

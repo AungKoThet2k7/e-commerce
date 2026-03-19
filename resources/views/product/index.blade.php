@@ -54,87 +54,135 @@
             <!--begin::Product-->
             <div class="card card-flush">
                 <!--begin::Card header-->
-                <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-header py-5 gap-2 gap-md-5">
                     <!--begin::Card title-->
-                    <div class="card-title">
-                        <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative my-1">
-                            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                            <span class="svg-icon svg-icon-1 position-absolute ms-36 mt-1">
-                                @if (request('search'))
-                                    <a href="{{ route('product.index') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
-                                                rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor">
-                                            </rect>
-                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
-                                                transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
-                                        </svg>
-                                    </a>
-                                @else
-                                    <button form="filterForm" type="submit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none">
-                                            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
-                                                rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor">
-                                            </rect>
-                                            <path
-                                                d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-                                                fill="currentColor"></path>
-                                        </svg>
-                                    </button>
-                                @endif
-                            </span>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex gap-3">
+                            <!--begin::Search-->
+                            <div class="d-flex align-items-center position-relative">
+                                <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                                <span class="svg-icon svg-icon-1 position-absolute ms-36 mt-1">
+                                    @if (request('search'))
+                                        <a href="{{ route('product.index') }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="6" y="17.3137" width="16" height="2"
+                                                    rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor">
+                                                </rect>
+                                                <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                    transform="rotate(45 7.41422 6)" fill="currentColor"></rect>
+                                            </svg>
+                                        </a>
+                                    @else
+                                        <button form="filterForm" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none">
+                                                <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2"
+                                                    rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                    fill="currentColor">
+                                                </rect>
+                                                <path
+                                                    d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                    fill="currentColor"></path>
+                                            </svg>
+                                        </button>
+                                    @endif
+                                </span>
 
-                            <!--end::Svg Icon-->
-                            <form id="filterForm" action="{{ route('product.index') }}" method="GET">
-                                <input value="{{ request('search') }}" name="search" type="text"
-                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
-                                    placeholder="{{ __('backend.common.search') }} ...">
-                            </form>
+                                <!--end::Svg Icon-->
+                                <form id="filterForm" action="{{ route('product.index') }}" method="GET">
+                                    <input value="{{ request('search') }}" name="search" type="text"
+                                        data-kt-user-table-filter="search"
+                                        class="form-control form-control-solid w-150px ps-5"
+                                        placeholder="{{ __('backend.common.search') }} ...">
+                                </form>
+                            </div>
+                            <!--end::Search-->
+                            <!--start::Status-->
+                            <div class="">
+                                <!--begin::Select2-->
+                                <select form="filterForm" onchange="this.form.submit()" name="status"
+                                    class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
+                                    data-hide-search="true" data-placeholder="{{ __('backend.common.status') }}"
+                                    data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
+                                    tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="select2-data-12-pxpb"></option>
+                                    <option value="all" @selected(request('status') == 'all')>{{ __('backend.common.all') }}
+                                    </option>
+                                    <option value="1" @selected(request('status') == '1')>{{ __('backend.common.active') }}
+                                    </option>
+                                    <option value="0" @selected(request('status') == '0')>{{ __('backend.common.inactive') }}
+                                    </option>
+                                </select>
+                                <!--end::Select2-->
+                            </div>
+                            <!--end::Status-->
                         </div>
-                        <!--end::Search-->
-                        <!--start::Status-->
-                        <div class="ms-3">
-                            <!--begin::Select2-->
-                            <select form="filterForm" onchange="this.form.submit()" name="status"
-                                class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="{{ __('backend.common.status') }}"
-                                data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
-                                tabindex="-1" aria-hidden="true">
-                                <option data-select2-id="select2-data-12-pxpb"></option>
-                                <option value="all" @selected(request('status') == 'all')>{{ __('backend.common.all') }}</option>
-                                <option value="1" @selected(request('status') == '1')>{{ __('backend.common.active') }}
-                                </option>
-                                <option value="0" @selected(request('status') == '0')>{{ __('backend.common.inactive') }}
-                                </option>
-                            </select>
-                            <!--end::Select2-->
+
+                        <div class="flex gap-3 items-end">
+                            <!--start::Brand-->
+                            <div class="">
+                                <select form="filterForm" onchange="this.form.submit()" name="filter_by_brand"
+                                    class="w-200px form-select form-select-solid" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.productbrand.productbrand') }}"
+                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k0" tabindex="-1"
+                                    aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\ProductBrand::all() as $brand)
+                                        <option value="{{ $brand->id }}" @selected(request('filter_by_brand') == $brand->id)>
+                                            {{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!--end::Brand-->
+
+                            <!--start::Subcategory-->
+                            <div class="">
+                                <select form="filterForm" onchange="this.form.submit()" name="filter_by_subcategory"
+                                    class="w-200px form-select form-select-solid" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.subcategory.subcategory') }}"
+                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k1" tabindex="-1"
+                                    aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\SubCategory::all() as $subCategory)
+                                        <option value="{{ $subCategory->id }}" @selected(request('filter_by_subcategory') == $subCategory->id)>
+                                            {{ $subCategory->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!--end::Subcategory-->
+
+                            <!--start::category-->
+                            <div class="">
+                                <select form="filterForm" onchange="this.form.submit()" name="filter_by_category"
+                                    class="w-200px form-select form-select-solid" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.category.category') }}" data-allow-clear="true"
+                                    data-select2-id="select2-data-7-l7k2" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\Category::all() as $category)
+                                        <option value="{{ $category->id }}" @selected(request('filter_by_category') == $category->id)>
+                                            {{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!--end::category-->
                         </div>
-                        <!--end::Status-->
                     </div>
                     <!--end::Card title-->
-                    <div class="flex gap-3">
+                    <div class="flex flex-col items-end justify-end gap-3">
                         @trashed
                         @else
-                            {{-- @can('delete') --}}
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
                                 <!--begin::trash-->
                                 <a href="{{ route('product.index', ['trashed' => true]) }}"
-                                    class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
+                                    class="mb-0 btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
                                     <i class="bi bi-trash text-white"></i>
                                     <span class="text-white">{{ __('backend.common.trash') }}</span>
                                 </a>
                                 <!--end::trash-->
-                            </div>
                             <!--end::Card toolbar-->
-                            {{-- @endcan --}}
                         @endtrashed
 
                         <!--begin::Card toolbar-->
-                        <div class="card-toolbar">
                             @trashed
                                 <!--begin::Product list-->
                                 <a href="{{ route('product.index') }}"
@@ -171,7 +219,6 @@
                                 </a>
                                 <!--end::Add category-->
                             @endtrashed
-                        </div>
                         <!--end::Card toolbar-->
                     </div>
                 </div>
@@ -230,12 +277,32 @@
                                                                 alt="product image"> --}}
                                                     </a>
                                                     <!--end::Thumbnail-->
-                                                    <div class=" flex items-center ms-5">
+                                                    <div class="flex flex-col gap-1 items-start justify-center ms-5">
                                                         <!--begin::Title-->
                                                         <a href="{{ route('product.edit', $product->id) }}"
                                                             class="text-gray-700 text-hover-primary fs-5 fw-bolder"
                                                             data-kt-ecommerce-category-filter="category_name">{{ $product->name }}</a>
                                                         <!--end::Title-->
+                                                        <div class="">
+                                                            <!--begin::badge-->
+                                                            <div class="badge badge-light-primary">
+                                                                <a
+                                                                    href="{{ route('product-brand.edit', $product->brand_id) }}">{{ $product->brand?->name ?? '---' }}</a>
+                                                            </div>
+                                                            <!--end::badge-->
+                                                            <!--begin::badge-->
+                                                            <div class="badge badge-light-success">
+                                                                <a
+                                                                    href="{{ route('sub-category.edit', $product->subcategory_id) }}">{{ $product->subCategory?->name ?? '---' }}</a>
+                                                            </div>
+                                                            <!--end::badge-->
+                                                            <!--begin::badge-->
+                                                            <div class="badge badge-light-warning">
+                                                                <a
+                                                                    href="{{ route('category.edit', $product->category_id) }}">{{ $product->category?->name ?? '---' }}</a>
+                                                            </div>
+                                                            <!--end::badge-->
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
