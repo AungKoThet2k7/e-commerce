@@ -29,21 +29,23 @@ class StoreProductRequest extends FormRequest
             'default_image_alt' => ['nullable', 'string', 'min:3', 'max:30'],
             'sub_category_id' => ['required', 'exists:sub_categories,id'], 
             'brand_id' => ['required', 'exists:product_brands,id'],
-            'variants' => ['required', 'array'],
-            'variants.*.stock' => ['required', 'integer', 'min:1'],
-            'variants.*.price' => ['required', 'numeric', 'min:0.01'],
-            'variants.*.attributeOptions' => ['required', 'array'],
-            'variants.*.attributeOptions.*' => ['required', Rule::exists('product_attribute_options', 'id')],
+            'product_variants' => ['required', 'array'],
+            'product_variants.*.stock' => ['required', 'integer', 'min:1'],
+            'product_variants.*.price' => ['required', 'numeric', 'min:0.01'],
+            'product_variants.*.product_attribute_options' => ['required', 'array'],
+            'product_variants.*.product_attribute_options.*' => ['required', Rule::exists('product_attribute_options', 'id')],
         ];
     }
 
     public function attributes()
     {
         return [
-            'variants.*.stock' => 'stock',
-            'variants.*.price' => 'price',
-            'variants.*.attributeOptions' => 'attributes',
-            'variants.*.attributeOptions.*' => 'option',
+            'sub_category_id' => 'sub category',
+            'brand_id' => 'brand',
+            'product_variants.*.stock' => 'stock',
+            'product_variants.*.price' => 'price',
+            'product_variants.*.product_attribute_options' => 'attributes',
+            'product_variants.*.product_attribute_options.*' => 'option',
         ];
     }
 }

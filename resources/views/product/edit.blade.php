@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Add Product')
+@section('title', 'Edit Product')
 @section('content')
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
@@ -10,7 +10,7 @@
                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <!--begin::Title-->
-                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.product.create') }}</h1>
+                <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">{{ __('backend.product.edit') }}</h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
                 <span class="h-20px border-gray-300 border-start mx-4"></span>
@@ -29,7 +29,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">{{ __('backend.product.create') }}</li>
+                    <li class="breadcrumb-item text-muted">{{ __('backend.product.edit') }}</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -43,10 +43,11 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data"
                 id="kt_ecommerce_add_category_form"
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
+                @method('PUT')
                 <!--begin::Aside column-->
                 <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                     <!--begin::Thumbnail settings-->
@@ -65,14 +66,14 @@
                         <div class="card-body text-center pt-0">
                             <!--begin::Image input-->
                             <div class="image-input image-input-empty image-input-outline mb-3" data-kt-image-input="true"
-                                style="background-image: url({{ asset('template/media/svg/files/blank-image.svg') }})">
+                                style="background-image: url({{ $product->default_image ? asset('storage/product/' . $product->default_image) : asset('template/media/svg/files/blank-image.svg') }})">
                                 <!--begin::Preview existing avatar-->
                                 <div class="image-input-wrapper w-150px h-150px"></div>
                                 <!--end::Preview existing avatar-->
                                 <!--begin::Label-->
                                 <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
-                                    data-bs-original-title="{{ __('backend.product.create_image') }}">
+                                    data-bs-original-title="{{ __('backend.product.change_image') }}">
                                     <!--begin::Icon-->
                                     <i class="bi bi-pencil-fill fs-7"></i>
                                     <!--end::Icon-->
@@ -106,10 +107,11 @@
                             @enderror
                             <div class="flex flex-col items-start mt-5">
                                 <!--begin::Label-->
-                                <label class="form-label">{{ __('backend.product.image_alt') }}</label>
+                                <label class="required form-label">{{ __('backend.product.image_alt') }}</label>
                                 <!--end::Label-->
-                                <input value="{{ old('default_image_alt') }}" type="text" name="default_image_alt"
-                                    class="form-control w-full mb-2" placeholder="{{ __('backend.product.image_alt') }}">
+                                <input value="{{ old('default_image_alt', $product->default_image_alt) }}" type="text"
+                                    name="default_image_alt" class="form-control w-full mb-2"
+                                    placeholder="{{ __('backend.product.image_alt') }}">
                                 @error('default_image_alt')
                                     <p class=" text-red-500 text-sm mt-2">{{ $message }}</p>
                                 @enderror
@@ -138,8 +140,10 @@
                                 id="kt_ecommerce_add_category_status_select"
                                 data-select2-id="select2-data-kt_ecommerce_add_category_status_select" tabindex="-1"
                                 aria-hidden="true">
-                                <option value="1">{{ __('backend.common.active') }}</option>
-                                <option value="0">{{ __('backend.common.inactive') }}</option>
+                                <option value="1" @selected(old('status', $product->status) == 1)>{{ __('backend.common.active') }}
+                                </option>
+                                <option value="0" @selected(old('status', $product->status) == 0)>{{ __('backend.common.inactive') }}
+                                </option>
                             </select>
                             <!--end::Select2-->
                             <!--begin::Description-->
@@ -158,7 +162,7 @@
                         <!--begin::Card header-->
                         <div class="card-header">
                             <div class="card-title">
-                                <h2>{{ __('backend.product.create') }}</h2>
+                                <h2>{{ __('backend.product.edit') }}</h2>
                             </div>
                         </div>
                         <!--begin::Card body-->
@@ -170,7 +174,7 @@
                                     <label class="required form-label">{{ __('backend.product.name_en') }}</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <input value="{{ old('name_en') }}" type="text" name="name_en"
+                                    <input value="{{ old('name_en', $product->name_en) }}" type="text" name="name_en"
                                         class="form-control w-80 mb-2"
                                         placeholder="{{ __('backend.product.name_placeholder') }}">
                                     <!--end::Input-->
@@ -185,7 +189,7 @@
                                     <label class="form-label">{{ __('backend.product.name_mm') }}</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
-                                    <input value="{{ old('name_mm') }}" type="text" name="name_mm"
+                                    <input value="{{ old('name_mm', $product->name_mm) }}" type="text" name="name_mm"
                                         class="form-control w-80 mb-2"
                                         placeholder="{{ __('backend.product.name_placeholder') }}">
                                     <!--end::Input-->
@@ -204,7 +208,7 @@
                                     aria-hidden="true">
                                     <option data-select2-id="select2-data-9-3eq9"></option>
                                     @foreach (\App\Models\ProductBrand::all() as $brand)
-                                        <option value="{{ $brand->id }}" @selected(old('brand_id') == $brand->id)>
+                                        <option value="{{ $brand->id }}" @selected(old('brand_id', $product->brand_id) == $brand->id)>
                                             {{ $brand->name }}</option>
                                     @endforeach
                                 </select>
@@ -222,7 +226,7 @@
                                     aria-hidden="true">
                                     <option data-select2-id="select2-data-9-3eq9"></option>
                                     @foreach (\App\Models\SubCategory::all() as $subCategory)
-                                        <option value="{{ $subCategory->id }}" @selected(old('sub_category_id') == $subCategory->id)>
+                                        <option value="{{ $subCategory->id }}" @selected(old('sub_category_id', $product->sub_category_id) == $subCategory->id)>
                                             {{ $subCategory->name }}</option>
                                     @endforeach
                                 </select>
@@ -237,9 +241,10 @@
                     <!--end::General options-->
 
                     <!--begin::Variants-->
-                    <div id="product_variants" data-attributes='@json($attributes)'
-                        data-options='@json($options)' data-errors='@json($errors->toArray() ?: new stdClass())'
-                        data-old='@json(old() ?: new stdClass())' class="card card-flush py-4">
+                    <div id="product_variants" data-product="{{ $product }}"
+                        data-attributes='@json($attributes)' data-options='@json($options)'
+                        data-errors='@json($errors->toArray() ?: new stdClass())' data-old='@json(old() ?: new stdClass())'
+                        class="card card-flush py-4">
                     </div>
                     <!--end::Variants-->
 
@@ -250,7 +255,7 @@
                         <!--end::Button-->
                         <!--begin::Button-->
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">{{ __('backend.product.create_product') }}</span>
+                            <span class="indicator-label">{{ __('backend.product.update_product') }}</span>
                         </button>
                         <!--end::Button-->
                     </div>

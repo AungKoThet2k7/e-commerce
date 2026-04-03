@@ -63,7 +63,7 @@ class ProductController extends Controller implements HasMiddleware
         // Filter by category
         $query->when($request->filter_by_category, fn ($q) => $q->where('category_id', $request->filter_by_category));
 
-        $query->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute', 'brand', 'subCategory' , 'category']);
+        $query->with(['createdBy', 'updatedBy', 'productVariants.productAttributeOptions.productAttribute', 'brand', 'subCategory', 'category']);
 
         // Paginate
         $products = $query->paginate(5)->withQueryString();
@@ -123,7 +123,7 @@ class ProductController extends Controller implements HasMiddleware
             // temp attribute options
             $tmpAttributeOptions = [];
 
-            foreach ($request->variants as $variantData) {
+            foreach ($request->product_variants as $variantData) {
                 // Create variant and get id
                 $variantId = ProductVariant::insertGetId([
                     'product_id' => $product->id,
@@ -134,7 +134,7 @@ class ProductController extends Controller implements HasMiddleware
                 ]);
 
                 // Add attribute options to temp array
-                foreach ($variantData['attributeOptions'] as $OptionId) {
+                foreach ($variantData['product_attribute_options'] as $OptionId) {
                     $tmpAttributeOptions[] = [
                         'product_variant_id' => $variantId,
                         'product_attribute_option_id' => $OptionId,
@@ -163,7 +163,13 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function edit(Product $product)
     {
-        //
+
+        $product->load(['productVariants.productAttributeOptions.productAttribute', 'brand', 'subCategory', 'category', 'createdBy', 'updatedBy']);
+        // return $product;
+        $attributes = ProductAttribute::with(['productAttributeOptions'])->get();
+        $options = ProductAttributeOption::with(['productAttribute'])->get();
+
+        return view('product.edit', compact(['product', 'attributes', 'options']));
     }
 
     /**
@@ -171,7 +177,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        // return $request;
     }
 
     /**

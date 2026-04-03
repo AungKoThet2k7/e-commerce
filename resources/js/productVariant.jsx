@@ -6,16 +6,21 @@ if (el && typeof React != "undefined") {
         const options = JSON.parse(el.dataset.options);
         const errors = JSON.parse(el.dataset.errors);
         const oldData = JSON.parse(el.dataset.old);
-        window.old = oldData;
+        const oldProduct = JSON.parse(el.dataset.product || "{}");
+        const data = Object.keys(oldData).length === 0 ? oldProduct : oldData;
 
         const oldVariantsState = () => {
-            return oldData?.variants?.map((variant, i) => ({
+            return data?.product_variants?.map((variant, i) => ({
                 id: i + 1,
                 stock: variant.stock ?? "",
                 price: variant.price ?? "",
-                attributeOptions: variant?.attributeOptions
-                    ? variant?.attributeOptions?.map(
-                          (attributeOptionId, index) => {
+                product_attribute_options: variant?.product_attribute_options
+                    ? variant?.product_attribute_options?.map(
+                          (attributeOption, index) => {
+                              const attributeOptionId =
+                                  typeof attributeOption === "object"
+                                      ? attributeOption.id
+                                      : attributeOption;
                               const currentOption = options.find(
                                   (option) => option.id == attributeOptionId,
                               );
@@ -38,7 +43,7 @@ if (el && typeof React != "undefined") {
                     id: 1,
                     stock: "",
                     price: "",
-                    attributeOptions: [
+                    product_attribute_options: [
                         { id: 1, attributeId: "", optionId: "" },
                     ],
                 },
@@ -55,7 +60,7 @@ if (el && typeof React != "undefined") {
                             : 1,
                     stock: "",
                     price: "",
-                    attributeOptions: [
+                    product_attribute_options: [
                         {
                             id: 1,
                             attributeId: "",
@@ -79,13 +84,16 @@ if (el && typeof React != "undefined") {
                     variant.id == variantId
                         ? {
                               ...variant,
-                              attributeOptions: [
-                                  ...variant?.attributeOptions,
+                              product_attribute_options: [
+                                  ...variant?.product_attribute_options,
                                   {
                                       id:
-                                          variant.attributeOptions.length > 0
-                                              ? variant.attributeOptions[
-                                                    variant.attributeOptions
+                                          variant.product_attribute_options
+                                              .length > 0
+                                              ? variant
+                                                    .product_attribute_options[
+                                                    variant
+                                                        .product_attribute_options
                                                         .length - 1
                                                 ].id + 1
                                               : 1,
@@ -105,10 +113,12 @@ if (el && typeof React != "undefined") {
                     variant.id == variantId
                         ? {
                               ...variant,
-                              attributeOptions: variant.attributeOptions.filter(
-                                  (attributeOption) =>
-                                      attributeOption.id !== attributeOptionId,
-                              ),
+                              product_attribute_options:
+                                  variant.product_attribute_options.filter(
+                                      (attributeOption) =>
+                                          attributeOption.id !==
+                                          attributeOptionId,
+                                  ),
                           }
                         : variant,
                 ),
@@ -129,20 +139,22 @@ if (el && typeof React != "undefined") {
                     variant.id == variantId
                         ? {
                               ...variant,
-                              attributeOptions: variant.attributeOptions.map(
-                                  (attributeOption) =>
-                                      attributeOption.id == attributeOptionId
-                                          ? {
-                                                ...attributeOption,
-                                                attributeId:
-                                                    selectedAttribute.id,
-                                                optionId:
-                                                    selectedAttribute
-                                                        .product_attribute_options[0]
-                                                        .id,
-                                            }
-                                          : attributeOption,
-                              ),
+                              product_attribute_options:
+                                  variant.product_attribute_options.map(
+                                      (attributeOption) =>
+                                          attributeOption.id ==
+                                          attributeOptionId
+                                              ? {
+                                                    ...attributeOption,
+                                                    attributeId:
+                                                        selectedAttribute.id,
+                                                    optionId:
+                                                        selectedAttribute
+                                                            .product_attribute_options[0]
+                                                            .id,
+                                                }
+                                              : attributeOption,
+                                  ),
                           }
                         : variant,
                 ),
@@ -155,15 +167,17 @@ if (el && typeof React != "undefined") {
                     variant.id == variantId
                         ? {
                               ...variant,
-                              attributeOptions: variant.attributeOptions.map(
-                                  (attributeOption) =>
-                                      attributeOption.id == attributeOptionId
-                                          ? {
-                                                ...attributeOption,
-                                                optionId: optionId,
-                                            }
-                                          : attributeOption,
-                              ),
+                              product_attribute_options:
+                                  variant.product_attribute_options.map(
+                                      (attributeOption) =>
+                                          attributeOption.id ==
+                                          attributeOptionId
+                                              ? {
+                                                    ...attributeOption,
+                                                    optionId: optionId,
+                                                }
+                                              : attributeOption,
+                                  ),
                           }
                         : variant,
                 ),
@@ -245,7 +259,7 @@ if (el && typeof React != "undefined") {
                                         </label>
                                         <input
                                             type="text"
-                                            name={`variants[${variantIndex}][stock]`}
+                                            name={`product_variants[${variantIndex}][stock]`}
                                             defaultValue={
                                                 variants[variantIndex].id ==
                                                     variant.id &&
@@ -255,12 +269,12 @@ if (el && typeof React != "undefined") {
                                             placeholder="Stock"
                                         />
                                         {errors[
-                                            `variants.${variantIndex}.stock`
+                                            `product_variants.${variantIndex}.stock`
                                         ] && (
                                             <p className=" text-sm text-red-500 mt-2">
                                                 {
                                                     errors[
-                                                        `variants.${variantIndex}.stock`
+                                                        `product_variants.${variantIndex}.stock`
                                                     ]
                                                 }
                                             </p>
@@ -272,7 +286,7 @@ if (el && typeof React != "undefined") {
                                         </label>
                                         <input
                                             type="text"
-                                            name={`variants[${variantIndex}][price]`}
+                                            name={`product_variants[${variantIndex}][price]`}
                                             defaultValue={
                                                 variants[variantIndex].id ==
                                                     variant.id &&
@@ -282,12 +296,12 @@ if (el && typeof React != "undefined") {
                                             placeholder="Price"
                                         />
                                         {errors[
-                                            `variants.${variantIndex}.price`
+                                            `product_variants.${variantIndex}.price`
                                         ] && (
                                             <p className=" text-sm text-red-500 mt-2">
                                                 {
                                                     errors[
-                                                        `variants.${variantIndex}.price`
+                                                        `product_variants.${variantIndex}.price`
                                                     ]
                                                 }
                                             </p>
@@ -328,19 +342,19 @@ if (el && typeof React != "undefined") {
                                         </div>
                                     </div>
                                     <div className="card-body pt-0">
-                                        {/* show error when ( attributeOptions required ) validation fail */}
+                                        {/* show error when ( product_attribute_options required ) validation fail */}
                                         {errors[
-                                            `variants.${variantIndex}.attributeOptions`
+                                            `product_variants.${variantIndex}.product_attribute_options`
                                         ] && (
                                             <p className=" text-sm text-red-500 mb-2">
                                                 {
                                                     errors[
-                                                        `variants.${variantIndex}.attributeOptions`
+                                                        `product_variants.${variantIndex}.product_attribute_options`
                                                     ]
                                                 }
                                             </p>
                                         )}
-                                        {variant?.attributeOptions?.map(
+                                        {variant?.product_attribute_options?.map(
                                             (
                                                 attributeOption,
                                                 attributeOptionIndex,
@@ -410,7 +424,7 @@ if (el && typeof React != "undefined") {
                                                         </div>
                                                         <div className="w-1/2">
                                                             <select
-                                                                name={`variants[${variantIndex}][attributeOptions][]`}
+                                                                name={`product_variants[${variantIndex}][product_attribute_options][]`}
                                                                 disabled={
                                                                     attributeOption.attributeId ==
                                                                     ""
@@ -457,14 +471,14 @@ if (el && typeof React != "undefined") {
                                                                     ),
                                                                 )}
                                                             </select>
-                                                            {/* show error when ( attributeOptions.* ) validation fail */}
+                                                            {/* show error when ( product_attribute_options.* ) validation fail */}
                                                             {errors[
-                                                                `variants.${variantIndex}.attributeOptions.${attributeOptionIndex}`
+                                                                `product_variants.${variantIndex}.product_attribute_options.${attributeOptionIndex}`
                                                             ] && (
                                                                 <p className=" text-sm text-red-500 mt-2">
                                                                     {
                                                                         errors[
-                                                                            `variants.${variantIndex}.attributeOptions.${attributeOptionIndex}`
+                                                                            `product_variants.${variantIndex}.product_attribute_options.${attributeOptionIndex}`
                                                                         ]
                                                                     }
                                                                 </p>
@@ -474,7 +488,7 @@ if (el && typeof React != "undefined") {
                                                         <button
                                                             disabled={
                                                                 variant
-                                                                    .attributeOptions
+                                                                    .product_attribute_options
                                                                     .length == 1
                                                             }
                                                             onClick={() =>
