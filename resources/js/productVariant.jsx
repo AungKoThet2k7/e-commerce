@@ -11,7 +11,8 @@ if (el && typeof React != "undefined") {
 
         const oldVariantsState = () => {
             return data?.product_variants?.map((variant, i) => ({
-                id: i + 1,
+                variant_number: i + 1,
+                id: variant.id,
                 stock: variant.stock ?? "",
                 price: variant.price ?? "",
                 product_attribute_options: variant?.product_attribute_options
@@ -40,6 +41,7 @@ if (el && typeof React != "undefined") {
         const [variants, setVariants] = React.useState(
             oldVariantsState() ?? [
                 {
+                    variant_number: 1,
                     id: 1,
                     stock: "",
                     price: "",
@@ -50,10 +52,16 @@ if (el && typeof React != "undefined") {
             ],
         );
 
+        console.log(variants);
+
         const handleAddVariant = () => {
             setVariants([
                 ...variants,
                 {
+                    variant_number:
+                        variants.length > 0
+                            ? variants[variants.length - 1].variant_number + 1
+                            : 1,
                     id:
                         variants.length > 0
                             ? variants[variants.length - 1].id + 1
@@ -73,7 +81,7 @@ if (el && typeof React != "undefined") {
 
         const handleRemoveVariant = (variantId) => {
             const filterVariant = variants.filter(
-                (variant, index) => variant.id !== variantId,
+                (variant, index) => variant.variant_number !== variantId,
             );
             setVariants(filterVariant);
         };
@@ -81,7 +89,7 @@ if (el && typeof React != "undefined") {
         const handleAddAttribute = (variantId) => {
             setVariants((prev) =>
                 prev.map((variant) =>
-                    variant.id == variantId
+                    variant.variant_number == variantId
                         ? {
                               ...variant,
                               product_attribute_options: [
@@ -110,7 +118,7 @@ if (el && typeof React != "undefined") {
         const handleRemoveAttribute = (variantId, attributeOptionId) => {
             setVariants((prev) =>
                 prev.map((variant) =>
-                    variant.id == variantId
+                    variant.variant_number == variantId
                         ? {
                               ...variant,
                               product_attribute_options:
@@ -136,7 +144,7 @@ if (el && typeof React != "undefined") {
 
             setVariants((prev) =>
                 prev.map((variant) =>
-                    variant.id == variantId
+                    variant.variant_number == variantId
                         ? {
                               ...variant,
                               product_attribute_options:
@@ -164,7 +172,7 @@ if (el && typeof React != "undefined") {
         const handleOptionChange = (variantId, attributeOptionId, optionId) => {
             setVariants((prev) =>
                 prev.map((variant) =>
-                    variant.id == variantId
+                    variant.variant_number == variantId
                         ? {
                               ...variant,
                               product_attribute_options:
@@ -216,18 +224,18 @@ if (el && typeof React != "undefined") {
                 <div className="card-body pt-0">
                     {variants.map((variant, variantIndex) => (
                         <div
-                            key={variant.id}
+                            key={variant.variant_number}
                             className="card card-flush border border-gray-300 mb-6"
                         >
                             <div className="card-header">
                                 <div className="w-full flex items-center justify-between">
                                     <div className="card-title">
-                                        <h1>Variant {variant.id}</h1>
+                                        <h1>Variant {variant.variant_number}</h1>
                                     </div>
                                     <button
                                         disabled={variants.length == 1}
                                         onClick={() =>
-                                            handleRemoveVariant(variant.id)
+                                            handleRemoveVariant(variant.variant_number)
                                         }
                                         type="button"
                                         className="bg-red-500 disabled:cursor-not-allowed hover:bg-red-600 text-white p-3 rounded-md flex justify-center items-center"
@@ -253,6 +261,12 @@ if (el && typeof React != "undefined") {
                             </div>
                             <div className="card-body pt-0">
                                 <div className="w-full flex items-start justify-between gap-3 mb-3">
+                                    <input
+                                        type="number"
+                                        name={`product_variants[${variantIndex}][id]`}
+                                        defaultValue={variant.id}
+                                        hidden
+                                    />
                                     <div className=" w-1/2 mb-2">
                                         <label className="required form-label">
                                             Stock
@@ -261,8 +275,8 @@ if (el && typeof React != "undefined") {
                                             type="text"
                                             name={`product_variants[${variantIndex}][stock]`}
                                             defaultValue={
-                                                variants[variantIndex].id ==
-                                                    variant.id &&
+                                                variants[variantIndex].variant_number ==
+                                                    variant.variant_number &&
                                                 variants[variantIndex].stock
                                             }
                                             className="form-control"
@@ -288,8 +302,8 @@ if (el && typeof React != "undefined") {
                                             type="text"
                                             name={`product_variants[${variantIndex}][price]`}
                                             defaultValue={
-                                                variants[variantIndex].id ==
-                                                    variant.id &&
+                                                variants[variantIndex].variant_number ==
+                                                    variant.variant_number &&
                                                 variants[variantIndex].price
                                             }
                                             className="form-control"
@@ -318,7 +332,7 @@ if (el && typeof React != "undefined") {
                                             <button
                                                 onClick={() =>
                                                     handleAddAttribute(
-                                                        variant.id,
+                                                        variant.variant_number,
                                                     )
                                                 }
                                                 type="button"
@@ -384,7 +398,7 @@ if (el && typeof React != "undefined") {
                                                                 }
                                                                 onChange={(e) =>
                                                                     handleAttributeChange(
-                                                                        variant.id,
+                                                                        variant.variant_number,
                                                                         attributeOption.id,
                                                                         e.target
                                                                             .value,
@@ -435,7 +449,7 @@ if (el && typeof React != "undefined") {
                                                                 }
                                                                 onChange={(e) =>
                                                                     handleOptionChange(
-                                                                        variant.id,
+                                                                        variant.variant_number,
                                                                         attributeOption.id,
                                                                         e.target
                                                                             .value,
@@ -493,7 +507,7 @@ if (el && typeof React != "undefined") {
                                                             }
                                                             onClick={() =>
                                                                 handleRemoveAttribute(
-                                                                    variant.id,
+                                                                    variant.variant_number,
                                                                     attributeOption.id,
                                                                 )
                                                             }

@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeOption;
-use App\Models\ProductVariant;
 use App\Models\ProductVariantOption;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -15,6 +14,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -89,22 +89,18 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(StoreProductRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            // Get max sort number
-            $maxSortNumber = product::orderByDesc('sort')->value('sort') ?? 0;
+        $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
 
+        // Store image to storage
+        $request->default_image->storeAs('product', $defaultImageName, 'public');
+
+        try {
+            DB::beginTransaction();
+
+            $maxSortNumber = product::max('sort') ?? 0;
             $userId = Auth::id();
+            $categoryId = SubCategory::findOrFail($request->sub_category_id)->category_id;
 
-            // Unique image name
-            $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
-
-            // Store image to storage
-            $request->default_image->storeAs('product', $defaultImageName, 'public');
-
-            // Get category from sub category
-            $categoryId = SubCategory::find($request->sub_category_id)->category_id;
-
-            // Create product
             $product = Product::firstOrCreate([
                 'name_en' => $request->name_en,
             ], [
@@ -119,25 +115,19 @@ class ProductController extends Controller implements HasMiddleware
                 'created_by' => $userId,
                 'updated_by' => $userId,
             ]);
-
             // temp attribute options
             $tmpAttributeOptions = [];
 
             foreach ($request->product_variants as $variantData) {
-                // Create variant and get id
-                $variantId = ProductVariant::insertGetId([
-                    'product_id' => $product->id,
+                $variant = $product->productVariants()->create([
                     'stock' => $variantData['stock'],
                     'price' => $variantData['price'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
                 ]);
-
                 // Add attribute options to temp array
-                foreach ($variantData['product_attribute_options'] as $OptionId) {
+                foreach ($variantData['product_attribute_options'] as $optionId) {
                     $tmpAttributeOptions[] = [
-                        'product_variant_id' => $variantId,
-                        'product_attribute_option_id' => $OptionId,
+                        'product_variant_id' => $variant->id,
+                        'product_attribute_option_id' => $optionId,
                     ];
                 }
             }
@@ -145,9 +135,15 @@ class ProductController extends Controller implements HasMiddleware
             // Insert attribute options
             ProductVariantOption::insert($tmpAttributeOptions);
 
-        });
+            DB::commit();
 
-        return redirect()->route('product.index')->with('success', 'Product created successfully');
+            return redirect()->route('product.index')->with('success', 'Product created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Storage::disk('public')->delete('product/'.$defaultImageName);
+
+            return redirect()->back()->with('error', 'Server error: Failed to create the product');
+        }
     }
 
     /**
@@ -163,7 +159,6 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function edit(Product $product)
     {
-
         $product->load(['productVariants.productAttributeOptions.productAttribute', 'brand', 'subCategory', 'category', 'createdBy', 'updatedBy']);
         // return $product;
         $attributes = ProductAttribute::with(['productAttributeOptions'])->get();
@@ -177,7 +172,66 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        // return $request;
+        $oldImageName = $product->default_image;
+        $newImageName = null;
+        $categoryId = SubCategory::findOrFail($request->sub_category_id)->category_id;
+
+        // Store new image if uploaded
+        if ($request->hasFile('default_image')) {
+            $newImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
+
+            // Store image to storage
+            $request->default_image->storeAs('product', $newImageName, 'public');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // Update product
+            $product->update([
+                'name_en' => $request->name_en,
+                'name_mm' => $request->name_mm,
+                'default_image' => $newImageName ?? $product->default_image,
+                'default_image_alt' => $request->default_image_alt,
+                'sub_category_id' => $request->sub_category_id,
+                'category_id' => $categoryId,
+                'brand_id' => $request->brand_id,
+                'status' => $request->status,
+                'updated_by' => Auth::id(),
+            ]);
+
+            $variantIds = [];
+
+            foreach ($request->product_variants as $variantData) {
+                // Update or create
+                $variant = $product->productVariants()->updateOrCreate(['id' => $variantData['id']], [
+                    'stock' => $variantData['stock'],
+                    'price' => $variantData['price'],
+                ]);
+                $variantIds[] = $variant->id;
+                $variant->productAttributeOptions()->sync($variantData['product_attribute_options']);
+            }
+
+            // Delete variant not in request
+            $product->productVariants()->whereNotIn('id', $variantIds)->delete();
+            DB::commit();
+
+            // Delete old image
+            if (isset($newImageName) && isset($oldImageName)) {
+                Storage::disk('public')->delete('product/'.$oldImageName);
+            }
+
+            return redirect()->route('product.index')->with('success', 'Product Updated Successfully');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            if (isset($newImageName)) {
+                Storage::disk('public')->delete('product/'.$newImageName);
+            }
+
+            return redirect()->back()->with('error', 'Server error: Failed to update the product');
+        }
     }
 
     /**
