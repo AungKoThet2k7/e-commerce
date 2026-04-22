@@ -225,7 +225,7 @@ class ProductController extends Controller implements HasMiddleware
 
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             if (isset($newImageName)) {
                 Storage::disk('public')->delete('product/'.$newImageName);
             }
@@ -237,9 +237,29 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id, Request $request)
     {
-        //
+        $product = Product::withTrashed()->findOrFail($id);
+
+        if ($request->delete == 'force') {
+            Storage::disk('public')->delete('product/'.$product->default_image);
+
+            $product->forceDelete();
+
+            return redirect()->route('product.index')->with('success', 'Product deleted successfully');
+
+        } elseif ($request->delete == 'restore') {
+            $product->restore();
+
+            return redirect()->route('product.index')->with('success', 'Product restored successfully');
+
+        } else {
+            $product->delete();
+            
+            return redirect()->route('product.index')->with('success', 'Product moved to trash successfully');
+        }
+
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully');
     }
 
     public function updateStatus(Product $product, Request $request)

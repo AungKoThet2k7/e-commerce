@@ -52,8 +52,6 @@ if (el && typeof React != "undefined") {
             ],
         );
 
-        console.log(variants);
-
         const handleAddVariant = () => {
             setVariants([
                 ...variants,
@@ -230,12 +228,16 @@ if (el && typeof React != "undefined") {
                             <div className="card-header">
                                 <div className="w-full flex items-center justify-between">
                                     <div className="card-title">
-                                        <h1>Variant {variant.variant_number}</h1>
+                                        <h1>
+                                            Variant {variant.variant_number}
+                                        </h1>
                                     </div>
                                     <button
                                         disabled={variants.length == 1}
                                         onClick={() =>
-                                            handleRemoveVariant(variant.variant_number)
+                                            handleRemoveVariant(
+                                                variant.variant_number,
+                                            )
                                         }
                                         type="button"
                                         className="bg-red-500 disabled:cursor-not-allowed hover:bg-red-600 text-white p-3 rounded-md flex justify-center items-center"
@@ -275,7 +277,8 @@ if (el && typeof React != "undefined") {
                                             type="text"
                                             name={`product_variants[${variantIndex}][stock]`}
                                             defaultValue={
-                                                variants[variantIndex].variant_number ==
+                                                variants[variantIndex]
+                                                    .variant_number ==
                                                     variant.variant_number &&
                                                 variants[variantIndex].stock
                                             }
@@ -302,7 +305,8 @@ if (el && typeof React != "undefined") {
                                             type="text"
                                             name={`product_variants[${variantIndex}][price]`}
                                             defaultValue={
-                                                variants[variantIndex].variant_number ==
+                                                variants[variantIndex]
+                                                    .variant_number ==
                                                     variant.variant_number &&
                                                 variants[variantIndex].price
                                             }
