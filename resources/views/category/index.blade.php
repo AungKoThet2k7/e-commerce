@@ -42,6 +42,80 @@
                 <!--end::Breadcrumb-->
             </div>
             <!--end::Page title-->
+
+            <!--begin::Filter-->
+            <div class="ms-3 m-0">
+                <!--begin::Menu toggle-->
+                <a href="#" class="group btn btn-flex btn-light btn-active-primary btn-text-primary fw-bolder"
+                    data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <!--begin::Svg Icon | path: icons/duotune/general/gen031.svg-->
+                    <span class="svg-icon svg-icon-5 text-primary group-hover:!text-white me-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none">
+                            <path
+                                d="M19.0759 3H4.72777C3.95892 3 3.47768 3.83148 3.86067 4.49814L8.56967 12.6949C9.17923 13.7559 9.5 14.9582 9.5 16.1819V19.5072C9.5 20.2189 10.2223 20.7028 10.8805 20.432L13.8805 19.1977C14.2553 19.0435 14.5 18.6783 14.5 18.273V13.8372C14.5 12.8089 14.8171 11.8056 15.408 10.964L19.8943 4.57465C20.3596 3.912 19.8856 3 19.0759 3Z"
+                                fill="currentColor"></path>
+                        </svg>
+                    </span>
+                    <!--end::Svg Icon-->Filter</a>
+                <!--end::Menu toggle-->
+                <!--begin::Menu 1-->
+                <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true"
+                    id="kt_menu_624475cf75c38">
+                    <!--begin::Header-->
+                    <div class="px-7 py-5">
+                        <div class="fs-5 text-dark fw-bolder">Filter Options</div>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Menu separator-->
+                    <div class="separator border-gray-200"></div>
+                    <!--end::Menu separator-->
+                    <!--begin::Form-->
+                    <div class="flex flex-col gap-5 px-7 py-5">
+                        <!--begin::Input group-->
+                        <div class="">
+                            <!--begin::Label-->
+                            <label class="form-label fw-bold">Status:</label>
+                            <!--end::Label-->
+                            <!--start::Status-->
+                            <div class="">
+                                <!--begin::Select2-->
+                                <select form="filterForm" name="status"
+                                    class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
+                                    data-hide-search="true" data-placeholder="{{ __('backend.common.status') }}"
+                                    data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
+                                    tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="select2-data-12-pxpb"></option>
+                                    <option value="all" @selected(request('status') == 'all')>
+                                        {{ __('backend.common.all') }}
+                                    </option>
+                                    <option value="1" @selected(request('status') == '1')>
+                                        {{ __('backend.common.active') }}
+                                    </option>
+                                    <option value="0" @selected(request('status') == '0')>
+                                        {{ __('backend.common.inactive') }}
+                                    </option>
+                                </select>
+                                <!--end::Select2-->
+                            </div>
+                            <!--end::Status-->
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Actions-->
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ route('category.index') }}"
+                                class="btn btn-sm btn-light btn-active-light-primary me-2"
+                                data-kt-menu-dismiss="true">Reset</a>
+                            <button form="filterForm" type="submit" class="btn btn-sm btn-primary"
+                                data-kt-menu-dismiss="true">Apply</button>
+                        </div>
+                        <!--end::Actions-->
+                    </div>
+                    <!--end::Form-->
+                </div>
+                <!--end::Menu 1-->
+            </div>
+            <!--end::Filter-->
         </div>
         <!--end::Container-->
     </div>
@@ -89,29 +163,12 @@
                             <!--end::Svg Icon-->
                             <form id="filterForm" action="{{ route('category.index') }}" method="GET">
                                 <input value="{{ request('search') }}" name="search" type="text"
-                                    data-kt-user-table-filter="search" class="form-control form-control-solid w-150px ps-5"
+                                    data-kt-user-table-filter="search"
+                                    class="form-control form-control-solid w-150px ps-5"
                                     placeholder="{{ __('backend.common.search') }} ...">
                             </form>
                         </div>
                         <!--end::Search-->
-                        <!--start::Status-->
-                        <div class="ms-3">
-                            <!--begin::Select2-->
-                            <select form="filterForm" onchange="this.form.submit()" name="status"
-                                class="form-select form-select-solid select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="{{ __('backend.common.status') }}"
-                                data-kt-ecommerce-product-filter="status" data-select2-id="select2-data-10-whsc"
-                                tabindex="-1" aria-hidden="true">
-                                <option data-select2-id="select2-data-12-pxpb"></option>
-                                <option value="all" @selected(request('status') == 'all')>{{ __('backend.common.all') }}</option>
-                                <option value="1" @selected(request('status') == '1')>{{ __('backend.common.active') }}
-                                </option>
-                                <option value="0" @selected(request('status') == '0')>{{ __('backend.common.inactive') }}
-                                </option>
-                            </select>
-                            <!--end::Select2-->
-                        </div>
-                        <!--end::Status-->
                     </div>
                     <!--end::Card title-->
                     <div class="flex gap-3">
@@ -122,9 +179,9 @@
                             <div class="card-toolbar">
                                 <!--begin::trash-->
                                 <a href="{{ route('category.index', ['trashed' => true]) }}"
-                                    class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
-                                    <i class="bi bi-trash text-white"></i>
-                                    <span class="text-white">{{ __('backend.common.trash') }}</span>
+                                    class="group mb-0 btn btn-light btn-active-primary btn-text-primary fw-bolder flex justify-center items-center gap-1">
+                                    <i class="bi bi-trash text-primary group-hover:!text-white"></i>
+                                    <span class="">{{ __('backend.common.trash') }}</span>
                                 </a>
                                 <!--end::trash-->
                             </div>

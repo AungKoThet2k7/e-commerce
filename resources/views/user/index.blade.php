@@ -100,9 +100,9 @@
                             <div class="card-toolbar">
                                 <!--begin::trash-->
                                 <a href="{{ route('user.index', ['trashed' => true]) }}"
-                                    class="btn bg-amber-500/95 hover:bg-amber-500 flex justify-center items-center gap-1">
-                                    <i class="bi bi-trash text-white"></i>
-                                    <span class="text-white">{{ __('backend.common.trash') }}</span>
+                                    class="group mb-0 btn btn-light btn-active-primary btn-text-primary fw-bolder flex justify-center items-center gap-1">
+                                    <i class="bi bi-trash text-primary group-hover:!text-white"></i>
+                                    <span class="">{{ __('backend.common.trash') }}</span>
                                 </a>
                                 <!--end::trash-->
                             </div>

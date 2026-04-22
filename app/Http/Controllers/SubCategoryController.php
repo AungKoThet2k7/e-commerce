@@ -50,7 +50,7 @@ class SubCategoryController extends Controller implements HasMiddleware
         $query->status($request->status, $validStatus);
 
         // Filter by category
-        $query->when($request->category, fn ($q) => $q->where('category_id', $request->category));
+        $query->when($request->filter_by_category, fn ($q) => $q->where('category_id', $request->filter_by_category));
 
         $query->with(['category', 'createdBy', 'updatedBy']);
 
