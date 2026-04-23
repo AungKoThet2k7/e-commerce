@@ -46,11 +46,12 @@
                 @can('dashboard')
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
-                            <span class="menu-section text-sky-500 text-uppercase fs-8 ls-1">{{ __('backend.sidebar.dashboard') }}</span>
+                            <span
+                                class="menu-section text-sky-500 text-uppercase fs-8 ls-1">{{ __('backend.sidebar.dashboard') }}</span>
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="{{ route('dashboard') }}">
+                        <a class="menu-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                 <span class="svg-icon svg-icon-2">
@@ -77,10 +78,12 @@
                 @can('users.index')
                     <div class="menu-item">
                         <div class="menu-content pt-8 pb-2">
-                            <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{ __('backend.sidebar.usermanagement') }}</span>
+                            <span
+                                class="menu-section text-muted text-uppercase fs-8 ls-1">{{ __('backend.sidebar.usermanagement') }}</span>
                         </div>
                     </div>
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                    <div data-kt-menu-trigger="click"
+                        class="menu-item menu-accordion {{ request()->routeIs(['user.*', 'role.*']) ? 'here show' : '' }}">
                         <span class="menu-link">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/communication/com013.svg-->
@@ -101,7 +104,8 @@
                         </span>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('user.index') }}">
+                                <a class="menu-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
+                                    href="{{ route('user.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -110,7 +114,7 @@
                             </div>
                             @can('roles.index')
                                 <div class="menu-item">
-                                    <a class="menu-link" href="{{ route('role.index') }}">
+                                    <a class="menu-link {{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{ route('role.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -126,10 +130,11 @@
                 <!--begin::Product-->
                 <div class="menu-item">
                     <div class="menu-content pt-8 pb-2">
-                        <span class="menu-section text-muted text-uppercase fs-8 ls-1">{{ __('backend.sidebar.productmanagement') }}</span>
+                        <span
+                            class="menu-section text-muted text-uppercase fs-8 ls-1">{{ __('backend.sidebar.productmanagement') }}</span>
                     </div>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs(['product.*', 'category.*', 'sub-category.*', 'product-brand.*']) ? 'here show' : '' }}">
                     <span class="menu-link">
                         <span class="menu-icon">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen022.svg-->
@@ -157,18 +162,18 @@
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                         @can('products.index')
-                        <div class="menu-item">
-                            <a class="menu-link" href="{{  route('product.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">{{ __('backend.product.products') }}</span>
-                            </a>
-                        </div>
+                            <div class="menu-item">
+                                <a class="menu-link {{ request()->routeIs('product.*') ? 'active' : '' }}" href="{{ route('product.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">{{ __('backend.product.products') }}</span>
+                                </a>
+                            </div>
                         @endcan
                         @can('categories.index')
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('category.index') }}">
+                                <a class="menu-link {{ request()->routeIs('category.*') ? 'active' : '' }}" href="{{ route('category.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -178,7 +183,7 @@
                         @endcan
                         @can('subcategories.index')
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('sub-category.index') }}">
+                                <a class="menu-link {{ request()->routeIs('sub-category.*') ? 'active' : '' }}" href="{{ route('sub-category.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -188,7 +193,7 @@
                         @endcan
                         @can('productbrands.index')
                             <div class="menu-item">
-                                <a class="menu-link" href="{{ route('product-brand.index') }}">
+                                <a class="menu-link {{ request()->routeIs('product-brand.*') ? 'active' : '' }}" href="{{ route('product-brand.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
