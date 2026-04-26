@@ -103,7 +103,7 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <div class="menu-sub menu-sub-accordion menu-active-bg">
-                            <div class="menu-item">
+                            <div class="menu-item mt-1.5">
                                 <a class="menu-link {{ request()->routeIs('user.*') ? 'active' : '' }}"
                                     href="{{ route('user.index') }}">
                                     <span class="menu-bullet">
@@ -113,7 +113,7 @@
                                 </a>
                             </div>
                             @can('roles.index')
-                                <div class="menu-item">
+                                <div class="menu-item mt-1.5">
                                     <a class="menu-link {{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{ route('role.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
@@ -162,7 +162,7 @@
                     </span>
                     <div class="menu-sub menu-sub-accordion menu-active-bg">
                         @can('products.index')
-                            <div class="menu-item">
+                            <div class="menu-item mt-1.5">
                                 <a class="menu-link {{ request()->routeIs('product.*') ? 'active' : '' }}" href="{{ route('product.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
@@ -172,7 +172,7 @@
                             </div>
                         @endcan
                         @can('categories.index')
-                            <div class="menu-item">
+                            <div class="menu-item mt-1.5">
                                 <a class="menu-link {{ request()->routeIs('category.*') ? 'active' : '' }}" href="{{ route('category.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
@@ -182,7 +182,7 @@
                             </div>
                         @endcan
                         @can('subcategories.index')
-                            <div class="menu-item">
+                            <div class="menu-item mt-1.5">
                                 <a class="menu-link {{ request()->routeIs('sub-category.*') ? 'active' : '' }}" href="{{ route('sub-category.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
@@ -192,7 +192,7 @@
                             </div>
                         @endcan
                         @can('productbrands.index')
-                            <div class="menu-item">
+                            <div class="menu-item mt-1.5">
                                 <a class="menu-link {{ request()->routeIs('product-brand.*') ? 'active' : '' }}" href="{{ route('product-brand.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
