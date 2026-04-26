@@ -163,8 +163,9 @@
                     <!--begin::Thumbnail settings-->
                     <div id="product_images" class="card card-flush py-4"
                         data-labels="{{ json_encode([
-                            'name' => __('backend.product.name_en'),
                             'image' => __('backend.product.image'),
+                            'main_image' => __('backend.product.main_image'),
+                            'image_description' => __('backend.product.image_description'),
                         ]) }}">
                     </div>
                     {{-- <div class="card card-flush py-4">

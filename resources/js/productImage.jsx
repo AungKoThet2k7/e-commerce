@@ -2,6 +2,9 @@ const el = document.getElementById("product_images");
 
 if (el && typeof React != "undefined") {
     const ProductImage = () => {
+
+        const {image, main_image, image_description} = JSON.parse(el.dataset.labels);
+
         const [selectedImages, setSelectedImages] = React.useState([]);
         const [defaultIndex, setDefaultIndex] = React.useState(0);
         const fileInputRef = React.useRef(null);
@@ -40,7 +43,7 @@ if (el && typeof React != "undefined") {
             <>
                 <div className="card-header">
                     <div className="card-title">
-                        <h2>Product Images</h2>
+                        <h2>{image}</h2>
                     </div>
                 </div>
                 <div className="card-body text-center py-0">
@@ -79,7 +82,7 @@ if (el && typeof React != "undefined") {
                                     </g>
                                 </svg>
                                 <p className="mt-4 text-gray-500">
-                                    PNG, JPG, JPEG up to 5MB each
+                                    {image_description}
                                 </p>
                             </div>
                         ) : (
@@ -135,7 +138,7 @@ if (el && typeof React != "undefined") {
 
                                     {defaultIndex === index && (
                                         <span className="absolute bottom-0 left-0 bg-blue-500 text-white text-[10px] px-2 py-1 rounded-tr-lg">
-                                            Default
+                                            {main_image}
                                         </span>
                                     )}
                                 </div>
