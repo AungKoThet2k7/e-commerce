@@ -87,8 +87,9 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
+        return $request;
         $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
 
         // Store image to storage

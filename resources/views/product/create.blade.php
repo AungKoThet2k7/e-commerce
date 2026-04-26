@@ -48,9 +48,126 @@
                 class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                 @csrf
                 <!--begin::Aside column-->
-                <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
-                    <!--begin::Thumbnail settings-->
+                <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10 mb-7 me-lg-10">
+                    <!--begin::General options-->
                     <div class="card card-flush py-4">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h2>{{ __('backend.product.create') }}</h2>
+                            </div>
+                        </div>
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <!--begin::Label-->
+                                <label class="required form-label">{{ __('backend.product.name_en') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input value="{{ old('name_en') }}" type="text" name="name_en" class="form-control mb-2"
+                                    placeholder="{{ __('backend.product.name_placeholder') }}">
+                                <!--end::Input-->
+                                @error('name_en')
+                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <!--begin::Label-->
+                                <label class="form-label">{{ __('backend.product.name_mm') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input value="{{ old('name_mm') }}" type="text" name="name_mm" class="form-control mb-2"
+                                    placeholder="{{ __('backend.product.name_placeholder') }}">
+                                <!--end::Input-->
+                                @error('name_mm')
+                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <!--end::Input group-->
+                            <!--start::Brand-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <label class="required form-label">{{ __('backend.productbrand.productbrand') }}</label>
+                                <select name="brand_id" class="w-full form-select" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.productbrand.productbrand') }}"
+                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k0" tabindex="-1"
+                                    aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\ProductBrand::all() as $brand)
+                                        <option value="{{ $brand->id }}" @selected(old('brand_id') == $brand->id)>
+                                            {{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('brand_id')
+                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <!--end::Brand-->
+                            <!--start::Sub Category-->
+                            <div class="mb-10 fv-row fv-plugins-icon-container">
+                                <label class="required form-label">{{ __('backend.subcategory.subcategory') }}</label>
+                                <select name="sub_category_id" class="w-full form-select" data-kt-select2="true"
+                                    data-placeholder="{{ __('backend.subcategory.subcategory') }}" data-allow-clear="true"
+                                    data-select2-id="select2-data-7-l7k1" tabindex="-1" aria-hidden="true">
+                                    <option data-select2-id="select2-data-9-3eq9"></option>
+                                    @foreach (\App\Models\SubCategory::all() as $subCategory)
+                                        <option value="{{ $subCategory->id }}" @selected(old('sub_category_id') == $subCategory->id)>
+                                            {{ $subCategory->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('sub_category_id')
+                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <!--end::Sub Category-->
+                        </div>
+                        <!--end::Card body-->
+                    </div>
+                    <!--end::General options-->
+                    <!--begin::Status-->
+                    <div class="card card-flush py-4">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <h2>{{ __('backend.common.status') }}</h2>
+                            </div>
+                            <!--end::Card title-->
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::Select2-->
+                            <select name="status" class="form-select mb-2 select2-hidden-accessible" data-control="select2"
+                                data-hide-search="true" data-placeholder="Select Status"
+                                id="kt_ecommerce_add_category_status_select"
+                                data-select2-id="select2-data-kt_ecommerce_add_category_status_select" tabindex="-1"
+                                aria-hidden="true">
+                                <option value="1">{{ __('backend.common.active') }}</option>
+                                <option value="0">{{ __('backend.common.inactive') }}</option>
+                            </select>
+                            <!--end::Select2-->
+                            <!--begin::Description-->
+                            <div class="text-muted fs-7">{{ __('backend.product.status_description') }}</div>
+                            <!--end::Description-->
+                        </div>
+                        <!--end::Card body-->
+                    </div>
+                    <!--end::Status-->
+                </div>
+                <!--end::Aside column-->
+                <!--begin::Main column-->
+                <div class="d-flex flex-column w-100 w-lg-500px gap-7 gap-lg-10">
+                    <!--begin::Thumbnail settings-->
+                    <div id="product_images" class="card card-flush py-4"
+                        data-labels="{{ json_encode([
+                            'name' => __('backend.product.name_en'),
+                            'image' => __('backend.product.image'),
+                        ]) }}">
+                    </div>
+                    {{-- <div class="card card-flush py-4">
                         <!--begin::Card header-->
                         <div class="card-header">
                             <!--begin::Card title-->
@@ -70,7 +187,8 @@
                                 <div class="image-input-wrapper w-150px h-150px"></div>
                                 <!--end::Preview existing avatar-->
                                 <!--begin::Label-->
-                                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                <label
+                                    class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                     data-kt-image-input-action="change" data-bs-toggle="tooltip" title=""
                                     data-bs-original-title="{{ __('backend.product.create_image') }}">
                                     <!--begin::Icon-->
@@ -117,124 +235,8 @@
                             </div>
                         </div>
                         <!--end::Card body-->
-                    </div>
+                    </div> --}}
                     <!--end::Thumbnail settings-->
-                    <!--begin::Status-->
-                    <div class="card card-flush py-4">
-                        <!--begin::Card header-->
-                        <div class="card-header">
-                            <!--begin::Card title-->
-                            <div class="card-title">
-                                <h2>{{ __('backend.common.status') }}</h2>
-                            </div>
-                            <!--end::Card title-->
-                        </div>
-                        <!--end::Card header-->
-                        <!--begin::Card body-->
-                        <div class="card-body pt-0">
-                            <!--begin::Select2-->
-                            <select name="status" class="form-select mb-2 select2-hidden-accessible" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select Status"
-                                id="kt_ecommerce_add_category_status_select"
-                                data-select2-id="select2-data-kt_ecommerce_add_category_status_select" tabindex="-1"
-                                aria-hidden="true">
-                                <option value="1">{{ __('backend.common.active') }}</option>
-                                <option value="0">{{ __('backend.common.inactive') }}</option>
-                            </select>
-                            <!--end::Select2-->
-                            <!--begin::Description-->
-                            <div class="text-muted fs-7">{{ __('backend.product.status_description') }}</div>
-                            <!--end::Description-->
-                        </div>
-                        <!--end::Card body-->
-                    </div>
-                    <!--end::Status-->
-                </div>
-                <!--end::Aside column-->
-                <!--begin::Main column-->
-                <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-                    <!--begin::General options-->
-                    <div class="card card-flush py-4">
-                        <!--begin::Card header-->
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h2>{{ __('backend.product.create') }}</h2>
-                            </div>
-                        </div>
-                        <!--begin::Card body-->
-                        <div class="card-body pt-0">
-                            <div class="mb-10 fv-row fv-plugins-icon-container flex gap-10">
-                                <!--begin::Input group-->
-                                <div class="">
-                                    <!--begin::Label-->
-                                    <label class="required form-label">{{ __('backend.product.name_en') }}</label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <input value="{{ old('name_en') }}" type="text" name="name_en"
-                                        class="form-control w-80 mb-2"
-                                        placeholder="{{ __('backend.product.name_placeholder') }}">
-                                    <!--end::Input-->
-                                    @error('name_en')
-                                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Input group-->
-                                <div class="">
-                                    <!--begin::Label-->
-                                    <label class="form-label">{{ __('backend.product.name_mm') }}</label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <input value="{{ old('name_mm') }}" type="text" name="name_mm"
-                                        class="form-control w-80 mb-2"
-                                        placeholder="{{ __('backend.product.name_placeholder') }}">
-                                    <!--end::Input-->
-                                    @error('name_mm')
-                                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                <!--end::Input group-->
-                            </div>
-                            <!--start::Brand-->
-                            <div class="mb-10 fv-row fv-plugins-icon-container">
-                                <label class="required form-label">{{ __('backend.productbrand.productbrand') }}</label>
-                                <select name="brand_id" class="w-full form-select" data-kt-select2="true"
-                                    data-placeholder="{{ __('backend.productbrand.productbrand') }}"
-                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k0" tabindex="-1"
-                                    aria-hidden="true">
-                                    <option data-select2-id="select2-data-9-3eq9"></option>
-                                    @foreach (\App\Models\ProductBrand::all() as $brand)
-                                        <option value="{{ $brand->id }}" @selected(old('brand_id') == $brand->id)>
-                                            {{ $brand->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('brand_id')
-                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <!--end::Brand-->
-                            <!--start::Sub Category-->
-                            <div class="mb-10 fv-row fv-plugins-icon-container">
-                                <label class="required form-label">{{ __('backend.subcategory.subcategory') }}</label>
-                                <select name="sub_category_id" class="w-full form-select" data-kt-select2="true"
-                                    data-placeholder="{{ __('backend.subcategory.subcategory') }}"
-                                    data-allow-clear="true" data-select2-id="select2-data-7-l7k1" tabindex="-1"
-                                    aria-hidden="true">
-                                    <option data-select2-id="select2-data-9-3eq9"></option>
-                                    @foreach (\App\Models\SubCategory::all() as $subCategory)
-                                        <option value="{{ $subCategory->id }}" @selected(old('sub_category_id') == $subCategory->id)>
-                                            {{ $subCategory->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('sub_category_id')
-                                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <!--end::Sub Category-->
-                        </div>
-                        <!--end::Card body-->
-                    </div>
-                    <!--end::General options-->
 
                     <!--begin::Variants-->
                     <div id="product_variants" data-attributes='@json($attributes)'

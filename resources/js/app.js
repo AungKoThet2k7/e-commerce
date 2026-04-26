@@ -3,3 +3,4 @@ import Swal from 'sweetalert2';
 window.Swal = Swal;   // global access
 
 import './productVariant.jsx'
+import './productImage.jsx'

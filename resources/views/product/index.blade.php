@@ -242,7 +242,7 @@
                         @else
                             <!--begin::trash-->
                             <a href="{{ route('product.index', ['trashed' => true]) }}"
-                                class="group mb-0 btn btn-light btn-active-primary btn-text-primary fw-bolder flex justify-center items-center gap-1">
+                                class="group mb-0 btn btn-light btn-active-primary btn-text-primary flex justify-center items-center gap-1">
                                 <i class="bi bi-trash text-primary group-hover:!text-white"></i>
                                 <span class="">{{ __('backend.common.trash') }}</span>
                             </a>
