@@ -2,42 +2,57 @@ const el = document.getElementById("product_images");
 
 if (el && typeof React != "undefined") {
     const ProductImage = () => {
-
-        const {image, main_image, image_description} = JSON.parse(el.dataset.labels);
+        const { image, main_image, image_description } = JSON.parse(
+            el.dataset.labels,
+        );
 
         const [selectedImages, setSelectedImages] = React.useState([]);
         const [defaultIndex, setDefaultIndex] = React.useState(0);
+        const [editImage, setEditImage] = React.useState(null);
+
         const fileInputRef = React.useRef(null);
 
         const handleImageChange = (e) => {
             const files = Array.from(e.target.files);
             const filePreviews = files.map((file, index) => ({
+                id: selectedImages.length + index + 1,
                 file,
                 preview: URL.createObjectURL(file),
+                alt_text: "",
             }));
             setSelectedImages([...selectedImages, ...filePreviews]);
-            setDefaultIndex(0);
         };
 
         const handelImageDelete = (index) => {
             const images = selectedImages.filter((_, i) => i !== index);
             setSelectedImages(images);
-            if (index === defaultIndex) {
-                setDefaultIndex(0);
-            } else if (index < defaultIndex) {
-                setDefaultIndex(defaultIndex - 1);
-            }
+            // if (index === defaultIndex) {
+            //     setDefaultIndex(0);
+            // } else if (index < defaultIndex) {
+            //     setDefaultIndex(defaultIndex - 1);
+            // }
         };
 
         React.useEffect(() => {
             if (fileInputRef.current) {
                 const dataTransfer = new DataTransfer();
-                selectedImages.forEach((img) => {
+                selectedImages.map((img) => {
                     dataTransfer.items.add(img.file);
                 });
                 fileInputRef.current.files = dataTransfer.files;
             }
         }, [selectedImages]);
+
+        const handleImageAltChange = () => {
+            setSelectedImages((prev) =>
+                prev.map((img) =>
+                    img.id === editImage.id
+                        ? { ...img, alt_text: editImage.alt_text }
+                        : img,
+                ),
+            );
+            setEditImage(null);
+        };
 
         return (
             <>
@@ -51,14 +66,14 @@ if (el && typeof React != "undefined") {
                         ref={fileInputRef}
                         type="file"
                         multiple
-                        name="images[]"
                         accept=".png, .jpg, .jpeg"
                         onChange={handleImageChange}
                         className="form-control"
                     />
+
                     <input
                         type="number"
-                        name="default_image"
+                        name={`default_img_index`}
                         value={defaultIndex}
                         readOnly
                         hidden
@@ -89,12 +104,36 @@ if (el && typeof React != "undefined") {
                             selectedImages.map((img, index) => (
                                 <div
                                     key={index}
-                                    className={`min-w-[100px] group relative p-2 border-2 rounded-lg ${defaultIndex === index ? "border-blue-500 bg-blue-50" : "border-gray-200"}`}
-                                    onClick={() => setDefaultIndex(index)}
+                                    className={`w-[130px] group relative p-2 border-2 rounded-lg ${defaultIndex == index ? "border-blue-500 bg-blue-50" : "border-gray-200"}`}
+                                    onClick={() => setEditImage(img)}
                                 >
                                     <img
                                         src={img.preview}
+                                        alt={img.alt_text}
                                         className="object-cover aspect-square rounded-md"
+                                    />
+
+                                    <input
+                                        type="file"
+                                        name={`image[${index}][file]`}
+                                        ref={(e) => {
+                                            if (e) {
+                                                const dataTransfer =
+                                                    new DataTransfer();
+                                                dataTransfer.items.add(
+                                                    img.file,
+                                                );
+                                                e.files = dataTransfer.files;
+                                            }
+                                        }}
+                                        hidden
+                                    />
+                                    <input
+                                        type="text"
+                                        name={`image[${index}][alt_text]`}
+                                        value={img.alt_text}
+                                        readOnly
+                                        hidden
                                     />
 
                                     <button
@@ -103,7 +142,7 @@ if (el && typeof React != "undefined") {
                                             e.stopPropagation();
                                             handelImageDelete(index);
                                         }}
-                                        className="absolute top-0 right-0 flex items-center justify-center text-center rounded-lg bg-white drop-shadow p-0.5"
+                                        className="group/delete absolute top-0 right-0 flex items-center justify-center text-center rounded-lg bg-white hover:!bg-red-50 drop-shadow p-0.5"
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +160,7 @@ if (el && typeof React != "undefined") {
                                                 rx="1"
                                                 transform="rotate(-45 6 17.3137)"
                                                 fill="currentColor"
-                                                className=" fill-red-500"
+                                                className="fill-gray-500 group-hover/delete:fill-red-500"
                                             ></rect>
                                             <rect
                                                 x="7.41422"
@@ -131,20 +170,87 @@ if (el && typeof React != "undefined") {
                                                 rx="1"
                                                 transform="rotate(45 7.41422 6)"
                                                 fill="currentColor"
-                                                className="fill-red-500"
+                                                className="fill-gray-500 group-hover/delete:fill-red-500"
                                             ></rect>
                                         </svg>
                                     </button>
 
-                                    {defaultIndex === index && (
-                                        <span className="absolute bottom-0 left-0 bg-blue-500 text-white text-[10px] px-2 py-1 rounded-tr-lg">
+                                    {defaultIndex == index ? (
+                                        <span className="absolute bottom-1 left-1 flex items-center gap-1 rounded bg-blue-500 px-1.5 py-0.5 text-[9px] text-white backdrop-blur-sm">
                                             {main_image}
+                                        </span>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setDefaultIndex(index);
+                                            }}
+                                            className="absolute bottom-1 left-1 opacity-0 group-hover:!opacity-100 translate-y-1 group-hover:translate-y-0 duration-200 flex items-center gap-1 rounded bg-blue-500 px-1.5 py-0.5 text-[9px] text-white backdrop-blur-sm"
+                                        >
+                                            Set As Main
+                                        </button>
+                                    )}
+                                    {!img.alt_text && (
+                                        <span className="absolute bottom-1 right-1 flex items-center gap-1 rounded bg-amber-500 px-1.5 py-0.5 text-[9px] text-white backdrop-blur-sm">
+                                            ! Alt
                                         </span>
                                     )}
                                 </div>
                             ))
                         )}
                     </div>
+                    {editImage && (
+                        <div className="mt-4 card border border-gray-300">
+                            <div className=" flex gap-3 items-center justify-center p-3">
+                                <div className=" w-24 ">
+                                    <img
+                                        src={editImage.preview}
+                                        className="w-full aspect-square object-cover rounded-md"
+                                        alt={editImage.alt_text}
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <h5 className="text-start text-gray-900">
+                                        Image Alt Text
+                                    </h5>
+                                    <input
+                                        type="text"
+                                        className="form-control text-gray-900 mt-3"
+                                        placeholder="Image Alt Text"
+                                        value={editImage.alt_text}
+                                        onChange={(e) =>
+                                            setEditImage({
+                                                ...editImage,
+                                                alt_text: e.target.value,
+                                            })
+                                        }
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                handleImageAltChange();
+                                            }
+                                        }}
+                                    />
+                                    <div className="flex justify-end gap-2 mt-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setEditImage(null)}
+                                            className="btn btn-sm btn-outline-primary btn-active-primary"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleImageAltChange}
+                                            className="btn btn-sm btn-primary"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </>
         );
