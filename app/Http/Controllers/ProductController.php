@@ -87,18 +87,21 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        return $request;
-        $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
+        // return $request;
+        // foreach($request->images as $image){
+        //     return $image['file']->getClientOriginalName();
+        // }
+        // $defaultImageName = uniqid().'-'.$request->file('default_image')->getClientOriginalName();
 
-        // Store image to storage
-        $request->default_image->storeAs('product', $defaultImageName, 'public');
+        // // Store image to storage
+        // $request->default_image->storeAs('product', $defaultImageName, 'public');
 
         try {
             DB::beginTransaction();
 
-            $maxSortNumber = product::max('sort') ?? 0;
+            $maxSortNumber = Product::max('sort') ?? 0;
             $userId = Auth::id();
             $categoryId = SubCategory::findOrFail($request->sub_category_id)->category_id;
 
@@ -106,8 +109,6 @@ class ProductController extends Controller implements HasMiddleware
                 'name_en' => $request->name_en,
             ], [
                 'name_mm' => $request->name_mm,
-                'default_image' => $defaultImageName,
-                'default_image_alt' => $request->default_image_alt,
                 'sub_category_id' => $request->sub_category_id,
                 'category_id' => $categoryId,
                 'brand_id' => $request->brand_id,
@@ -118,6 +119,16 @@ class ProductController extends Controller implements HasMiddleware
             ]);
             // temp attribute options
             $tmpAttributeOptions = [];
+
+            foreach($request->images as $index => $image){
+                $imageName = uniqid().'-'.$image['file']->getClientOriginalName();
+                $image['file']->storeAs('product', $imageName, 'public');
+                $product->productImages()->create([
+                    'image' => $imageName,
+                    'image_alt' => $image['alt_text'],
+                    'is_default' => $request->default_img_index == $index,
+                ]); 
+            }
 
             foreach ($request->product_variants as $variantData) {
                 $variant = $product->productVariants()->create([
@@ -141,7 +152,7 @@ class ProductController extends Controller implements HasMiddleware
             return redirect()->route('product.index')->with('success', 'Product created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            Storage::disk('public')->delete('product/'.$defaultImageName);
+            // Storage::disk('public')->delete('product/'.$defaultImageName);
 
             return redirect()->back()->with('error', 'Server error: Failed to create the product');
         }

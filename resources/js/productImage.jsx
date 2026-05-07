@@ -115,7 +115,7 @@ if (el && typeof React != "undefined") {
 
                                     <input
                                         type="file"
-                                        name={`image[${index}][file]`}
+                                        name={`images[${index}][file]`}
                                         ref={(e) => {
                                             if (e) {
                                                 const dataTransfer =
@@ -130,7 +130,7 @@ if (el && typeof React != "undefined") {
                                     />
                                     <input
                                         type="text"
-                                        name={`image[${index}][alt_text]`}
+                                        name={`images[${index}][alt_text]`}
                                         value={img.alt_text}
                                         readOnly
                                         hidden

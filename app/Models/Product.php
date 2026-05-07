@@ -34,6 +34,20 @@ class Product extends Model
         );
     }
 
+    protected function defaultImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->productImages()->where('is_default', 1)->first()->image ?? null,
+        );
+    }
+
+    protected function defaultImageAlt(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->productImages()->where('is_default', 1)->first()->image_alt ?? $this->name_en,
+        );
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -62,6 +76,11 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 
     public function scopeSearch($q, $search)
