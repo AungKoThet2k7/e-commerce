@@ -337,8 +337,8 @@
                                                     <a href="{{ route('product.edit', $product->id) }}"
                                                         class="symbol symbol-50px bg-gray-50">
                                                         <!--Image with img tag-->
-                                                        <img class="aspect-square object-cover" src="{{ $product->defaultImage ? asset('storage/product/' . $product->defaultImage) : asset('template/media/svg/files/blank-image.svg') }}"
-                                                                alt="{{ $product->defaultImageAlt }}">
+                                                        <img class="aspect-square object-cover" src="{{ $product->default_image ? asset('storage/product/' . $product->default_image) : asset('template/media/svg/files/blank-image.svg') }}"
+                                                                alt="{{ $product->default_image_alt }}">
                                                     </a>
                                                     <!--end::Thumbnail-->
                                                     <div class="flex flex-col gap-1 items-start justify-center ms-5">

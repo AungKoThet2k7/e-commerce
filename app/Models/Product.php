@@ -35,7 +35,7 @@ class Product extends Model
     protected function defaultImage(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->productImages()->where('is_default', 1)->first()->image ?? null,
+            get: fn () => $this->productImages->where('is_default', 1)->first()->image ?? null,
         );
     }
 
