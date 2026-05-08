@@ -98,6 +98,8 @@ class ProductController extends Controller implements HasMiddleware
         // // Store image to storage
         // $request->default_image->storeAs('product', $defaultImageName, 'public');
 
+        $storeImages = [];
+
         try {
             DB::beginTransaction();
 
@@ -120,14 +122,15 @@ class ProductController extends Controller implements HasMiddleware
             // temp attribute options
             $tmpAttributeOptions = [];
 
-            foreach($request->images as $index => $image){
+            foreach ($request->images as $index => $image) {
                 $imageName = uniqid().'-'.$image['file']->getClientOriginalName();
                 $image['file']->storeAs('product', $imageName, 'public');
+                $storeImages[] = $imageName;
                 $product->productImages()->create([
                     'image' => $imageName,
                     'image_alt' => $image['alt_text'],
                     'is_default' => $request->default_img_index == $index,
-                ]); 
+                ]);
             }
 
             foreach ($request->product_variants as $variantData) {
@@ -152,7 +155,13 @@ class ProductController extends Controller implements HasMiddleware
             return redirect()->route('product.index')->with('success', 'Product created successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            // Storage::disk('public')->delete('product/'.$defaultImageName);
+
+            // Delete uploaded images if product creation failed
+            if (! empty($storeImages)) {
+                foreach ($storeImages as $img) {
+                    Storage::disk('public')->delete('product/'.$img);
+                }
+            }
 
             return redirect()->back()->with('error', 'Server error: Failed to create the product');
         }
@@ -254,7 +263,12 @@ class ProductController extends Controller implements HasMiddleware
         $product = Product::withTrashed()->findOrFail($id);
 
         if ($request->delete == 'force') {
-            Storage::disk('public')->delete('product/'.$product->default_image);
+
+            foreach ($product->productImages as $img) {
+                if (Storage::disk('public')->exists('product/'.$img->image)) {
+                    Storage::disk('public')->delete('product/'.$img->image);
+                }
+            }
 
             $product->forceDelete();
 
@@ -267,7 +281,7 @@ class ProductController extends Controller implements HasMiddleware
 
         } else {
             $product->delete();
-            
+
             return redirect()->route('product.index')->with('success', 'Product moved to trash successfully');
         }
 
