@@ -42,7 +42,7 @@ class Product extends Model
     protected function defaultImageAlt(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->productImages()->where('is_default', 1)->first()->image_alt ?? $this->name_en,
+            get: fn () => $this->productImages->where('is_default', 1)->first()->image_alt ?? $this->name_en,
         );
     }
 

@@ -180,7 +180,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function edit(Product $product)
     {
-        $product->load(['productVariants.productAttributeOptions.productAttribute', 'brand', 'subCategory', 'category', 'createdBy', 'updatedBy']);
+        $product->load(['productVariants.productAttributeOptions.productAttribute', 'productImages', 'brand', 'subCategory', 'category', 'createdBy', 'updatedBy']);
         // return $product;
         $attributes = ProductAttribute::with(['productAttributeOptions'])->get();
         $options = ProductAttributeOption::with(['productAttribute'])->get();
