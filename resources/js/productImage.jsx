@@ -5,6 +5,7 @@ if (el && typeof React != "undefined") {
         const { image, main_image, image_description } = JSON.parse(
             el.dataset.labels,
         );
+        const errors = JSON.parse(el.dataset.errors);
 
         const [selectedImages, setSelectedImages] = React.useState([]);
         const [defaultIndex, setDefaultIndex] = React.useState(0);
@@ -62,6 +63,11 @@ if (el && typeof React != "undefined") {
                     </div>
                 </div>
                 <div className="card-body text-center py-0">
+                    {errors["images"] && (
+                        <p className=" text-sm text-red-500 text-start mb-2">
+                            {errors["images"]}
+                        </p>
+                    )}
                     <input
                         ref={fileInputRef}
                         type="file"

@@ -166,7 +166,8 @@
                             'image' => __('backend.product.image'),
                             'main_image' => __('backend.product.main_image'),
                             'image_description' => __('backend.product.image_description'),
-                        ]) }}">
+                        ]) }}"
+                        data-errors='@json($errors->toArray() ?: new stdClass())'>
                     </div>
                     {{-- <div class="card card-flush py-4">
                         <!--begin::Card header-->
