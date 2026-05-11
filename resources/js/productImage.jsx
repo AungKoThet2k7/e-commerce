@@ -26,12 +26,12 @@ if (el && typeof React != "undefined") {
 
         const handelImageDelete = (index) => {
             const images = selectedImages.filter((_, i) => i !== index);
+
             setSelectedImages(images);
-            // if (index === defaultIndex) {
-            //     setDefaultIndex(0);
-            // } else if (index < defaultIndex) {
-            //     setDefaultIndex(defaultIndex - 1);
-            // }
+            
+            if (selectedImages[index].id == editImage?.id) {
+                setEditImage(null);
+            }
         };
 
         React.useEffect(() => {
